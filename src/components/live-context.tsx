@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
+import { Sky } from "@/components/sky";
 
 /**
  * "[LOCATION] · [TIME]" — the visitor's timezone city and local time,
@@ -9,7 +10,7 @@ import { site } from "@/content/site";
  * Rendered only after mount to avoid a server/client mismatch.
  */
 export function LiveContext() {
-  const [state, setState] = useState<{ place: string; time: string } | null>(null);
+  const [state, setState] = useState<{ place: string; time: string; hour: number } | null>(null);
 
   useEffect(() => {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -19,7 +20,10 @@ export function LiveContext() {
       minute: "2-digit",
       hour12: false,
     });
-    const tick = () => setState({ place, time: fmt.format(new Date()) });
+    const tick = () => {
+      const now = new Date();
+      setState({ place, time: fmt.format(now), hour: now.getHours() });
+    };
     tick();
     const id = window.setInterval(tick, 15_000);
     return () => window.clearInterval(id);
@@ -27,11 +31,18 @@ export function LiveContext() {
 
   return (
     <span
-      className="font-mono text-[11px] text-fg-3 tabular-nums"
+      className="inline-flex items-center gap-2 font-mono text-[11px] text-fg-3 tabular-nums"
       aria-label={state ? `${state.place}, local time ${state.time}` : undefined}
       suppressHydrationWarning
     >
-      {state ? `${state.place} · ${state.time}` : " "}
+      {state ? (
+        <>
+          <Sky hour={state.hour} />
+          {`${state.place} · ${state.time}`}
+        </>
+      ) : (
+        "\u00a0"
+      )}
     </span>
   );
 }

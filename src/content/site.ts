@@ -48,9 +48,9 @@ export const site = {
 
   /** External links surfaced in the command palette and on the About page. */
   links: [
-    // TODO — replace with your real profiles.
-    { label: "GitHub", href: "https://github.com/", external: true },
-    { label: "Email", href: "mailto:hello@example.com", external: true },
+    { label: "GitHub", href: "https://github.com/10zinglunn-afk", external: true },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/tenzing-lunn-b9411b37a/", external: true },
+    { label: "Email", href: "mailto:tenzinglunn@gmail.com", external: true },
   ],
 };
 
