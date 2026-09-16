@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tenzing-site
 
-## Getting Started
+A small personal website: notes, projects, a current snapshot, and a place to ask questions. Text-first, keyboard-driven, no backend.
 
-First, run the development server:
+## Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Edit content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Everything personal lives in `src/content/`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| File | What it holds |
+| --- | --- |
+| `site.ts` | name, intro, location, the `/now` snapshot, external links, canonical URL |
+| `about.ts` | About page paragraphs |
+| `projects.ts` | project list and project page sections |
+| `notes.ts` | notes (a small Markdown subset is supported) |
 
-## Learn More
+Add a project or note by appending an object to the array. Pages, the command palette, the sitemap, and the terminal all read from these files.
 
-To learn more about Next.js, take a look at the following resources:
+## Keyboard
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Key | Action |
+| --- | --- |
+| `A` `P` `N` | About, Projects, Notes |
+| `/` | Ask |
+| `⌘K` / `Ctrl K` | Command palette |
+| `?` | Shortcut reference |
+| `Esc` | Close |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The terminal at the bottom of every page understands `help`, `home`, `about`, `projects`, `notes`, `ask`, `now`, and `clear`.
 
-## Deploy on Vercel
+## Ask
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`/api/ask` answers with a local rule-based provider. To connect an LLM, implement `llmProvider` in `src/lib/ask.ts` and set `ASK_PROVIDER=llm`.
