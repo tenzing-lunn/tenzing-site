@@ -2,8 +2,7 @@
  * Central site configuration.
  *
  * Everything personal lives here (and in the sibling files in /content).
- * Replace the PLACEHOLDER values with your own — nothing in /src/app or
- * /src/components hardcodes personal facts.
+ * Nothing in /src/app or /src/components hardcodes personal facts.
  */
 
 export const site = {
@@ -13,15 +12,15 @@ export const site = {
   firstName: "Tenzing",
   /** Shown in the terminal prompt: ~/username */
   username: "tenzing",
-  /** Canonical URL. Update after deploying to a custom domain. */
-  url: "https://tenzing-site.vercel.app",
+  /** Canonical URL. Update when moving to a custom domain. */
+  url: "https://tenzinglunn.vercel.app",
   /** Meta description / Open Graph description. */
   description:
-    "A small personal site — notes, projects, and a place to ask questions.",
+    "Tenzing Lunn. Math and computer science at Fordham. Notes, projects, and a place to ask questions.",
 
-  /** PLACEHOLDER — one or two sentences for the home page. */
+  /** One or two sentences for the home page. */
   intro: [
-    "I'm Tenzing. I study computer science and build small tools, games, and interfaces that I want to exist.",
+    "I'm Tenzing. I study math and computer science at Fordham, and I like learning things across philosophy, religion, biology, and AI.",
   ],
 
   /** Default location, used when the browser timezone cannot be resolved. */
@@ -32,20 +31,27 @@ export const site = {
 
   /** Current snapshot — the /now page. Keep this honest and short. */
   now: {
-    location: "New York",
-    workingOn: "This website, and a small iOS side project.",
-    thinkingAbout: "Interfaces that reward curiosity without demanding attention.",
-    reading: "Mostly essays. A few technical books, slowly.",
-    learning: "Swift, and how to write less.",
+    location: "Manhattan, New York",
+    workingOn: "This website.",
+    thinkingAbout: "AI, and what makes it interesting.",
+    reading: "Siddhartha, by Hermann Hesse.",
+    learning: "Math and computer science, sophomore year at Fordham Lincoln Center.",
     lastUpdated: "2026-09-16",
   },
 
+  /**
+   * Optional drawing shown on the About page. Drop an image into /public
+   * (for example /public/drawing.jpg), then fill this in with its pixel size.
+   * Leave as null to hide.
+   */
+  drawing: null as null | { src: string; alt: string; width: number; height: number },
+
   /** External links surfaced in the command palette and on the About page. */
   links: [
-    // PLACEHOLDER — point these at your real profiles.
+    // TODO — replace with your real profiles.
     { label: "GitHub", href: "https://github.com/", external: true },
     { label: "Email", href: "mailto:hello@example.com", external: true },
   ],
-} as const;
+};
 
 export type SiteLink = (typeof site.links)[number];

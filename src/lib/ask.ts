@@ -47,6 +47,7 @@ const localProvider: AskProvider = async (raw) => {
   }
 
   if (has("project", "built", "build", "working on", "make")) {
+    if (projects.length === 0) return `Nothing listed yet. Right now: ${site.now.workingOn}`;
     const list = projects.map((p) => `${p.name} (${p.year})`).join(", ");
     return `Current projects: ${list}. Right now: ${site.now.workingOn}`;
   }

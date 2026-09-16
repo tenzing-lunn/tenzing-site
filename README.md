@@ -34,6 +34,15 @@ Add a project or note by appending an object to the array. Pages, the command pa
 
 The terminal at the bottom of every page understands `help`, `home`, `about`, `projects`, `notes`, `ask`, `now`, and `clear`.
 
+## Deploy
+
+```bash
+vercel deploy --prod --yes
+vercel alias set <deployment-url> tenzinglunn.vercel.app
+```
+
+The second line keeps the short URL pointing at the newest production deploy.
+
 ## Ask
 
 `/api/ask` answers with a local rule-based provider. To connect an LLM, implement `llmProvider` in `src/lib/ask.ts` and set `ASK_PROVIDER=llm`.

@@ -12,6 +12,9 @@ export default function ProjectsPage() {
   return (
     <section>
       <h1 className="text-lg font-medium text-fg">Projects</h1>
+      {projects.length === 0 ? (
+        <p className="mt-10 font-mono text-xs text-fg-3">nothing listed yet</p>
+      ) : null}
       <ul className="mt-10 -mx-2">
         {projects.map((p) => (
           <li key={p.slug}>

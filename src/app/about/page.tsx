@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { about } from "@/content/about";
 import { site } from "@/content/site";
 import { renderInline } from "@/lib/markdown";
@@ -17,6 +18,18 @@ export default function AboutPage() {
           <p key={i}>{renderInline(p)}</p>
         ))}
       </div>
+      {site.drawing ? (
+        <figure className="mt-12">
+          <Image
+            src={site.drawing.src}
+            alt={site.drawing.alt}
+            width={site.drawing.width}
+            height={site.drawing.height}
+            className="max-w-xs w-full h-auto"
+          />
+          <figcaption className="mt-2 font-mono text-[11px] text-fg-3">{site.drawing.alt}</figcaption>
+        </figure>
+      ) : null}
       <ul className="mt-12 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-fg-3">
         {site.links.map((l) => (
           <li key={l.label}>
