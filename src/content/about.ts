@@ -8,11 +8,11 @@
 export const bio =
   "Tenzing Lunn, a sophomore at Fordham University Lincoln Center studying math and computer science. Born and raised in Los Angeles, two years at an international boarding school in Armenia, now in New York.";
 
-/** Revealed one at a time when "ethnically ambiguous" is clicked. */
+/** Revealed one at a time: click "ethnically ambiguous", then "+1" for each of the rest. */
 export const ethnicities: { label: string; color: string }[] = [
-  { label: "Jamaican", color: "#e5484d" },
+  { label: "Costa Rican", color: "#e5484d" },
   { label: "Bahamian", color: "#3b82f6" },
-  { label: "Costa Rican", color: "#22c55e" },
+  { label: "Jamaican", color: "#22c55e" },
   { label: "Chinese", color: "#eab308" },
 ];
 

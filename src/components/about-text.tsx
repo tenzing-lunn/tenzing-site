@@ -6,7 +6,7 @@ import { ethnicities, movies, reading } from "@/content/about";
 
 /**
  * The About paragraphs. A few words respond to a click:
- * "ethnically ambiguous" reveals one origin per click, "football" turns
+ * "ethnically ambiguous" reveals the first origin and "+1" the rest, "football" turns
  * into "soccer", and "book" / "movie" show what's being read and watched.
  */
 export function AboutText() {
@@ -20,19 +20,33 @@ export function AboutText() {
       <p>
         My name is Tenzing Lunn, a sophomore at Fordham University Lincoln Center. Born and raised
         in Los Angeles,{" "}
-        <Tap
-          onClick={() => setRevealed((n) => (n + 1) % (ethnicities.length + 1))}
-          label={revealed === 0 ? "reveal ethnicity" : "reveal more"}
-        >
-          {revealed === 0
-            ? "ethnically ambiguous"
-            : ethnicities.slice(0, revealed).map((e, i) => (
-                <span key={e.label}>
-                  {i > 0 ? (i === revealed - 1 && revealed > 1 ? " and " : ", ") : ""}
-                  <span style={{ color: e.color }}>{e.label}</span>
-                </span>
-              ))}
-        </Tap>
+        {revealed === 0 ? (
+          <Tap onClick={() => setRevealed(1)} label="reveal ethnicity">
+            ethnically ambiguous
+          </Tap>
+        ) : (
+          <>
+            {ethnicities.slice(0, revealed).map((e, i) => (
+              <span key={e.label}>
+                {i > 0 ? (i === revealed - 1 && revealed === ethnicities.length ? " and " : ", ") : ""}
+                <span style={{ color: e.color }}>{e.label}</span>
+              </span>
+            ))}
+            {revealed < ethnicities.length ? (
+              <>
+                {" "}
+                <button
+                  type="button"
+                  onClick={() => setRevealed((n) => n + 1)}
+                  aria-label="reveal one more"
+                  className="cursor-pointer font-mono text-xs text-fg-3 transition-colors hover:text-fg"
+                >
+                  +1
+                </button>
+              </>
+            ) : null}
+          </>
+        )}
         . I spent two years in Armenia at an international boarding school, now studying Math and
         Computer Science in New York.
       </p>
