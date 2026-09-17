@@ -50,7 +50,7 @@ The second line keeps the short URL pointing at the newest production deploy.
 
 ## Ask
 
-`/api/ask` answers as me. With `ANTHROPIC_API_KEY` set it asks Claude (Haiku) with a system prompt built from every content file plus `src/content/persona.ts`, which holds my voice and what I've said about myself.
+`/api/ask` answers as me. With `ANTHROPIC_API_KEY` set it asks Claude (Sonnet) with a system prompt built from every content file plus `src/content/persona.ts`, which holds my voice and what I've said about myself.
 
 Without a key — or if that call fails — it falls back to `src/content/answers.ts`, a list of phrases and the reply to give when one appears in the question (longest match wins). So the page always answers something. `ASK_PROVIDER=local` forces the fallback.
 

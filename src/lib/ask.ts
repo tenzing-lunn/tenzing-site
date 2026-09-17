@@ -19,7 +19,7 @@ import { formatDate } from "@/lib/dates";
 
 export const MAX_QUESTION_LENGTH = 500;
 
-const MODEL = "claude-haiku-4-5-20251001";
+const MODEL = "claude-sonnet-5";
 
 export async function ask(question: string): Promise<string> {
   const key = process.env.ANTHROPIC_API_KEY;
