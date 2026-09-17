@@ -103,7 +103,8 @@ body {
   font-size: 1.0625rem;
   line-height: 1.75;
 }
-.prose * + * {
+.prose > * + *,
+.prose > section > * + * {
   margin-top: 1.25em;
 }
 .prose p strong {
