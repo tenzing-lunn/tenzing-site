@@ -50,4 +50,6 @@ The second line keeps the short URL pointing at the newest production deploy.
 
 ## Ask
 
-`/api/ask` answers with a local rule-based provider. To connect an LLM, implement `llmProvider` in `src/lib/ask.ts` and set `ASK_PROVIDER=llm`.
+`/api/ask` answers as me. With `ANTHROPIC_API_KEY` set it calls Claude (Haiku) with a system prompt built from every content file plus `src/content/persona.ts`, which holds my voice and free-text answers about myself. Without a key it falls back to a small rule-based provider. `ASK_PROVIDER=local|llm` forces one or the other.
+
+Set the key with `vercel env add ANTHROPIC_API_KEY production` (and `.env.local` for development).
