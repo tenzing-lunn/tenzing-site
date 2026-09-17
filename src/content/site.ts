@@ -32,7 +32,7 @@ export const site = {
   /** Current snapshot — the /now page. Keep this honest and short. */
   now: {
     location: "Manhattan, New York",
-    workingOn: "Nuverum CRM, and this website.",
+    workingOn: "A meditation web app with synchronized group sessions. Nuverum CRM and this site alongside it.",
     thinkingAbout: "AI, and what makes it interesting.",
     reading: "Siddhartha, by Hermann Hesse.",
     learning: "Math and computer science, sophomore year at Fordham Lincoln Center.",

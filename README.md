@@ -50,6 +50,6 @@ The second line keeps the short URL pointing at the newest production deploy.
 
 ## Ask
 
-`/api/ask` answers as me. With `ANTHROPIC_API_KEY` set it calls Claude (Haiku) with a system prompt built from every content file plus `src/content/persona.ts`, which holds my voice and free-text answers about myself. Without a key it falls back to a small rule-based provider. `ASK_PROVIDER=local|llm` forces one or the other.
+`/api/ask` answers from `src/content/answers.ts` — a list of phrases and the reply to give when one of them appears in the question. The longest matching phrase wins, and project and thought titles are matched first. No model, no key, no network call.
 
-Set the key with `vercel env add ANTHROPIC_API_KEY production` (and `.env.local` for development).
+Add a topic by appending an entry to that file.
