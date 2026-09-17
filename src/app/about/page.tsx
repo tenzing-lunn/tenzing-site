@@ -25,7 +25,7 @@ export default function AboutPage() {
             alt={site.drawing.alt}
             width={site.drawing.width}
             height={site.drawing.height}
-            className="max-w-xs w-full h-auto"
+            className="w-full h-auto"
           />
           <figcaption className="mt-2 font-mono text-[11px] text-fg-3">{site.drawing.alt}</figcaption>
         </figure>

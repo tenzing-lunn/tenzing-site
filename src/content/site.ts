@@ -32,11 +32,11 @@ export const site = {
   /** Current snapshot — the /now page. Keep this honest and short. */
   now: {
     location: "Manhattan, New York",
-    workingOn: "This website.",
+    workingOn: "Nuverum CRM, and this website.",
     thinkingAbout: "AI, and what makes it interesting.",
     reading: "Siddhartha, by Hermann Hesse.",
     learning: "Math and computer science, sophomore year at Fordham Lincoln Center.",
-    lastUpdated: "2026-09-16",
+    lastUpdated: "2026-09-17",
   },
 
   /**
@@ -44,7 +44,12 @@ export const site = {
    * (for example /public/drawing.jpg), then fill this in with its pixel size.
    * Leave as null to hide.
    */
-  drawing: null as null | { src: string; alt: string; width: number; height: number },
+  drawing: { src: "/drawing.jpg", alt: "Pen and ink, three boys.", width: 2000, height: 1169 } as null | {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  },
 
   /** External links surfaced in the command palette and on the About page. */
   links: [
