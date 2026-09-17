@@ -1,21 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { phaseForHour, type Phase } from "@/lib/daylight";
 
 /**
  * A 9×9 pixel sun or moon that follows the visitor's local hour.
  * Greyscale only. Two frames alternate once a second for a faint flicker
  * (rays for the sun, a star for the moon). Honors prefers-reduced-motion.
  */
-
-type Phase = "day" | "night" | "dawn" | "dusk";
-
-export function phaseForHour(hour: number): Phase {
-  if (hour >= 5 && hour < 7) return "dawn";
-  if (hour >= 7 && hour < 18) return "day";
-  if (hour >= 18 && hour < 20) return "dusk";
-  return "night";
-}
 
 // Glyphs: "#" bright, "+" mid, "-" dim, "." empty.
 const SUN_A = [
@@ -93,9 +85,9 @@ const FRAMES: Record<Phase, [string[], string[]]> = {
 };
 
 const SHADE: Record<string, string> = {
-  "#": "#a3a3a3",
-  "+": "#6b6b6b",
-  "-": "#3a3a3a",
+  "#": "var(--fg-2)",
+  "+": "var(--fg-3)",
+  "-": "var(--border-strong)",
 };
 
 export function Sky({ hour }: { hour: number }) {

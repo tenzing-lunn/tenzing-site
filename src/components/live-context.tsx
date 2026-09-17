@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 import { Sky } from "@/components/sky";
+import { applyTheme, themeForHour } from "@/lib/daylight";
 
 /**
  * "[LOCATION] · [TIME]" — the visitor's timezone city and local time,
@@ -22,6 +23,7 @@ export function LiveContext() {
     });
     const tick = () => {
       const now = new Date();
+      applyTheme(themeForHour(now.getHours()));
       setState({ place, time: fmt.format(now), hour: now.getHours() });
     };
     tick();

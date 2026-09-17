@@ -23,6 +23,7 @@ export const pages: IndexEntry[] = [
   { id: "notes", title: "Notes", href: "/notes", kind: "page", keywords: "writing blog" },
   { id: "ask", title: "Ask", href: "/ask", kind: "page", keywords: "question" },
   { id: "now", title: "Now", href: "/now", kind: "page", keywords: "snapshot current" },
+  { id: "art", title: "Art", href: "/art", kind: "page", keywords: "drawings gallery sketch" },
 ];
 
 export function buildIndex(): IndexEntry[] {

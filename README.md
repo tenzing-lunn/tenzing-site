@@ -19,8 +19,13 @@ Everything personal lives in `src/content/`:
 | `about.ts` | About page paragraphs |
 | `projects.ts` | project list and project page sections |
 | `notes.ts` | notes (a small Markdown subset is supported) |
+| `art.ts` | drawings shown on `/art` (image files go in `/public`) |
 
 Add a project or note by appending an object to the array. Pages, the command palette, the sitemap, and the terminal all read from these files.
+
+## Theme
+
+The page is light while the sun is up (07:00 to 18:00 on the visitor's clock) and dark otherwise, matching the pixel sun/moon in the footer. The hours live in `src/lib/daylight.ts`.
 
 ## Keyboard
 

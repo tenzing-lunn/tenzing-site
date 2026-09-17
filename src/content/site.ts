@@ -39,18 +39,6 @@ export const site = {
     lastUpdated: "2026-09-17",
   },
 
-  /**
-   * Optional drawing shown on the About page. Drop an image into /public
-   * (for example /public/drawing.jpg), then fill this in with its pixel size.
-   * Leave as null to hide.
-   */
-  drawing: { src: "/drawing.jpg", alt: "Pen and ink, three boys.", width: 2000, height: 1169 } as null | {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-  },
-
   /** External links surfaced in the command palette and on the About page. */
   links: [
     { label: "GitHub", href: "https://github.com/10zinglunn-afk", external: true },

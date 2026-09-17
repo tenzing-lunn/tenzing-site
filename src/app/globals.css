@@ -8,6 +8,25 @@
   --border: #222222;
   --border-strong: #333333;
   --selection: #262626;
+  --surface: #161616;
+  --surface-2: #111111;
+  --backdrop: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+/* Daytime. Set before first paint by the boot script in layout.tsx. */
+:root[data-theme="light"] {
+  --bg: #fafafa;
+  --fg: #111111;
+  --fg-2: #555555;
+  --fg-3: #888888;
+  --border: #e6e6e6;
+  --border-strong: #d4d4d4;
+  --selection: #e4e4e4;
+  --surface: #efefef;
+  --surface-2: #f3f3f3;
+  --backdrop: rgba(0, 0, 0, 0.25);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -24,7 +43,6 @@
 
 @layer base {
 html {
-  color-scheme: dark;
   background: var(--bg);
   overflow-x: hidden;
 }
@@ -65,7 +83,7 @@ body {
   font-family: var(--font-mono);
   font-size: 0.875em;
   color: var(--fg);
-  background: #161616;
+  background: var(--surface);
   padding: 0.1em 0.35em;
   border-radius: 2px;
 }
@@ -133,7 +151,7 @@ body {
   font-size: 0.8125rem;
   line-height: 1.6;
   color: var(--fg-2);
-  background: #111111;
+  background: var(--surface-2);
   border: 1px solid var(--border);
   padding: 0.875rem 1rem;
   overflow-x: auto;
@@ -148,7 +166,7 @@ dialog {
   color: var(--fg);
 }
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--backdrop);
 }
 dialog[open] {
   animation: dialog-in 120ms ease-out;
