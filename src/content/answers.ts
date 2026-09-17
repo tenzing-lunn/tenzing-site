@@ -94,11 +94,11 @@ export const answers: Answer[] = [
   },
   {
     match: ["meditation", "meditate", "meditate with me", "meditatewithme"],
-    reply: "Meditate With Me, a meditation web app with synchronized group sessions. It's the main thing I'm building right now.",
+    reply: "Meditate With Me: everyone sitting in the same hour finishes on the same bell, at the same second. It's live, and it's the main thing I'm building right now. /projects/meditate-with-me.",
   },
   {
     match: ["project", "what have you built", "what did you build", "your work", "portfolio"],
-    reply: "Four are written up at /projects: the misalignment research, Nuverum CRM, The Network, and trade-bot. Each one has why I built it and what I learned. Right now I'm building a meditation web app.",
+    reply: "Five are written up at /projects: Meditate With Me, the misalignment research, Nuverum CRM, The Network, and trade-bot. Each one has why I built it and what I learned.",
   },
   {
     match: ["favorite project", "best project", "proudest", "hardest project", "most difficult"],

@@ -26,6 +26,30 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "meditate-with-me",
+    name: "Meditate With Me",
+    year: 2026,
+    description:
+      "A meditation site where everyone sitting in the same hour can finish on the same bell, at the same second.",
+    status: "active",
+    tech: ["Next.js", "TypeScript", "Supabase", "Web Audio API"],
+    links: [{ label: "Live", href: "https://meditatewithme.vercel.app" }],
+    overview: `Client work, live since 1 September 2026.
+
+A warm screen asks one thing at a time. Your name, where you're from, with others or alone, how long, which bell, any sound. Then a bowl. Strike it and the light goes down, and you're sitting in front of the earth, where everyone sitting this hour is a candle and one line tells you who is with you. Choose *with others* and you end on the same bell, at the same second, as everyone else who did.`,
+    why: `Sitting alone and sitting together are different things, and almost every meditation app quietly gives you the first while implying the second. The whole product is one promise: the bell lands at the same instant for everyone who chose to share it. Everything else is in service of that.`,
+    how: `There is no scheduler. A session exists for every hour of the day whether or not a row exists for it, so the code floors the clock to the hour, looks for an override, and falls back to an ambient hour when it finds none. No cron, no queue, nothing to fail at three in the morning.
+
+Three different clocks, on purpose. A server-corrected clock decides which session is running, because a laptop three minutes fast would light its candle early and break the only promise. A monotonic clock runs your personal timer, so a time correction mid-session can't move your bell. And the bell itself is scheduled on the audio clock, because background tabs throttle ordinary timers to about once a minute, and a meditation bell arriving ninety seconds late has failed at its one job.
+
+The room is polled, not pushed. Live presence is the obvious fit and the wrong one: it costs a message per participant per join, and everyone joins at the top of the hour at once. What the room actually shows is low-frequency and identical for every viewer, so it caches. One ten-second cache entry serves the whole world.
+
+Nothing ever shows an error screen. Every failure hides a control or degrades quietly, so the database going down still leaves you a working candle, timer, and sound mix.`,
+    learned: `The interesting problem was time, not features. Once the product promises a shared instant, "what time is it" stops being a one-liner and becomes three separate questions with three different answers.
+
+I also learned to distrust the obvious primitive. Realtime presence was the thing built for this and it was still wrong, because the traffic shape is a thundering herd at the top of every hour and the data is the same for everyone. Reaching for the boring cache was the better engineering.`,
+  },
+  {
     slug: "correct-the-note",
     name: "Correct the Note, Not the Weights",
     year: 2026,
