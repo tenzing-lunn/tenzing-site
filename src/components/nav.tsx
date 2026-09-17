@@ -13,7 +13,7 @@ const isMacServer = () => true;
 const LINKS = [
   { href: "/about", label: "About", key: "A" },
   { href: "/projects", label: "Projects", key: "P" },
-  { href: "/notes", label: "Notes", key: "N" },
+  { href: "/thoughts", label: "Thoughts", key: "T" },
   { href: "/ask", label: "Ask", key: "/" },
 ];
 

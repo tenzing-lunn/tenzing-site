@@ -6,7 +6,7 @@ import { useUI } from "@/components/ui-provider";
 const SHORTCUTS: [string, string][] = [
   ["A", "About"],
   ["P", "Projects"],
-  ["N", "Notes"],
+  ["T", "Thoughts"],
   ["/", "Ask"],
   ["⌘ / Ctrl K", "Open command palette"],
   ["?", "This reference"],

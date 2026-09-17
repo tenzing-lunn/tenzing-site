@@ -1,30 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notesByYear } from "@/content/notes";
+import { thoughtsByYear } from "@/content/thoughts";
 import { formatDate } from "@/lib/dates";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Notes",
-  description: `Notes and short writing by ${site.name}.`,
+  title: "Thoughts",
+  description: `Thoughts and short writing by ${site.name}.`,
 };
 
-export default function NotesPage() {
-  const groups = notesByYear();
+export default function ThoughtsPage() {
+  const groups = thoughtsByYear();
   return (
     <section>
-      <h1 className="text-lg font-medium text-fg">Notes</h1>
+      <h1 className="text-lg font-medium text-fg">Thoughts</h1>
+      {groups.length === 0 ? (
+        <p className="mt-10 font-mono text-xs text-fg-3">nothing here yet</p>
+      ) : null}
       <div className="mt-10 space-y-10">
-        {groups.map(({ year, notes }) => (
+        {groups.map(({ year, thoughts }) => (
           <section key={year} aria-labelledby={`year-${year}`}>
             <h2 id={`year-${year}`} className="font-mono text-xs text-fg-3">
               {year}
             </h2>
             <ul className="mt-3 -mx-2">
-              {notes.map((n) => (
+              {thoughts.map((n) => (
                 <li key={n.slug}>
                   <Link
-                    href={`/notes/${n.slug}`}
+                    href={`/thoughts/${n.slug}`}
                     className="group flex items-baseline gap-4 px-2 py-1.5"
                   >
                     <time

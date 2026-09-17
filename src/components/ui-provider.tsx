@@ -43,7 +43,7 @@ export function isTypingTarget(target: EventTarget | null): boolean {
 const SHORTCUT_ROUTES: Record<string, string> = {
   a: "/about",
   p: "/projects",
-  n: "/notes",
+  t: "/thoughts",
   "/": "/ask",
 };
 

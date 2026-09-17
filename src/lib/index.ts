@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
-import { notes } from "@/content/notes";
+import { thoughts } from "@/content/thoughts";
 import { formatDate } from "@/lib/dates";
 
 /** One entry in the command palette / terminal navigation index. */
@@ -8,7 +8,7 @@ export type IndexEntry = {
   id: string;
   title: string;
   href: string;
-  kind: "page" | "project" | "note" | "link";
+  kind: "page" | "project" | "thought" | "link";
   /** Secondary text shown right-aligned (year, date, or hostname). */
   meta?: string;
   /** Extra text that fuzzy search should also match against. */
@@ -20,7 +20,7 @@ export const pages: IndexEntry[] = [
   { id: "home", title: "Home", href: "/", kind: "page", keywords: "index start" },
   { id: "about", title: "About", href: "/about", kind: "page", keywords: "bio me" },
   { id: "projects", title: "Projects", href: "/projects", kind: "page", keywords: "work" },
-  { id: "notes", title: "Notes", href: "/notes", kind: "page", keywords: "writing blog" },
+  { id: "thoughts", title: "Thoughts", href: "/thoughts", kind: "page", keywords: "writing blog" },
   { id: "ask", title: "Ask", href: "/ask", kind: "page", keywords: "question" },
   { id: "now", title: "Now", href: "/now", kind: "page", keywords: "snapshot current" },
   { id: "art", title: "Art", href: "/art", kind: "page", keywords: "drawings gallery sketch" },
@@ -36,11 +36,11 @@ export function buildIndex(): IndexEntry[] {
     keywords: [p.description, ...(p.tech ?? [])].join(" "),
   }));
 
-  const noteEntries: IndexEntry[] = notes.map((n) => ({
-    id: `note:${n.slug}`,
+  const thoughtEntries: IndexEntry[] = thoughts.map((n) => ({
+    id: `thought:${n.slug}`,
     title: n.title,
-    href: `/notes/${n.slug}`,
-    kind: "note",
+    href: `/thoughts/${n.slug}`,
+    kind: "thought",
     meta: formatDate(n.date, "short"),
     keywords: n.summary ?? "",
   }));
@@ -54,7 +54,7 @@ export function buildIndex(): IndexEntry[] {
     external: true,
   }));
 
-  return [...pages, ...projectEntries, ...noteEntries, ...linkEntries];
+  return [...pages, ...projectEntries, ...thoughtEntries, ...linkEntries];
 }
 
 function safeHost(href: string): string | undefined {

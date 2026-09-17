@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <article>
-      <h1 className="text-lg font-medium text-fg">About</h1>
-      <div className="prose mt-10">
+      <h1 className="sr-only">About</h1>
+      <div className="prose">
         {about.map((p, i) => (
           <p key={i}>{renderInline(p)}</p>
         ))}

@@ -1,6 +1,6 @@
 # tenzing-site
 
-A small personal website: notes, projects, a current snapshot, and a place to ask questions. Text-first, keyboard-driven, no backend.
+A small personal website: thoughts, projects, a current snapshot, and a place to ask questions. Text-first, keyboard-driven, no backend.
 
 ## Run
 
@@ -18,10 +18,10 @@ Everything personal lives in `src/content/`:
 | `site.ts` | name, intro, location, the `/now` snapshot, external links, canonical URL |
 | `about.ts` | About page paragraphs |
 | `projects.ts` | project list and project page sections |
-| `notes.ts` | notes (a small Markdown subset is supported) |
+| `thoughts.ts` | thoughts (a small Markdown subset is supported) |
 | `art.ts` | drawings shown on `/art` (image files go in `/public`) |
 
-Add a project or note by appending an object to the array. Pages, the command palette, the sitemap, and the terminal all read from these files.
+Add a project or thought by appending an object to the array. Pages, the command palette, the sitemap, and the terminal all read from these files.
 
 ## Theme
 
@@ -31,13 +31,13 @@ The page is light while the sun is up (07:00 to 18:00 on the visitor's clock) an
 
 | Key | Action |
 | --- | --- |
-| `A` `P` `N` | About, Projects, Notes |
+| `A` `P` `T` | About, Projects, Thoughts |
 | `/` | Ask |
 | `⌘K` / `Ctrl K` | Command palette |
 | `?` | Shortcut reference |
 | `Esc` | Close |
 
-The terminal at the bottom of every page understands `help`, `home`, `about`, `projects`, `notes`, `ask`, `now`, and `clear`.
+The terminal at the bottom of every page understands `help`, `home`, `about`, `projects`, `thoughts`, `ask`, `now`, and `clear`.
 
 ## Deploy
 

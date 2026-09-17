@@ -16,7 +16,7 @@ export const site = {
   url: "https://tenzinglunn.vercel.app",
   /** Meta description / Open Graph description. */
   description:
-    "Tenzing Lunn. Math and computer science at Fordham. Notes, projects, and a place to ask questions.",
+    "Tenzing Lunn. Math and computer science at Fordham. Thoughts, projects, and a place to ask questions.",
 
   /** One or two sentences for the home page. */
   intro: [

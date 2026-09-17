@@ -1,7 +1,7 @@
 import { site } from "@/content/site";
 import { about } from "@/content/about";
 import { projects } from "@/content/projects";
-import { notes } from "@/content/notes";
+import { thoughts } from "@/content/thoughts";
 import { formatDate } from "@/lib/dates";
 
 /**
@@ -12,7 +12,7 @@ import { formatDate } from "@/lib/dates";
  *
  * To connect an LLM later, implement `llmProvider` below (or add a new one)
  * and set ASK_PROVIDER=llm. Everything the model needs as context —
- * `site`, `about`, `projects`, `notes` — is already imported here.
+ * `site`, `about`, `projects`, `thoughts` — is already imported here.
  */
 
 export type AskProvider = (question: string) => Promise<string>;
@@ -36,14 +36,14 @@ const localProvider: AskProvider = async (raw) => {
     return `${project.name} (${project.year}): ${project.description} More at /projects/${project.slug}.`;
   }
 
-  // A specific note mentioned by title.
-  const note = notes.find((n) => q.includes(n.title.toLowerCase()));
-  if (note) {
-    return `"${note.title}" was written on ${formatDate(note.date)}.${note.summary ? ` ${note.summary}` : ""} Read it at /notes/${note.slug}.`;
+  // A specific thought mentioned by title.
+  const thought = thoughts.find((n) => q.includes(n.title.toLowerCase()));
+  if (thought) {
+    return `"${thought.title}" was written on ${formatDate(thought.date)}.${thought.summary ? ` ${thought.summary}` : ""} Read it at /thoughts/${thought.slug}.`;
   }
 
   if (has("hello", "hi ", "hey")) {
-    return `Hello. Ask me about projects, notes, or what ${site.firstName} is working on.`;
+    return `Hello. Ask me about projects, thoughts, or what ${site.firstName} is working on.`;
   }
 
   if (has("project", "built", "build", "working on", "make")) {
@@ -52,9 +52,10 @@ const localProvider: AskProvider = async (raw) => {
     return `Current projects: ${list}. Right now: ${site.now.workingOn}`;
   }
 
-  if (has("note", "writ", "blog", "essay", "post")) {
-    const latest = notes.slice(0, 3).map((n) => `"${n.title}"`).join(", ");
-    return `Recent notes: ${latest}. The full index is at /notes.`;
+  if (has("thought", "writ", "blog", "essay", "post")) {
+    if (thoughts.length === 0) return "Nothing written yet. The index is at /thoughts.";
+    const latest = thoughts.slice(0, 3).map((n) => `"${n.title}"`).join(", ");
+    return `Recent thoughts: ${latest}. The full index is at /thoughts.`;
   }
 
   if (has("read")) {
@@ -86,7 +87,7 @@ const localProvider: AskProvider = async (raw) => {
     return "Press ? for keyboard shortcuts, ⌘K for the command palette, or type `help` in the terminal at the bottom of the page.";
   }
 
-  return "I don't have an answer for that yet. Try asking about projects, notes, reading, or what I'm working on.";
+  return "I don't have an answer for that yet. Try asking about projects, thoughts, reading, or what I'm working on.";
 };
 
 /* ---------- LLM provider (not yet connected) ---------- */
@@ -104,7 +105,7 @@ const llmProvider: AskProvider = async () => {
   //     body: JSON.stringify({
   //       model: "claude-haiku-4-5-20251001",
   //       max_tokens: 300,
-  //       system: buildSystemPrompt(),   // stringify site/about/projects/notes
+  //       system: buildSystemPrompt(),   // stringify site/about/projects/thoughts
   //       messages: [{ role: "user", content: question }],
   //     }),
   //   });

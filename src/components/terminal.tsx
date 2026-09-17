@@ -11,7 +11,7 @@ const COMMANDS: Record<string, { help: string; href?: string }> = {
   home: { help: "go home", href: "/" },
   about: { help: "about page", href: "/about" },
   projects: { help: "project list", href: "/projects" },
-  notes: { help: "notes index", href: "/notes" },
+  thoughts: { help: "thoughts index", href: "/thoughts" },
   ask: { help: "ask a question", href: "/ask" },
   now: { help: "current snapshot", href: "/now" },
   art: { help: "drawings", href: "/art" },
