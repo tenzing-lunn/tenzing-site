@@ -89,7 +89,7 @@ export const answers: Answer[] = [
 
   /* ---------- what I'm doing ---------- */
   {
-    match: ["working on", "what are you building", "what are you making", "current project", "right now", "these days", "at the moment"],
+    match: ["working on", "what are you building", "what are you making", "current project", "right now", "these days", "at the moment", "are you up to", "keeping busy", "what's new", "whats new"],
     reply: `${site.now.workingOn} The full snapshot is at /now.`,
   },
   {
