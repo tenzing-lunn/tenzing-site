@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { formatDate } from "@/lib/dates";
+import { lastPlayed } from "@/lib/spotify";
 
 export const metadata: Metadata = {
   title: "Now",
@@ -15,7 +16,10 @@ const ROWS: { label: string; key: keyof typeof site.now }[] = [
   { label: "Learning", key: "learning" },
 ];
 
-export default function NowPage() {
+export const revalidate = 300;
+
+export default async function NowPage() {
+  const track = await lastPlayed();
   return (
     <section>
       <h1 className="text-lg font-medium text-fg">Now</h1>
@@ -26,6 +30,22 @@ export default function NowPage() {
             <dd className="mt-1 text-fg-2 leading-relaxed">{site.now[key]}</dd>
           </div>
         ))}
+        {track ? (
+          <div>
+            <dt className="font-mono text-xs text-fg-3">Last played</dt>
+            <dd className="mt-1 text-fg-2 leading-relaxed">
+              <a
+                href={track.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="hover:text-fg transition-colors underline-offset-4 hover:underline"
+              >
+                {track.title}
+              </a>
+              , {track.artist}
+            </dd>
+          </div>
+        ) : null}
         <div>
           <dt className="font-mono text-xs text-fg-3">Last updated</dt>
           <dd className="mt-1 font-mono text-xs text-fg-2">
