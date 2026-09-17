@@ -67,7 +67,7 @@ export const answers: Answer[] = [
   },
   {
     match: ["travel", "travelling", "traveling", "countries", "where has he been", "trip", "abroad"],
-    reply: "Poland, Croatia, France, a good deal of Italy including Sardinia and Milan, the United Kingdom, and Belgrade. Most of his school friends are international, so visiting them is half the reason he goes.",
+    reply: "Poland, Croatia, France, a good deal of Italy including Sardinia and Milan, the United Kingdom, Belgrade and Morocco. Most of his school friends are international, so visiting them is half the reason he goes.",
   },
 
   /* ---------- school ---------- */
@@ -136,7 +136,7 @@ export const answers: Answer[] = [
   },
   {
     match: ["music", "listen to", "band", "favourite artist", "favorite artist", "song", "album", "instrument", "piano", "drums"],
-    reply: "Wide taste and no embarrassment about any of it: The Strokes, Radiohead, A$AP Rocky, Steve Lacy, The Alchemist, Jon Batiste, LCD Soundsystem, Fleetwood Mac, Sade, The Smiths, Jeff Buckley, plus French, Arabic, Spanish and Indian music, UK garage, techno and house. He used to play piano and now plays hand drums, the djembe in particular.",
+    reply: "The Strokes, Radiohead, ASAP Rocky, Steve Lacy, The Alchemist, Samba Jean Baptiste, LCD Soundsystem, Sade, The Smiths and Jeff Buckley, among others, plus a lot of UK garage, techno and house. He used to play piano and now plays hand drums, the djembe in particular.",
   },
   {
     match: ["read", "reading", "book", "novel", "author"],
