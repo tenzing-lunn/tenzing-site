@@ -57,7 +57,7 @@ The findings are also narrower than the headline. Retrieval did not significantl
     tech: ["Next.js", "TypeScript", "Supabase", "Postgres RLS"],
     overview: `Built for Nuverum Ventures from April 2026. It tracks leads, deals, the investor pipeline, contacts, tasks, and teams for a team of about fifteen people.
 
-The numbers are small: a handful of weekly users, around twenty deals and a hundred leads. But it is live and in daily use, and it replaced a spreadsheet that people depended on.`,
+The numbers are small: a handful of weekly users, around twenty deals and a hundred leads. But it is live and in daily use, and it replaced a spreadsheet that people depended on. It is an internal tool, so there is nothing public to link to.`,
     why: `The team ran on a Google Sheet. That worked until several people needed different views of the same deals, and until interns should not see everything.
 
 Replacing it meant taking requirements from people who don't write software, migrating live data without losing a row, and then keeping the thing working while they used it.`,
@@ -71,22 +71,6 @@ I chose roles over per-record permissions because the team is small and its stru
 The worst bug was quiet. A DROP POLICY that named the wrong policy left an old permissive policy OR'd in beside the new one. Access was wider than intended and nothing errored. The fix was procedural: before replacing a table's policy, read the most recent migration that touched it.`,
   },
   {
-    slug: "lxivny",
-    name: "LXIVNY",
-    year: 2026,
-    description: "A one-of-one luxury resale storefront, built and shipped solo.",
-    status: "shipped",
-    tech: ["Next.js", "TypeScript", "Supabase", "Stripe", "Vercel"],
-    overview: `A complete commerce stack for an independent reseller: catalog, Stripe Checkout, webhook-driven order recording, email receipts, and an admin panel the owner runs without me. It sits on free tiers, so the infrastructure costs nothing per month.`,
-    why: `I wanted to own a product end to end. Not a component of one: the schema, the checkout, the emails, and the dashboard the owner actually uses.`,
-    how: `Orders are recorded from Stripe's webhook, never from the browser, so a sale exists only once Stripe says it does.
-
-Every table and storage bucket has least-privilege row-level security. Shoppers can read live listings and nothing else. Customer data is written by service-role code on the server, split from anything the client can reach. A middleware gate lets the owner close the shop.`,
-    learned: `It got no sales. I spent the time on the build and none on distribution, and I would rather say that plainly than dress it up.
-
-The engineering holds up. What I learned is that shipping and launching are different jobs, and I had only done one of them.`,
-  },
-  {
     slug: "the-network",
     name: "The Network",
     year: 2026,
@@ -95,7 +79,9 @@ The engineering holds up. What I learned is that shipping and launching are diff
 
 To be clear up front: I did not build the app. It was a Flutter app written by the engineering team. My work was scoping features, writing the product framework and user flows, and running the operation.`,
     why: `It is the one thing here that is not an engineering credential, and I include it for that reason. Working with real engineers from the other side of the table, deciding what gets built and what doesn't, is a different skill from building.`,
-    how: `The core bet was that people value signal from people they know over reach. I designed the product framework and flows for interest-based matching, which drew on accounts users connected, such as YouTube, to suggest introductions.`,
+    how: `The core bet was that people value signal from people they know over reach. I designed the product framework and flows for interest-based matching, which drew on accounts users connected, such as YouTube, to suggest introductions.
+
+Day to day I worked on, audited, and revised the core features as the product pivoted, and decided which of them survived each pivot.`,
   },
   {
     slug: "trade-bot",
