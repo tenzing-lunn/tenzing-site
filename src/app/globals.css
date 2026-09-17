@@ -67,6 +67,15 @@ body {
   outline-offset: 3px;
 }
 
+/* A link with no underline; the About page uses it. */
+.plain-link {
+  color: var(--fg);
+  transition: color 120ms ease;
+}
+.plain-link:hover {
+  color: var(--fg-2);
+}
+
 /* Links inside prose */
 .link {
   color: var(--fg);

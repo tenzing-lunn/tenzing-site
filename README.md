@@ -16,7 +16,7 @@ Everything personal lives in `src/content/`:
 | File | What it holds |
 | --- | --- |
 | `site.ts` | name, intro, location, the `/now` snapshot, external links, canonical URL |
-| `about.ts` | About page paragraphs |
+| `about.ts` | About page facts (ethnicities, what I'm reading, top movies); the paragraphs are in `src/components/about-text.tsx` |
 | `projects.ts` | project list and project page sections |
 | `thoughts.ts` | thoughts (a small Markdown subset is supported) |
 | `art.ts` | drawings shown on `/art` (image files go in `/public`) |

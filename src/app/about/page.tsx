@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { about } from "@/content/about";
+import { AboutText } from "@/components/about-text";
 import { site } from "@/content/site";
-import { renderInline } from "@/lib/markdown";
 
 export const metadata: Metadata = {
   title: "About",
@@ -12,11 +11,7 @@ export default function AboutPage() {
   return (
     <article>
       <h1 className="sr-only">About</h1>
-      <div className="prose">
-        {about.map((p, i) => (
-          <p key={i}>{renderInline(p)}</p>
-        ))}
-      </div>
+      <AboutText />
       <ul className="mt-12 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-fg-3">
         {site.links.map((l) => (
           <li key={l.label}>

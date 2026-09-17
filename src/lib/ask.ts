@@ -1,5 +1,5 @@
 import { site } from "@/content/site";
-import { about } from "@/content/about";
+import { bio } from "@/content/about";
 import { projects } from "@/content/projects";
 import { thoughts } from "@/content/thoughts";
 import { formatDate } from "@/lib/dates";
@@ -12,7 +12,7 @@ import { formatDate } from "@/lib/dates";
  *
  * To connect an LLM later, implement `llmProvider` below (or add a new one)
  * and set ASK_PROVIDER=llm. Everything the model needs as context —
- * `site`, `about`, `projects`, `thoughts` — is already imported here.
+ * `site`, `bio`, `projects`, `thoughts` — is already imported here.
  */
 
 export type AskProvider = (question: string) => Promise<string>;
@@ -80,7 +80,7 @@ const localProvider: AskProvider = async (raw) => {
   }
 
   if (has("who", "about", "you")) {
-    return stripMarkdown(about[0]);
+    return bio;
   }
 
   if (has("keyboard", "shortcut", "navigate", "command")) {
@@ -117,7 +117,3 @@ const providers: Record<string, AskProvider> = {
   local: localProvider,
   llm: llmProvider,
 };
-
-function stripMarkdown(s: string): string {
-  return s.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/[`*]/g, "");
-}

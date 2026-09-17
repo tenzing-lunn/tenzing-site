@@ -1,12 +1,23 @@
 /**
- * About page copy. Each string is one paragraph and accepts inline
- * Markdown (links, `code`, **bold**, *italic*). Keep it short enough to
- * fit on one screen.
+ * About page content. The paragraphs themselves live in
+ * src/components/about-text.tsx because a few words are interactive;
+ * the facts they reveal live here.
  */
 
-export const about: string[] = [
-  "Sophomore at Fordham Lincoln Center, studying math and computer science.",
-  "Born and raised in Los Angeles. Jamaican, Bahamian, Costa Rican, and Chinese. Two years at an international school in Armenia before New York.",
-  "Philosophy, religion, biology, math, computer science, AI. I play football, [draw](/art), listen to a lot of music, and travel when I can. I have an older sister. Reading *Siddhartha*.",
-  "[Thoughts](/thoughts), [projects](/projects), and a [current snapshot](/now).",
+/** One-paragraph bio for metadata and the Ask page. */
+export const bio =
+  "Tenzing Lunn, a sophomore at Fordham University Lincoln Center studying math and computer science. Born and raised in Los Angeles, two years at an international boarding school in Armenia, now in New York.";
+
+/** Revealed one at a time when "ethnically ambiguous" is clicked. */
+export const ethnicities: { label: string; color: string }[] = [
+  { label: "Jamaican", color: "#e5484d" },
+  { label: "Bahamian", color: "#3b82f6" },
+  { label: "Costa Rican", color: "#22c55e" },
+  { label: "Chinese", color: "#eab308" },
 ];
+
+/** Shown when "book" is clicked. */
+export const reading = "Siddhartha, by Hermann Hesse";
+
+/** Shown when "movie" is clicked. Top of the list first. */
+export const movies: string[] = [];
