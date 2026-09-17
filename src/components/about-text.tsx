@@ -66,12 +66,14 @@ export function AboutText() {
         .
       </p>
       {showMovies ? (
-        <ol className="font-mono text-xs text-fg-3">
-          {movies.length === 0 ? <li className="list-none">list coming soon</li> : null}
+        <ul className="font-mono text-xs text-fg-3">
+          <li className="list-none text-fg-3">in no particular order</li>
           {movies.map((m) => (
-            <li key={m}>{m}</li>
+            <li key={m} className="list-none">
+              {m}
+            </li>
           ))}
-        </ol>
+        </ul>
       ) : null}
       <p>and I have a lovely older sister.</p>
       <p>

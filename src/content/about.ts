@@ -19,5 +19,17 @@ export const ethnicities: { label: string; color: string }[] = [
 /** Shown when "book" is clicked. */
 export const reading = "Siddhartha, by Hermann Hesse";
 
-/** Shown when "movie" is clicked. Top of the list first. */
-export const movies: string[] = [];
+/** Shown when "movie" is clicked. No particular order. */
+export const movies: string[] = [
+  "The Cars films",
+  "Fantastic Mr. Fox",
+  "Isle of Dogs",
+  "Howl's Moving Castle",
+  "Spirited Away",
+  "Ponyo",
+  "The Boy and the Heron",
+  "City of God",
+  "The Great Beauty",
+  "Limitless",
+  "The Before Sunrise trilogy",
+];
