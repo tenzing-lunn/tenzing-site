@@ -20,16 +20,16 @@ export default function NowPage() {
   return (
     <section>
       <h1 className="font-display text-2xl font-bold leading-tight text-fg">Now</h1>
-      <dl className="mt-8 grid gap-y-3 sm:grid-cols-[8rem_1fr] sm:gap-x-6">
+      <dl className="mt-6 grid gap-y-2 sm:grid-cols-[7rem_1fr] sm:gap-x-4">
         {ROWS.map(({ label, key }) => (
           <div key={key} className="contents">
-            <dt className="font-mono text-xs leading-7 text-fg-3">{label}</dt>
-            <dd className="-mt-2 text-fg-2 leading-7 sm:mt-0">{site.now[key]}</dd>
+            <dt className="font-mono text-xs leading-6 text-fg-3">{label}</dt>
+            <dd className="-mt-2 text-fg-2 leading-6 sm:mt-0">{site.now[key]}</dd>
           </div>
         ))}
         <div className="contents">
-          <dt className="font-mono text-xs leading-7 text-fg-3">Last updated</dt>
-          <dd className="-mt-2 font-mono text-xs leading-7 text-fg-2 sm:mt-0">
+          <dt className="font-mono text-xs leading-6 text-fg-3">Last updated</dt>
+          <dd className="-mt-2 font-mono text-xs leading-6 text-fg-2 sm:mt-0">
             <time dateTime={site.now.lastUpdated}>{formatDate(site.now.lastUpdated)}</time>
           </dd>
         </div>
