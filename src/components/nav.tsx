@@ -28,7 +28,7 @@ export function Nav() {
       <div className="leading-5">
         <LiveContext />
       </div>
-      <nav aria-label="Primary" className="mt-3 flex items-baseline justify-between gap-3">
+      <nav aria-label="Primary" className="mt-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-2">
         <Link
           href="/"
           aria-current={pathname === "/" ? "page" : undefined}
