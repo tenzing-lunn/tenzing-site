@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 import { site } from "@/content/site";
 import { useUI } from "@/components/ui-provider";
-import { Listening } from "@/components/listening";
+import { LiveContext } from "@/components/live-context";
 
 const noop = () => () => {};
 const isMacClient = () => /Mac|iPhone|iPad/.test(navigator.platform);
@@ -25,12 +25,14 @@ export function Nav() {
 
   return (
     <header className="mx-auto w-full max-w-[42rem] px-5 pt-4 sm:pt-6">
-      <Listening />
+      <div className="leading-5">
+        <LiveContext />
+      </div>
       <nav aria-label="Primary" className="mt-3 flex items-baseline justify-between gap-4">
         <Link
           href="/"
           aria-current={pathname === "/" ? "page" : undefined}
-          className="shrink-0 whitespace-nowrap font-display text-xl leading-none text-fg hover:opacity-70 transition-opacity"
+          className="shrink-0 whitespace-nowrap font-display text-lg font-bold leading-none text-fg hover:opacity-70 transition-opacity"
         >
           {site.name}
         </Link>

@@ -36,7 +36,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   return (
     <article>
       <header>
-        <h1 className="font-display text-4xl leading-tight text-fg">{project.name}</h1>
+        <h1 className="font-display text-2xl font-bold leading-tight text-fg">{project.name}</h1>
         <p className="mt-2 text-fg-2">{project.description}</p>
         <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-fg-3">
           <div>

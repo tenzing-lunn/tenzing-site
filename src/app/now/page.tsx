@@ -22,7 +22,7 @@ export default async function NowPage() {
   const track = await lastPlayed();
   return (
     <section>
-      <h1 className="font-display text-4xl leading-tight text-fg">Now</h1>
+      <h1 className="font-display text-2xl font-bold leading-tight text-fg">Now</h1>
       <dl className="mt-10 space-y-6">
         {ROWS.map(({ label, key }) => (
           <div key={key}>
