@@ -29,7 +29,7 @@ export function AboutText() {
             {ethnicities.slice(0, revealed).map((e, i) => (
               <span key={e.label}>
                 {i > 0 ? (i === revealed - 1 && revealed === ethnicities.length ? " and " : ", ") : ""}
-                <span style={{ color: e.color }}>{e.label}</span>
+                <span className="text-fg">{e.label}</span>
               </span>
             ))}
             {revealed < ethnicities.length ? (
@@ -38,8 +38,7 @@ export function AboutText() {
                   type="button"
                   onClick={() => setRevealed((n) => n + 1)}
                   aria-label="reveal one more"
-                  className="ml-0.5 cursor-pointer transition-opacity hover:opacity-70"
-                  style={{ color: ethnicities[0].color }}
+                  className="ml-0.5 cursor-pointer text-fg transition-opacity hover:opacity-70"
                 >
                   +1
                 </button>
@@ -59,7 +58,7 @@ export function AboutText() {
         <Tap onClick={() => setShowBook((s) => !s)} label="what I'm reading">
           book
         </Tap>
-        {showBook ? <Aside>{reading}</Aside> : null} and{" "}
+        {showBook ? ` (currently reading ${reading})` : null} and{" "}
         <Tap onClick={() => setShowMovies((s) => !s)} label="my top movies">
           movie
         </Tap>
@@ -104,8 +103,4 @@ function Tap({
       {children}
     </button>
   );
-}
-
-function Aside({ children }: { children: React.ReactNode }) {
-  return <span className="font-mono text-xs text-fg-3"> ({children})</span>;
 }

@@ -9,15 +9,15 @@ export const bio =
   "Tenzing Lunn, a sophomore at Fordham University Lincoln Center studying math and computer science. Born and raised in Los Angeles, two years at an international boarding school in Armenia, now in New York.";
 
 /** Revealed one at a time: click "ethnically ambiguous", then "+1" for each of the rest. */
-export const ethnicities: { label: string; color: string }[] = [
-  { label: "Costa Rican", color: "#e5484d" },
-  { label: "Bahamian", color: "#3b82f6" },
-  { label: "Jamaican", color: "#22c55e" },
-  { label: "Chinese", color: "#eab308" },
+export const ethnicities: { label: string }[] = [
+  { label: "Costa Rican" },
+  { label: "Bahamian" },
+  { label: "Jamaican" },
+  { label: "Chinese" },
 ];
 
 /** Shown when "book" is clicked. */
-export const reading = "Siddhartha, by Hermann Hesse";
+export const reading = "Siddhartha by Hermann Hesse";
 
 /** Shown when "movie" is clicked. No particular order. */
 export const movies: string[] = [
