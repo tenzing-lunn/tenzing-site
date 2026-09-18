@@ -26,15 +26,15 @@ type SpotifyTrack = {
   external_urls: { spotify: string };
 };
 
-/** The track playing right now, or the last one played if nothing is. */
-export async function listening(revalidate = 30): Promise<Listening | null> {
+/** The track playing right now, or the last one played if nothing is. Never cached here. */
+export async function listening(): Promise<Listening | null> {
   const token = await accessToken();
   if (!token) return null;
 
   try {
     const res = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
       headers: { authorization: `Bearer ${token}` },
-      next: { revalidate },
+      cache: "no-store",
     });
     // 204 means nothing is playing.
     if (res.status === 200) {
@@ -47,11 +47,11 @@ export async function listening(revalidate = 30): Promise<Listening | null> {
     console.error("[spotify]", err);
   }
 
-  const last = await lastPlayed(revalidate, token);
+  const last = await lastPlayed(0, token);
   return last ? { ...last, playing: false } : null;
 }
 
-/** The most recently finished track. */
+/** The most recently finished track. `revalidate` of 0 means always fresh. */
 export async function lastPlayed(revalidate = 300, token?: string | null): Promise<Track | null> {
   token ??= await accessToken();
   if (!token) return null;
@@ -59,7 +59,7 @@ export async function lastPlayed(revalidate = 300, token?: string | null): Promi
   try {
     const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=1", {
       headers: { authorization: `Bearer ${token}` },
-      next: { revalidate },
+      ...(revalidate ? { next: { revalidate } } : { cache: "no-store" as const }),
     });
     if (!res.ok) throw new Error(`recently-played ${res.status}`);
     const data = (await res.json()) as { items?: { track: SpotifyTrack }[] };
