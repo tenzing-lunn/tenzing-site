@@ -23,14 +23,19 @@ export default function ProjectsPage() {
       {projects.length === 0 ? (
         <p className="mt-10 font-mono text-xs text-fg-3">nothing listed yet</p>
       ) : null}
-      <ul className="mt-10 -mx-2">
+      <ul className="mt-6 -mx-2">
         {projects.map((p) => (
           <li key={p.slug}>
             <details id={p.slug} className="group">
-              <summary className="cursor-pointer list-none px-2 py-4 [&::-webkit-details-marker]:hidden">
-                <div className="flex items-baseline justify-between gap-4">
-                  <span className="text-fg underline-offset-4 decoration-fg-3 group-hover:underline">
-                    {p.name}
+              <summary className="cursor-pointer list-none px-2 py-2.5 [&::-webkit-details-marker]:hidden">
+                <div className="flex items-baseline gap-4">
+                  <span className="min-w-0 flex-1 sm:flex sm:items-baseline sm:gap-3">
+                    <span className="shrink-0 text-fg underline-offset-4 decoration-fg-3 group-hover:underline">
+                      {p.name}
+                    </span>
+                    <span className="block truncate text-sm text-fg-2 group-hover:text-fg transition-colors sm:min-w-0">
+                      {p.description}
+                    </span>
                   </span>
                   <span className="shrink-0 font-mono text-xs text-fg-3">
                     {p.year}
@@ -40,15 +45,14 @@ export default function ProjectsPage() {
                     </span>
                   </span>
                 </div>
-                <p className="mt-1 text-fg-2 group-hover:text-fg transition-colors">{p.description}</p>
-                {p.status && p.status !== "shipped" ? (
-                  <span className="mt-1 inline-block font-mono text-[11px] text-fg-3">{p.status}</span>
-                ) : null}
               </summary>
 
-              <div className="px-2 pb-8">
-                {p.tech?.length ? (
-                  <p className="font-mono text-xs text-fg-3">{p.tech.join(" · ")}</p>
+              <div className="px-2 pb-8 pt-2">
+                <p className="text-fg-2">{p.description}</p>
+                {p.status || p.tech?.length ? (
+                  <p className="mt-3 font-mono text-xs text-fg-3">
+                    {[p.status, ...(p.tech ?? [])].filter(Boolean).join(" · ")}
+                  </p>
                 ) : null}
                 <div className="prose mt-6 text-[0.95rem]">
                   {SECTIONS.map(({ key, title }) =>
