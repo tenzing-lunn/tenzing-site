@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function AskPage() {
   return (
     <section>
-      <h1 className="text-lg font-medium text-fg">Ask</h1>
+      <h1 className="font-display text-4xl leading-tight text-fg">Ask</h1>
       <div className="mt-10">
         <AskForm />
       </div>

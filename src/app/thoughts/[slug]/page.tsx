@@ -34,7 +34,7 @@ export default async function ThoughtPage({ params }: { params: Promise<Params> 
   return (
     <article>
       <header>
-        <h1 className="text-lg font-medium text-fg">{thought.title}</h1>
+        <h1 className="font-display text-4xl leading-tight text-fg">{thought.title}</h1>
         <time dateTime={thought.date} className="mt-2 block font-mono text-xs text-fg-3">
           {formatDate(thought.date)}
         </time>

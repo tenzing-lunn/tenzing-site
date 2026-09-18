@@ -19,7 +19,7 @@ const SECTIONS: { key: "overview" | "why" | "how" | "learned"; title: string }[]
 export default function ProjectsPage() {
   return (
     <section>
-      <h1 className="text-lg font-medium text-fg">Projects</h1>
+      <h1 className="font-display text-4xl leading-tight text-fg">Projects</h1>
       {projects.length === 0 ? (
         <p className="mt-10 font-mono text-xs text-fg-3">nothing listed yet</p>
       ) : null}

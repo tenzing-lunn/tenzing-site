@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 import { site } from "@/content/site";
 import { useUI } from "@/components/ui-provider";
+import { Listening } from "@/components/listening";
 
 const noop = () => () => {};
 const isMacClient = () => /Mac|iPhone|iPad/.test(navigator.platform);
@@ -23,17 +24,18 @@ export function Nav() {
   const modKey = useSyncExternalStore(noop, isMacClient, isMacServer) ? "⌘" : "Ctrl";
 
   return (
-    <header className="mx-auto w-full max-w-[42rem] px-5 pt-6 sm:pt-8">
-      <nav aria-label="Primary" className="flex items-baseline justify-between gap-4">
+    <header className="mx-auto w-full max-w-[42rem] px-5 pt-4 sm:pt-6">
+      <Listening />
+      <nav aria-label="Primary" className="mt-3 flex items-baseline justify-between gap-4">
         <Link
           href="/"
           aria-current={pathname === "/" ? "page" : undefined}
-          className="text-sm font-medium text-fg hover:opacity-70 transition-opacity"
+          className="shrink-0 whitespace-nowrap font-display text-xl leading-none text-fg hover:opacity-70 transition-opacity"
         >
           {site.name}
         </Link>
 
-        <ul className="flex items-baseline gap-4 sm:gap-5">
+        <ul className="flex items-baseline gap-3 sm:gap-5">
           {LINKS.map((l) => {
             const active = pathname === l.href || pathname.startsWith(l.href + "/");
             return (

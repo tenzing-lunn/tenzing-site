@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ArtPage() {
   return (
     <section>
-      <h1 className="text-lg font-medium text-fg">Art</h1>
+      <h1 className="font-display text-4xl leading-tight text-fg">Art</h1>
       {drawings.length === 0 ? (
         <p className="mt-10 font-mono text-xs text-fg-3">nothing here yet</p>
       ) : null}

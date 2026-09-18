@@ -4,7 +4,7 @@ import { site } from "@/content/site";
 export default function HomePage() {
   return (
     <div className="space-y-8">
-      <h1 className="text-lg font-medium text-fg">{site.name}</h1>
+      <h1 className="font-display text-4xl leading-tight text-fg">{site.name}</h1>
 
       <div className="space-y-4 text-fg-2 leading-relaxed">
         {site.intro.map((p, i) => (
