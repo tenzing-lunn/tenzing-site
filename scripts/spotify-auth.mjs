@@ -13,7 +13,7 @@
  */
 
 import { createServer } from "node:http";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
 import { randomUUID } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -56,8 +56,11 @@ const saved = [
 if (saved.every(Boolean)) {
   console.log("\nDone. Both are in Vercel production. Tell Claude to deploy.\n");
 } else {
-  console.log("\nCouldn't save automatically. Add these yourself with vercel env add:");
-  console.log("  SPOTIFY_REFRESH_TOKEN=" + tokens.refresh_token + "\n");
+  // Never print the token. Park it in a gitignored file instead.
+  const file = ROOT + ".env.spotify-token.local";
+  writeFileSync(file, "SPOTIFY_REFRESH_TOKEN=" + tokens.refresh_token + "\n", { mode: 0o600 });
+  console.log("\nCouldn't save to Vercel automatically. The token is in " + file);
+  console.log("Add it with: vercel env add SPOTIFY_REFRESH_TOKEN production\n");
 }
 process.exit(0);
 
