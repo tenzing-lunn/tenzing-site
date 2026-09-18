@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { formatDate } from "@/lib/dates";
-import { lastPlayed } from "@/lib/spotify";
 
 export const metadata: Metadata = {
   title: "Now",
@@ -16,39 +15,21 @@ const ROWS: { label: string; key: keyof typeof site.now }[] = [
   { label: "Learning", key: "learning" },
 ];
 
-export const revalidate = 300;
-
-export default async function NowPage() {
-  const track = await lastPlayed();
+/** Label on the left, value on the right, so the whole snapshot fits on one screen. */
+export default function NowPage() {
   return (
     <section>
       <h1 className="font-display text-2xl font-bold leading-tight text-fg">Now</h1>
-      <dl className="mt-10 space-y-6">
+      <dl className="mt-8 grid gap-y-3 sm:grid-cols-[8rem_1fr] sm:gap-x-6">
         {ROWS.map(({ label, key }) => (
-          <div key={key}>
-            <dt className="font-mono text-xs text-fg-3">{label}</dt>
-            <dd className="mt-1 text-fg-2 leading-relaxed">{site.now[key]}</dd>
+          <div key={key} className="contents">
+            <dt className="font-mono text-xs leading-7 text-fg-3">{label}</dt>
+            <dd className="-mt-2 text-fg-2 leading-7 sm:mt-0">{site.now[key]}</dd>
           </div>
         ))}
-        {track ? (
-          <div>
-            <dt className="font-mono text-xs text-fg-3">Last played</dt>
-            <dd className="mt-1 text-fg-2 leading-relaxed">
-              <a
-                href={track.url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="hover:text-fg transition-colors underline-offset-4 hover:underline"
-              >
-                {track.title}
-              </a>
-              , {track.artist}
-            </dd>
-          </div>
-        ) : null}
-        <div>
-          <dt className="font-mono text-xs text-fg-3">Last updated</dt>
-          <dd className="mt-1 font-mono text-xs text-fg-2">
+        <div className="contents">
+          <dt className="font-mono text-xs leading-7 text-fg-3">Last updated</dt>
+          <dd className="-mt-2 font-mono text-xs leading-7 text-fg-2 sm:mt-0">
             <time dateTime={site.now.lastUpdated}>{formatDate(site.now.lastUpdated)}</time>
           </dd>
         </div>

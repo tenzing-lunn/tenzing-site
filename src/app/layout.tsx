@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full flex-col">
         <UIProvider>
           <Nav />
-          <main id="main" className="mx-auto w-full max-w-[42rem] flex-1 px-5 pt-16 sm:pt-24">
+          <main id="main" className="mx-auto w-full max-w-[42rem] flex-1 px-5 pt-10 sm:pt-14">
             {children}
           </main>
           <Footer />

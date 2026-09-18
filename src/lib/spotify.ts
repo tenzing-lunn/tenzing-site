@@ -47,19 +47,16 @@ export async function listening(): Promise<Listening | null> {
     console.error("[spotify]", err);
   }
 
-  const last = await lastPlayed(0, token);
+  const last = await lastPlayed(token);
   return last ? { ...last, playing: false } : null;
 }
 
-/** The most recently finished track. `revalidate` of 0 means always fresh. */
-export async function lastPlayed(revalidate = 300, token?: string | null): Promise<Track | null> {
-  token ??= await accessToken();
-  if (!token) return null;
-
+/** The most recently finished track. */
+async function lastPlayed(token: string): Promise<Track | null> {
   try {
     const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=1", {
       headers: { authorization: `Bearer ${token}` },
-      ...(revalidate ? { next: { revalidate } } : { cache: "no-store" as const }),
+      cache: "no-store",
     });
     if (!res.ok) throw new Error(`recently-played ${res.status}`);
     const data = (await res.json()) as { items?: { track: SpotifyTrack }[] };

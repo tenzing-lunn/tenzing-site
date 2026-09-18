@@ -34,7 +34,7 @@ export const site = {
     location: "Manhattan, New York",
     workingOn: "A meditation web app with synchronized group sessions. Nuverum CRM and this site alongside it.",
     thinkingAbout: "AI, and what makes it interesting.",
-    reading: "Siddhartha, by Hermann Hesse.",
+    reading: "Siddhartha by Hermann Hesse.",
     learning: "Math and computer science, sophomore year at Fordham Lincoln Center.",
     lastUpdated: "2026-09-17",
   },
