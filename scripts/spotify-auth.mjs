@@ -6,18 +6,24 @@
  * Reads SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET from .env.local, prints a
  * URL to open, and waits. If port 3000 is free it catches the redirect itself;
  * if something else is using it, paste the redirected URL back instead.
- * Prints the refresh token. Nothing is written to disk.
+ *
+ * Then saves SPOTIFY_REFRESH_TOKEN and SPOTIFY_CLIENT_SECRET straight to the
+ * Vercel project's production environment, so neither has to be copied by
+ * hand. Safe to run again: it replaces the old values. Works from any folder.
  */
 
 import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
 import { randomUUID } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const REDIRECT_URI = "http://127.0.0.1:3000/callback";
 const SCOPES = "user-read-recently-played user-read-currently-playing";
 
-const env = readEnv(".env.local");
+const ROOT = fileURLToPath(new URL("..", import.meta.url));
+const env = readEnv(ROOT + ".env.local");
 const id = process.env.SPOTIFY_CLIENT_ID ?? env.SPOTIFY_CLIENT_ID;
 const secret = process.env.SPOTIFY_CLIENT_SECRET ?? env.SPOTIFY_CLIENT_SECRET;
 
@@ -42,8 +48,17 @@ console.log("\nOpen this URL and approve:\n\n" + authUrl + "\n");
 const code = (await catchRedirect()) ?? (await askForUrl());
 const tokens = await exchange(code);
 
-console.log("\nSPOTIFY_REFRESH_TOKEN=" + tokens.refresh_token + "\n");
-console.log("Scopes granted:", tokens.scope);
+console.log("\nGot a refresh token. Saving it and the client secret to Vercel ...");
+const saved = [
+  saveToVercel("SPOTIFY_REFRESH_TOKEN", tokens.refresh_token),
+  saveToVercel("SPOTIFY_CLIENT_SECRET", secret),
+];
+if (saved.every(Boolean)) {
+  console.log("\nDone. Both are in Vercel production. Tell Claude to deploy.\n");
+} else {
+  console.log("\nCouldn't save automatically. Add these yourself with vercel env add:");
+  console.log("  SPOTIFY_REFRESH_TOKEN=" + tokens.refresh_token + "\n");
+}
 process.exit(0);
 
 /* ---------- steps ---------- */
@@ -103,6 +118,27 @@ async function exchange(code) {
     process.exit(1);
   }
   return res.json();
+}
+
+/** Replaces a production env var in the linked Vercel project. */
+function saveToVercel(name, value) {
+  try {
+    execFileSync("vercel", ["env", "rm", name, "production", "--yes"], { cwd: ROOT, stdio: "ignore" });
+  } catch {
+    // Not there yet — fine.
+  }
+  try {
+    execFileSync("vercel", ["env", "add", name, "production"], {
+      cwd: ROOT,
+      input: value,
+      stdio: ["pipe", "ignore", "pipe"],
+    });
+    console.log("  saved " + name);
+    return true;
+  } catch (err) {
+    console.error("  " + name + ": " + (err.stderr?.toString().trim() || err.message));
+    return false;
+  }
 }
 
 function readEnv(path) {
