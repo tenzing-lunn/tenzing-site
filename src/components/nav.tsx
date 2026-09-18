@@ -28,16 +28,16 @@ export function Nav() {
       <div className="leading-5">
         <LiveContext />
       </div>
-      <nav aria-label="Primary" className="mt-3 flex items-baseline justify-between gap-4">
+      <nav aria-label="Primary" className="mt-3 flex items-baseline justify-between gap-3">
         <Link
           href="/"
           aria-current={pathname === "/" ? "page" : undefined}
-          className="shrink-0 whitespace-nowrap font-display text-lg font-bold leading-none text-fg hover:opacity-70 transition-opacity"
+          className="shrink-0 whitespace-nowrap font-display text-base font-bold leading-none sm:text-lg text-fg hover:opacity-70 transition-opacity"
         >
           {site.name}
         </Link>
 
-        <ul className="flex items-baseline gap-3 sm:gap-5">
+        <ul className="flex items-baseline gap-2.5 sm:gap-5">
           {LINKS.map((l) => {
             const active = pathname === l.href || pathname.startsWith(l.href + "/");
             return (
@@ -57,7 +57,7 @@ export function Nav() {
               </li>
             );
           })}
-          <li>
+          <li className="hidden sm:block">
             <button
               type="button"
               onClick={openPalette}

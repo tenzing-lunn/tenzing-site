@@ -10,7 +10,7 @@ export function Footer() {
           <div className="min-w-0">
             <Listening />
           </div>
-          <span className="shrink-0 font-mono text-[11px] text-fg-3">
+          <span className="hidden shrink-0 font-mono text-[11px] text-fg-3 sm:inline">
             <kbd>?</kbd> for shortcuts
           </span>
         </div>
