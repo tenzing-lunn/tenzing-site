@@ -34,12 +34,12 @@ export function AboutText() {
             ))}
             {revealed < ethnicities.length ? (
               <>
-                {" "}
                 <button
                   type="button"
                   onClick={() => setRevealed((n) => n + 1)}
                   aria-label="reveal one more"
-                  className="cursor-pointer font-mono text-xs text-fg-3 transition-colors hover:text-fg"
+                  className="ml-0.5 cursor-pointer transition-opacity hover:opacity-70"
+                  style={{ color: ethnicities[0].color }}
                 >
                   +1
                 </button>
