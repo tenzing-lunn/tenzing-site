@@ -1,40 +1,22 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { drawings } from "@/content/art";
+import { drawings, photos } from "@/content/art";
+import { Gallery } from "@/components/gallery";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Art",
-  description: `Drawings by ${site.name}.`,
+  description: `Drawings and photographs by ${site.name}.`,
 };
 
 export default function ArtPage() {
+  const pieces = [...drawings, ...photos];
   return (
     <section>
       <h1 className="font-display text-2xl font-bold leading-tight text-fg">Art</h1>
-      {drawings.length === 0 ? (
+      {pieces.length === 0 ? (
         <p className="mt-10 font-mono text-xs text-fg-3">nothing here yet</p>
       ) : null}
-      <ul className="mt-10 space-y-14">
-        {drawings.map((d) => (
-          <li key={d.src}>
-            <figure>
-              <Image
-                src={d.src}
-                alt={d.alt}
-                width={d.width}
-                height={d.height}
-                sizes="(max-width: 42rem) 100vw, 42rem"
-                className="w-full h-auto border border-border"
-              />
-              <figcaption className="mt-3 flex items-baseline justify-between gap-4 font-mono text-[11px] text-fg-3">
-                <span>{d.title}</span>
-                <span className="shrink-0">{[d.medium, d.year].filter(Boolean).join(" · ")}</span>
-              </figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
+      <Gallery pieces={pieces} />
     </section>
   );
 }

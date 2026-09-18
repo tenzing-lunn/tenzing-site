@@ -1,6 +1,6 @@
 import { bio, ethnicities, movies, reading } from "@/content/about";
 import { answers, fallback } from "@/content/answers";
-import { drawings } from "@/content/art";
+import { drawings, photos } from "@/content/art";
 import { facts, voice } from "@/content/persona";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
@@ -109,15 +109,14 @@ export function buildSystemPrompt(): string {
       : thoughts.map((t) => `### ${t.title} (${formatDate(t.date)})\n${t.body}`).join("\n\n"),
     "",
     "## Art",
-    drawings.length
-      ? drawings.map((d) => `${d.title}${d.medium ? ` (${d.medium})` : ""}: ${d.alt}`).join("\n")
-      : "Nothing posted yet.",
+    "He draws and also takes some photographs. The page /art is not in the site's navigation; only when someone asks to see his art, drawings or photos, point them to /art, which has these:",
+    [...drawings, ...photos].map((d) => `${d.title}${d.medium ? ` (${d.medium})` : ""}: ${d.alt}`).join("\n"),
     "",
     "## More about him",
     facts.trim(),
     "",
     "## This site",
-    "Pages: About, Projects, Thoughts, Ask, Now, Art. Keyboard: A, P, T for About, Projects, Thoughts; / for Ask; ? for shortcuts; Cmd-K for the command palette. A small terminal at the bottom takes help, home, about, projects, thoughts, ask, now, art, clear. The page is light from 07:00 to 18:00 on the visitor's clock and dark otherwise, and the pixel sun in the footer becomes a moon at the same time. Built with Next.js, TypeScript and Tailwind, deployed on Vercel. No database and no analytics.",
+    "Pages: About, Projects, Thoughts, Ask, Now. Keyboard: A, P, T for About, Projects, Thoughts; / for Ask; ? for shortcuts; Cmd-K for the command palette. A small terminal at the bottom takes help, home, about, projects, thoughts, ask, now, clear. The page is light from 07:00 to 18:00 on the visitor's clock and dark otherwise, and the pixel sun in the footer becomes a moon at the same time. Built with Next.js, TypeScript and Tailwind, deployed on Vercel. No database and no analytics.",
   ].join("\n");
 }
 

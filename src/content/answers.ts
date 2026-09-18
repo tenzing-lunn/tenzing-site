@@ -131,8 +131,8 @@ export const answers: Answer[] = [
     reply: "Centre attacking midfield, or left or right back. He played on his high school team in Los Angeles and again in Armenia, and still plays for fun at Pier 40 in the city. He calls it an escape.",
   },
   {
-    match: ["draw", "drawing", "art", "sketch", "illustration", "pen and ink", "medium"],
-    reply: "Mostly pen, occasionally oil pastels or paint. The dense cross-hatched style was never studied — it arrived on its own, and he finds it satisfying. There is a piece at /art.",
+    match: ["draw", "drawing", "art", "sketch", "illustration", "pen and ink", "medium", "photo", "photograph", "photography", "camera", "see your art", "your art", "your drawing", "your photo"],
+    reply: "Mostly pen, occasionally oil pastels or paint. The dense cross-hatched style was never studied — it arrived on its own, and he finds it satisfying. He also takes some photos. A drawing and a photograph are up at /art.",
   },
   {
     match: ["music", "listen to", "band", "favourite artist", "favorite artist", "song", "album", "instrument", "piano", "drums"],
@@ -200,7 +200,7 @@ export const answers: Answer[] = [
   },
   {
     match: ["terminal", "command line", "shell", "type help", "prompt at the bottom"],
-    reply: "The prompt at the bottom takes help, home, about, projects, thoughts, ask, now, art and clear. It is navigation wearing a costume.",
+    reply: "The prompt at the bottom takes help, home, about, projects, thoughts, ask, now and clear. It is navigation wearing a costume.",
   },
   {
     match: ["dark", "light mode", "theme", "why is it black", "why is it white", "why is the site", "why is the page", "why is it light", "why is it dark", "background color", "sun", "moon", "colors", "color scheme"],

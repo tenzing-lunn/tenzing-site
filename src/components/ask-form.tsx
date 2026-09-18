@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 
 type Exchange = {
   id: number;
@@ -109,7 +110,7 @@ export function AskForm() {
                 {e.error ? (
                   <span className="font-mono text-xs text-fg-3">error: {e.error}</span>
                 ) : e.answer !== undefined ? (
-                  e.answer
+                  <Linked text={e.answer} />
                 ) : (
                   <span className="font-mono text-xs text-fg-3">
                     thinking
@@ -122,5 +123,18 @@ export function AskForm() {
         </ol>
       ) : null}
     </div>
+  );
+}
+
+/** Turns site paths in an answer, like /art or /projects/foo, into links. */
+function Linked({ text }: { text: string }) {
+  return text.split(/(?<![\w:/.])(\/[a-z][a-z0-9-]*(?:\/[a-z0-9-]+)*)/g).map((part, i) =>
+    i % 2 === 1 ? (
+      <Link key={i} href={part} className="plain-link underline underline-offset-2">
+        {part}
+      </Link>
+    ) : (
+      part
+    ),
   );
 }

@@ -3,17 +3,21 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ethnicities, movies, reading } from "@/content/about";
+import { drawings, photos, type Piece } from "@/content/art";
+import { Lightbox } from "@/components/lightbox";
 
 /**
  * The About paragraphs. A few words respond to a click:
  * "ethnically ambiguous" reveals the first origin and "+1" the rest, "football" turns
- * into "soccer", and "book" / "movie" show what's being read and watched.
+ * into "soccer", "book" / "movie" show what's being read and watched, and
+ * "draw" / "photos" open a drawing and a photograph in a lightbox.
  */
 export function AboutText() {
   const [revealed, setRevealed] = useState(0);
   const [soccer, setSoccer] = useState(false);
   const [showBook, setShowBook] = useState(false);
   const [showMovies, setShowMovies] = useState(false);
+  const [piece, setPiece] = useState<Piece | null>(null);
 
   return (
     <div className="prose">
@@ -54,7 +58,15 @@ export function AboutText() {
         <Tap onClick={() => setSoccer((s) => !s)} label="toggle football or soccer">
           {soccer ? "soccer" : "football"}
         </Tap>
-        , I <Link href="/art" className="plain-link">draw</Link>, and I love music and the occasional{" "}
+        , I{" "}
+        <Tap onClick={() => setPiece(drawings[0])} label="see a drawing">
+          draw
+        </Tap>{" "}
+        and take some{" "}
+        <Tap onClick={() => setPiece(photos[0])} label="see a photograph">
+          photos
+        </Tap>
+        , and I love music and the occasional{" "}
         <Tap onClick={() => setShowBook((s) => !s)} label="what I'm reading">
           book
         </Tap>
@@ -75,6 +87,7 @@ export function AboutText() {
         </ul>
       ) : null}
       <p>and I have a lovely older sister.</p>
+      <Lightbox piece={piece} onClose={() => setPiece(null)} />
       <p>
         <Link href="/now" className="plain-link">
           currently
