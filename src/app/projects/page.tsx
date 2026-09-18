@@ -33,7 +33,7 @@ export default function ProjectsPage() {
                     <span className="shrink-0 text-fg underline-offset-4 decoration-fg-3 group-hover:underline">
                       {p.name}
                     </span>
-                    <span className="block truncate text-sm text-fg-2 group-hover:text-fg transition-colors sm:min-w-0">
+                    <span className="block truncate text-sm text-fg-2 group-hover:text-fg transition-colors group-open:hidden sm:min-w-0">
                       {p.description}
                     </span>
                   </span>
