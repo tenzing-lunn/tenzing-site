@@ -15,6 +15,7 @@ const LINKS = [
   { href: "/about", label: "About", key: "A" },
   { href: "/projects", label: "Projects", key: "P" },
   { href: "/thoughts", label: "Thoughts", key: "T" },
+  { href: "/resume", label: "Resume", key: "R" },
   { href: "/ask", label: "Ask", key: "/" },
 ];
 

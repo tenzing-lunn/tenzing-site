@@ -41,7 +41,7 @@ export const site = {
 
   /** External links surfaced in the command palette and on the About page. */
   links: [
-    { label: "GitHub", href: "https://github.com/10zinglunn-afk", external: true },
+    { label: "GitHub", href: "https://github.com/tenzing-lunn", external: true },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/tenzing-lunn-b9411b37a/", external: true },
     { label: "Email", href: "mailto:tenzinglunn@gmail.com", external: true },
   ],

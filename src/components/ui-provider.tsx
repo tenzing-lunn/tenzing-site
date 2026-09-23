@@ -44,6 +44,7 @@ const SHORTCUT_ROUTES: Record<string, string> = {
   a: "/about",
   p: "/projects",
   t: "/thoughts",
+  r: "/resume",
   "/": "/ask",
 };
 

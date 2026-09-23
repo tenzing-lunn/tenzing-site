@@ -21,6 +21,7 @@ export const pages: IndexEntry[] = [
   { id: "about", title: "About", href: "/about", kind: "page", keywords: "bio me" },
   { id: "projects", title: "Projects", href: "/projects", kind: "page", keywords: "work" },
   { id: "thoughts", title: "Thoughts", href: "/thoughts", kind: "page", keywords: "writing blog" },
+  { id: "resume", title: "Resume", href: "/resume", kind: "page", keywords: "cv experience" },
   { id: "ask", title: "Ask", href: "/ask", kind: "page", keywords: "question" },
   { id: "now", title: "Now", href: "/now", kind: "page", keywords: "snapshot current" },
 ];

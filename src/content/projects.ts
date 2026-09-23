@@ -115,7 +115,7 @@ Day to day I worked on, audited, and revised the core features as the product pi
     status: "active",
     tech: ["Python", "pandas", "NumPy", "FastAPI", "Next.js"],
     links: [
-      { label: "GitHub", href: "https://github.com/10zinglunn-afk/tjh-trading" },
+      { label: "GitHub", href: "https://github.com/tenzing-lunn/tjh-trading" },
       { label: "Live app", href: "https://webapp-zeta-liart.vercel.app" },
     ],
     overview: `A harness that tests trading strategies against about eight years of real prices, charges realistic spread, slippage, and fees, and grades an idea only on data it was not tuned on. Most ideas die, and that is the point.

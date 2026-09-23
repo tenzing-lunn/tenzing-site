@@ -7,6 +7,7 @@ const SHORTCUTS: [string, string][] = [
   ["A", "About"],
   ["P", "Projects"],
   ["T", "Thoughts"],
+  ["R", "Resume"],
   ["/", "Ask"],
   ["⌘ / Ctrl K", "Open command palette"],
   ["?", "This reference"],
