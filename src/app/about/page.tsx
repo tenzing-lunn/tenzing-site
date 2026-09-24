@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { AboutText } from "@/components/about-text";
+import { Chapter } from "@/components/chapter";
+import { Scraps } from "@/components/scraps";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -9,23 +11,23 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <article>
-      <h1 className="sr-only">About</h1>
+    <Chapter label="About" title="Where I come from" as="h1">
       <AboutText />
-      <ul className="mt-12 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-fg-3">
+      <Scraps />
+      <ul className="mt-12 flex flex-wrap gap-x-5 gap-y-1 text-sm text-fg-2">
         {site.links.map((l) => (
           <li key={l.label}>
             <a
               href={l.href}
               target={l.external ? "_blank" : undefined}
               rel={l.external ? "noreferrer noopener" : undefined}
-              className="hover:text-fg transition-colors underline-offset-4 hover:underline"
+              className="sweep hover:text-fg transition-colors"
             >
               {l.label} ↗
             </a>
           </li>
         ))}
       </ul>
-    </article>
+    </Chapter>
   );
 }

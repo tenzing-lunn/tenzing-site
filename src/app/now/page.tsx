@@ -1,39 +1,17 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
-import { formatDate } from "@/lib/dates";
+import { Chapter } from "@/components/chapter";
+import { NowList } from "@/components/now-list";
 
 export const metadata: Metadata = {
   title: "Now",
   description: `What ${site.firstName} is doing right now.`,
 };
 
-const ROWS: { label: string; key: keyof typeof site.now }[] = [
-  { label: "Location", key: "location" },
-  { label: "Working on", key: "workingOn" },
-  { label: "Thinking about", key: "thinkingAbout" },
-  { label: "Reading", key: "reading" },
-  { label: "Learning", key: "learning" },
-];
-
-/** Label on the left, value on the right, so the whole snapshot fits on one screen. */
 export default function NowPage() {
   return (
-    <section>
-      <h1 className="font-display text-2xl font-bold leading-tight text-fg">Now</h1>
-      <dl className="mt-6 grid gap-y-2 sm:grid-cols-[7rem_1fr] sm:gap-x-4">
-        {ROWS.map(({ label, key }) => (
-          <div key={key} className="contents">
-            <dt className="font-mono text-xs leading-6 text-fg-3">{label}</dt>
-            <dd className="-mt-2 text-fg-2 leading-6 sm:mt-0">{site.now[key]}</dd>
-          </div>
-        ))}
-        <div className="contents">
-          <dt className="font-mono text-xs leading-6 text-fg-3">Last updated</dt>
-          <dd className="-mt-2 font-mono text-xs leading-6 text-fg-2 sm:mt-0">
-            <time dateTime={site.now.lastUpdated}>{formatDate(site.now.lastUpdated)}</time>
-          </dd>
-        </div>
-      </dl>
-    </section>
+    <Chapter label="Now" title="What I am doing" as="h1">
+      <NowList />
+    </Chapter>
   );
 }

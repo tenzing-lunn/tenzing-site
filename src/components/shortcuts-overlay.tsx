@@ -9,6 +9,8 @@ const SHORTCUTS: [string, string][] = [
   ["T", "Thoughts"],
   ["R", "Resume"],
   ["/", "Ask"],
+  ["1–4", "Jump to a section"],
+  ["I", "Lights off / on"],
   ["⌘ / Ctrl K", "Open command palette"],
   ["?", "This reference"],
   ["Esc", "Close a dialog"],
@@ -35,6 +37,7 @@ export function ShortcutsOverlay() {
             </div>
           ))}
         </dl>
+        <p className="mt-3 text-xs text-fg-3">There&apos;s one more. Try typing a drum.</p>
         <button
           type="button"
           onClick={closeOverlay}

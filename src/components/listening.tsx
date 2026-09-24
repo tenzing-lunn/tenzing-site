@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import type { Listening as Data } from "@/lib/spotify";
 
 /**
- * "currently playing <track> by <artist>" at the top of the page, behind a
- * small bouncing equalizer, or "last played" with the bars at rest. Polls once a minute. Renders an empty line of the same
- * height until it knows, so nothing below it jumps.
+ * "currently playing <track> by <artist>" behind a small bouncing equalizer,
+ * or "last played" with the bars at rest. Polls once a minute. Says so
+ * quietly if Spotify has nothing to report.
  */
 export function Listening() {
-  const [data, setData] = useState<Data | null>(null);
+  const [data, setData] = useState<Data | null | undefined>(undefined);
 
   useEffect(() => {
     let alive = true;
@@ -17,7 +17,7 @@ export function Listening() {
       fetch("/api/listening")
         .then((r) => (r.ok ? r.json() : null))
         .then((d: Data | null) => alive && setData(d))
-        .catch(() => {});
+        .catch(() => alive && setData(null));
     load();
     const id = window.setInterval(load, 60_000);
     return () => {
@@ -27,7 +27,7 @@ export function Listening() {
   }, []);
 
   return (
-    <p className="flex items-center gap-2 font-mono text-[11px] leading-5 text-fg-3" aria-live="polite">
+    <span className="flex min-w-0 items-center gap-2" aria-live="polite">
       {data ? (
         <>
           <Beats playing={data.playing} />
@@ -37,17 +37,19 @@ export function Listening() {
               href={data.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-fg-2 hover:text-fg transition-colors"
+              className="underline decoration-fg-3 underline-offset-3 hover:decoration-fg"
             >
               {data.title}
             </a>
             {` by ${data.artist}`}
           </span>
         </>
+      ) : data === null ? (
+        <span className="text-fg-3">nothing on at the moment</span>
       ) : (
         "\u00a0"
       )}
-    </p>
+    </span>
   );
 }
 

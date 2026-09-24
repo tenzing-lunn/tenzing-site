@@ -40,6 +40,17 @@ export function isTypingTarget(target: EventTarget | null): boolean {
   );
 }
 
+/** 1–4 jump to the numbered sections of the home page. */
+const SECTIONS = ["about", "work", "now", "ask"];
+
+/** Turns the lights off or on, whichever the page isn't now. */
+function toggleLights() {
+  const root = document.documentElement;
+  const dark = getComputedStyle(document.body).backgroundColor === "rgb(17, 17, 17)";
+  root.classList.toggle("force-dark", !dark);
+  root.classList.toggle("force-light", dark);
+}
+
 const SHORTCUT_ROUTES: Record<string, string> = {
   a: "/about",
   p: "/projects",
@@ -79,6 +90,17 @@ export function UIProvider({ children }: { children: ReactNode }) {
       if (key === "?") {
         e.preventDefault();
         setOverlay("shortcuts");
+        return;
+      }
+      if (key === "i") {
+        toggleLights();
+        return;
+      }
+      const section = SECTIONS[Number(key) - 1];
+      if (section) {
+        const el = document.getElementById(section);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+        else router.push(`/#${section}`);
         return;
       }
       const route = SHORTCUT_ROUTES[key];

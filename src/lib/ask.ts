@@ -1,4 +1,4 @@
-import { bio, ethnicities, movies, reading } from "@/content/about";
+import { bio, movies, reading } from "@/content/about";
 import { answers, fallback } from "@/content/answers";
 import { drawings, photos } from "@/content/art";
 import { facts, voice } from "@/content/persona";
@@ -88,7 +88,6 @@ export function buildSystemPrompt(): string {
     "",
     "## Basics",
     bio,
-    `Ethnicity: ${ethnicities.map((e) => e.label).join(", ")}.`,
     `Links people can use: ${site.links.map((l) => `${l.label} ${l.href}`).join(", ")}.`,
     "",
     "## Right now",
@@ -116,7 +115,7 @@ export function buildSystemPrompt(): string {
     facts.trim(),
     "",
     "## This site",
-    "Pages: About, Projects, Thoughts, Ask, Now. Keyboard: A, P, T for About, Projects, Thoughts; / for Ask; ? for shortcuts; Cmd-K for the command palette. A small terminal at the bottom takes help, home, about, projects, thoughts, ask, now, clear. The page is light from 07:00 to 18:00 on the visitor's clock and dark otherwise, and the pixel sun in the footer becomes a moon at the same time. Built with Next.js, TypeScript and Tailwind, deployed on Vercel. No database and no analytics.",
+    "Pages: About, Projects, Thoughts, Ask, Now. Keyboard: A, P, T for About, Projects, Thoughts; R for the résumé; / for Ask; 1 to 4 to jump between the home page sections; I to turn the lights off or on; ? for shortcuts; Cmd-K for the command palette. The home page opens with four small Junkanoo drummers in ink sitting down at congas one by one, then the page slides up over them. The site is black and white only: a big name that rises in letter by letter, sections that rise in as you scroll down, work rows that fill with ink when you point at them, and a custom cursor. Along the top are the time in New York and whatever he last played on Spotify. Typing the word conga anywhere brings the drummers back. Built with Next.js, TypeScript and Tailwind, deployed on Vercel. No database and no analytics.",
   ].join("\n");
 }
 

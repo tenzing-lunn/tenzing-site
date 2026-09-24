@@ -10,7 +10,7 @@
  */
 
 import { site } from "@/content/site";
-import { ethnicities, movies, reading } from "@/content/about";
+import { movies, reading } from "@/content/about";
 
 export type Answer = {
   /** Lowercase fragments to look for in the question. */
@@ -20,7 +20,6 @@ export type Answer = {
 
 const link = (label: string) => site.links.find((l) => l.label === label)?.href ?? "";
 const email = link("Email").replace("mailto:", "");
-const origins = ethnicities.map((e) => e.label);
 
 export const answers: Answer[] = [
   /* ---------- openers ---------- */
@@ -44,10 +43,6 @@ export const answers: Answer[] = [
   {
     match: ["how old", "his age", "what year is he in", "what year of school"],
     reply: "He is a sophomore. He has not put a number on the site.",
-  },
-  {
-    match: ["ethnic", "heritage", "his background", "his roots", "nationality", "where is his family from", "mixed"],
-    reply: `${origins.slice(0, -1).join(", ")} and ${origins[origins.length - 1]}. On the About page you can click "ethnically ambiguous" and they arrive one at a time.`,
   },
   {
     match: ["where is he from", "where he from", "born", "grew up", "hometown", "los angeles", "california", "windsor hills"],
@@ -196,15 +191,15 @@ export const answers: Answer[] = [
   },
   {
     match: ["shortcut", "keyboard", "hotkey", "command palette", "cmd k", "navigate"],
-    reply: "A, P and T for About, Projects and Thoughts. Slash for Ask, Cmd-K for the command palette, and ? for the full list.",
+    reply: "A, P, T and R for About, Projects, Thoughts and the résumé. Slash for Ask, 1 to 4 to jump between sections on the home page, I for the lights, Cmd-K for the command palette, and ? for the full list.",
   },
   {
-    match: ["terminal", "command line", "shell", "type help", "prompt at the bottom"],
-    reply: "The prompt at the bottom takes help, home, about, projects, thoughts, ask, now and clear. It is navigation wearing a costume.",
+    match: ["drummer", "drums", "junkanoo", "band", "the guys", "headdress", "drawing at the top", "conga", "intro", "opening"],
+    reply: "The four drummers in the opening are a nod to Junkanoo; he is Bahamian and plays hand drums. They sit down at congas one after another, then the page slides up over them. Type the word conga anywhere on the site to bring them back."
   },
   {
-    match: ["dark", "light mode", "theme", "why is it black", "why is it white", "why is the site", "why is the page", "why is it light", "why is it dark", "background color", "sun", "moon", "colors", "color scheme"],
-    reply: "The page follows your clock: light from seven to eighteen, dark otherwise. The pixel sun in the footer becomes a moon at the same moment.",
+    match: ["dark", "light mode", "theme", "why is it black", "why is it white", "why is the site", "why is the page", "background color", "colors", "color scheme", "black and white", "no color"],
+    reply: "It is black and white on purpose: one ink, one paper, and everything else done with type, space and motion. Press I to turn the lights off or on."
   },
   {
     match: ["built this site", "build this site", "make this site", "made this site", "how did he make this", "tech stack", "built with", "next.js", "tailwind", "vercel", "framework"],

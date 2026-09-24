@@ -16,20 +16,18 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 80,
-          background: "#0a0a0a",
-          color: "#ededed",
+          background: "#f2f1ed",
+          color: "#111111",
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 56, fontWeight: 500 }}>{site.name}</div>
-          <div style={{ fontSize: 28, color: "#a3a3a3", marginTop: 24, maxWidth: 900 }}>
+          <div style={{ fontSize: 120, fontWeight: 700, letterSpacing: -6, lineHeight: 0.9 }}>{site.name}</div>
+          <div style={{ fontSize: 28, color: "#3f3e3a", marginTop: 24, maxWidth: 900 }}>
             {site.description}
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 22, color: "#6b6b6b", fontFamily: "monospace" }}>
-          ~/{site.username} ❯
-        </div>
+        <div style={{ display: "flex", fontSize: 22, color: "#7d7b76" }}>{new URL(site.url).host}</div>
       </div>
     ),
     size,

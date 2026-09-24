@@ -1,32 +1,47 @@
 @import "tailwindcss";
 
+/* Black and white. Paper and ink by day; the page follows the reader's
+   system into dark, and pressing I flips it by hand (.force-dark / .force-light). */
 :root {
-  --bg: #0a0a0a;
-  --fg: #ededed;
-  --fg-2: #a3a3a3;
-  --fg-3: #6b6b6b;
-  --border: #222222;
-  --border-strong: #333333;
-  --selection: #262626;
-  --surface: #161616;
-  --surface-2: #111111;
-  --backdrop: rgba(0, 0, 0, 0.6);
-  color-scheme: dark;
-}
-
-/* Daytime. Set before first paint by the boot script in layout.tsx. */
-:root[data-theme="light"] {
-  --bg: #fafafa;
+  --bg: #f2f1ed;
   --fg: #111111;
-  --fg-2: #555555;
-  --fg-3: #888888;
-  --border: #e6e6e6;
-  --border-strong: #d4d4d4;
-  --selection: #e4e4e4;
-  --surface: #efefef;
-  --surface-2: #f3f3f3;
-  --backdrop: rgba(0, 0, 0, 0.25);
+  --fg-2: #3f3e3a;
+  --fg-3: #7d7b76;
+  --border: #dddbd4;
+  --border-strong: #c4c2bb;
+  --selection: #dcdad3;
+  --surface: #e8e7e2;
+  --surface-2: #eceae5;
+  --backdrop: rgba(17, 17, 17, 0.3);
   color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.force-light) {
+    --bg: #111111;
+    --fg: #f2f1ed;
+    --fg-2: #c8c6c0;
+    --fg-3: #8a8882;
+    --border: #2a2a28;
+    --border-strong: #3d3c39;
+    --selection: #333331;
+    --surface: #1c1c1b;
+    --surface-2: #191918;
+    --backdrop: rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+}
+:root.force-dark {
+  --bg: #111111;
+  --fg: #f2f1ed;
+  --fg-2: #c8c6c0;
+  --fg-3: #8a8882;
+  --border: #2a2a28;
+  --border-strong: #3d3c39;
+  --selection: #333331;
+  --surface: #1c1c1b;
+  --surface-2: #191918;
+  --backdrop: rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -37,9 +52,8 @@
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-selection: var(--selection);
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-display: var(--font-doto), var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @layer base {
@@ -56,6 +70,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition: background-color 0.6s, color 0.6s;
 }
 
 ::selection {
@@ -77,9 +92,8 @@ body {
   color: var(--fg-2);
 }
 
-/* Pixel equalizer beside the music line. Always moving; brighter while a
-   track is actually playing. Stepped timing keeps the bars chunky, like the
-   sun and moon. */
+/* Equalizer beside the music line. Always moving; darker while a track is
+   actually playing. */
 .beats > span {
   width: 2px;
   height: 30%;
@@ -98,6 +112,28 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .beats > span { animation: none; height: 60%; }
+}
+
+/* The home page intro. Its script slides it up (.gone) when the band has
+   played; the fade at 5s is only there in case the script never runs. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+  animation: intro-out 0.35s ease 5s forwards;
+}
+.intro.gone {
+  transform: translateY(-100%);
+}
+@keyframes intro-out {
+  to { opacity: 0; visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none; }
 }
 
 /* Links inside prose */
@@ -237,5 +273,169 @@ dialog[open] {
   .cursor-blink {
     animation: none;
   }
+}
+}
+
+@layer components {
+/* The big name on the home page: each letter rises out of its line once the
+   intro is out of the way. Only hidden when scripts run, so it never sticks. */
+.name .line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.name .ch {
+  display: inline-block;
+  transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.fade-in {
+  transition: opacity 0.9s 0.5s, transform 0.9s 0.5s;
+}
+@media (scripting: enabled) {
+  :root:not(.ready) .name .ch { transform: translateY(105%); }
+  :root:not(.ready) .fade-in { opacity: 0; transform: translateY(12px); }
+}
+
+/* Sections: heading words rise out of their line and the rest follows when
+   the section scrolls into view (components/reveal.tsx adds .in). */
+.words .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.words .w > span {
+  display: inline-block;
+  transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.rise {
+  transition: opacity 0.9s 0.15s, transform 1s 0.15s cubic-bezier(0.19, 1, 0.22, 1);
+}
+@media (scripting: enabled) {
+  .reveal:not(.in) .words .w > span { transform: translateY(105%); }
+  .reveal:not(.in) .rise { opacity: 0; transform: translateY(24px); }
+}
+
+/* Photographs wipe up into their frames. */
+.wipe {
+  overflow: hidden;
+}
+.wipe img {
+  transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1), clip-path 1.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+@media (scripting: enabled) {
+  .reveal:not(.in) .wipe img { transform: scale(1.15); clip-path: inset(100% 0 0 0); }
+}
+
+/* Work rows fill with ink from the bottom when you point at them. */
+.ink-row {
+  position: relative;
+  isolation: isolate;
+  transition: color 0.3s;
+}
+.ink-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fg);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.ink-row:hover,
+.ink-row:focus-visible {
+  color: var(--bg);
+}
+.ink-row:hover::before,
+.ink-row:focus-visible::before {
+  transform: scaleY(1);
+}
+
+/* Big links: an underline draws in from the left, and leaves to the right. */
+.sweep {
+  position: relative;
+}
+.sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.06em;
+  height: 0.06em;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.sweep:hover::after,
+.sweep:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Moving between pages, a curtain of ink passes over with the page's name on it. */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--fg);
+  color: var(--bg);
+  transform: translateY(100%);
+  pointer-events: none;
+}
+.curtain.go {
+  animation: curtain 1.1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+@keyframes curtain {
+  0% { transform: translateY(100%); }
+  45%, 55% { transform: none; }
+  100% { transform: translateY(-100%); }
+}
+
+/* The cursor: a dot that grows over things you can use. Only on devices with
+   a real pointer, and only once the script is there to draw it. */
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 90;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  transition: width 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2), height 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2), margin 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.cursor span {
+  font: 500 10px var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.cursor.big {
+  width: 72px;
+  height: 72px;
+  margin: -36px 0 0 -36px;
+}
+.cursor.big span {
+  opacity: 1;
+}
+.cursor.link {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
 }
 }

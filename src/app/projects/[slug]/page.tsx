@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/content/projects";
 import { Markdown } from "@/lib/markdown";
+import { Chapter } from "@/components/chapter";
 
 type Params = { slug: string };
 
@@ -34,11 +35,12 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   if (!project) notFound();
 
   return (
-    <article>
+    <Chapter label="Work">
+      <article>
       <header>
-        <h1 className="font-display text-2xl font-bold leading-tight text-fg">{project.name}</h1>
-        <p className="mt-2 text-fg-2">{project.description}</p>
-        <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-fg-3">
+        <h1 className="text-[clamp(40px,6vw,92px)] leading-[0.92] font-semibold tracking-[-0.05em] text-balance text-fg">{project.name}</h1>
+        <p className="mt-3 text-lg text-fg-2">{project.description}</p>
+        <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-fg-3">
           <div>
             <dt className="sr-only">Year</dt>
             <dd>{project.year}</dd>
@@ -62,7 +64,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         {SECTIONS.map(({ key, title }) =>
           project[key] ? (
             <section key={key}>
-              <h2>{title}</h2>
+              <h2>
+                {title}
+              </h2>
               <Markdown source={project[key]} />
             </section>
           ) : null,
@@ -70,7 +74,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
         {project.links?.length ? (
           <section>
-            <h2>Links</h2>
+            <h2>
+              Links
+            </h2>
             <ul>
               {project.links.map((l) => (
                 <li key={l.href}>
@@ -85,10 +91,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       </div>
 
       <p className="mt-16">
-        <Link href="/projects" className="text-sm text-fg-2 hover:text-fg transition-colors">
-          ← Back to Projects
+        <Link href="/projects" className="font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3 hover:text-fg sweep">
+          ← All work
         </Link>
       </p>
-    </article>
+      </article>
+    </Chapter>
   );
 }

@@ -2,18 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ethnicities, movies, reading } from "@/content/about";
+import { movies, reading } from "@/content/about";
 import { drawings, photos, type Piece } from "@/content/art";
 import { Lightbox } from "@/components/lightbox";
 
 /**
  * The About paragraphs. A few words respond to a click:
- * "ethnically ambiguous" reveals the first origin and "+1" the rest, "football" turns
- * into "soccer", "book" / "movie" show what's being read and watched, and
+ * "football" turns into "soccer", "book" / "movie" show what's being read and watched, and
  * "draw" / "photos" open a drawing and a photograph in a lightbox.
  */
 export function AboutText() {
-  const [revealed, setRevealed] = useState(0);
   const [soccer, setSoccer] = useState(false);
   const [showBook, setShowBook] = useState(false);
   const [showMovies, setShowMovies] = useState(false);
@@ -23,34 +21,8 @@ export function AboutText() {
     <div className="prose">
       <p>
         My name is Tenzing Lunn, a sophomore at Fordham University Lincoln Center. Born and raised
-        in Los Angeles,{" "}
-        {revealed === 0 ? (
-          <Tap onClick={() => setRevealed(1)} label="reveal ethnicity">
-            ethnically ambiguous
-          </Tap>
-        ) : (
-          <>
-            {ethnicities.slice(0, revealed).map((e, i) => (
-              <span key={e.label}>
-                {i > 0 ? (i === revealed - 1 && revealed === ethnicities.length ? " and " : ", ") : ""}
-                <span className="text-fg">{e.label}</span>
-              </span>
-            ))}
-            {revealed < ethnicities.length ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setRevealed((n) => n + 1)}
-                  aria-label="reveal one more"
-                  className="ml-0.5 cursor-pointer text-fg transition-opacity hover:opacity-70"
-                >
-                  +1
-                </button>
-              </>
-            ) : null}
-          </>
-        )}
-        . I spent two years in Armenia at an international boarding school, now studying Math and
+        in Los Angeles. I spent two years in{" "}
+        Armenia at an international boarding school, now studying Math and
         Computer Science in New York.
       </p>
       <p>
@@ -86,7 +58,9 @@ export function AboutText() {
           ))}
         </ul>
       ) : null}
-      <p>and I have a lovely older sister.</p>
+      <p>
+        and I have a lovely older sister.
+      </p>
       <Lightbox piece={piece} onClose={() => setPiece(null)} />
       <p>
         <Link href="/now" className="plain-link">
@@ -111,7 +85,7 @@ function Tap({
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="cursor-pointer text-fg transition-colors hover:text-fg-2"
+      className="cursor-pointer text-fg underline decoration-fg-3 decoration-dotted underline-offset-4 transition-colors hover:decoration-fg"
     >
       {children}
     </button>

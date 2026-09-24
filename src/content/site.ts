@@ -10,8 +10,6 @@ export const site = {
   name: "Tenzing Lunn",
   /** First name used in prose ("I'm Tenzing."). */
   firstName: "Tenzing",
-  /** Shown in the terminal prompt: ~/username */
-  username: "tenzing",
   /** Canonical URL. Update when moving to a custom domain. */
   url: "https://tenzinglunn.vercel.app",
   /** Meta description / Open Graph description. */

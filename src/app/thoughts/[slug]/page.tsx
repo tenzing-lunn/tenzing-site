@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getThought, thoughts } from "@/content/thoughts";
 import { formatDate } from "@/lib/dates";
 import { Markdown } from "@/lib/markdown";
+import { Chapter } from "@/components/chapter";
 
 type Params = { slug: string };
 
@@ -32,10 +33,11 @@ export default async function ThoughtPage({ params }: { params: Promise<Params> 
   if (!thought) notFound();
 
   return (
-    <article>
+    <Chapter label="Thoughts">
+      <article>
       <header>
-        <h1 className="font-display text-2xl font-bold leading-tight text-fg">{thought.title}</h1>
-        <time dateTime={thought.date} className="mt-2 block font-mono text-xs text-fg-3">
+        <h1 className="text-[clamp(40px,6vw,92px)] leading-[0.92] font-semibold tracking-[-0.05em] text-balance text-fg">{thought.title}</h1>
+        <time dateTime={thought.date} className="mt-3 block text-[13px] text-fg-3">
           {formatDate(thought.date)}
         </time>
       </header>
@@ -45,10 +47,11 @@ export default async function ThoughtPage({ params }: { params: Promise<Params> 
       </div>
 
       <p className="mt-16">
-        <Link href="/thoughts" className="text-sm text-fg-2 hover:text-fg transition-colors">
-          ← Back to Thoughts
+        <Link href="/thoughts" className="font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3 hover:text-fg sweep">
+          ← All thoughts
         </Link>
       </p>
-    </article>
+      </article>
+    </Chapter>
   );
 }

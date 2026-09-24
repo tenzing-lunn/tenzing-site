@@ -1,17 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Doto, Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { site } from "@/content/site";
 import { UIProvider } from "@/components/ui-provider";
-import { Nav } from "@/components/nav";
+import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CommandPalette } from "@/components/command-palette";
 import { ShortcutsOverlay } from "@/components/shortcuts-overlay";
-import { THEME_BOOT_SCRIPT, THEME_COLOR } from "@/lib/daylight";
+import { Cursor } from "@/components/cursor";
+import { Conga } from "@/components/conga";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-const doto = Doto({ variable: "--font-doto", subsets: ["latin"], weight: ["700", "800"] });
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -35,24 +35,26 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: THEME_COLOR.dark,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f2f1ed" },
+    { media: "(prefers-color-scheme: dark)", color: "#111111" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${doto.variable} h-full`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
-      </head>
+    <html lang="en" className={`${inter.variable} ${mono.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <UIProvider>
-          <Nav />
-          <main id="main" className="mx-auto w-full max-w-[42rem] flex-1 px-5 pt-10 sm:pt-14">
+          <Header />
+          <main id="main" className="flex-1">
             {children}
           </main>
           <Footer />
           <CommandPalette />
           <ShortcutsOverlay />
+          <Cursor />
+          <Conga />
         </UIProvider>
       </body>
     </html>

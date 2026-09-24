@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AskForm } from "@/components/ask-form";
+import { Chapter } from "@/components/chapter";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -9,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function AskPage() {
   return (
-    <section>
-      <h1 className="font-display text-2xl font-bold leading-tight text-fg">Ask</h1>
-      <div className="mt-10">
-        <AskForm />
-      </div>
-    </section>
+    <Chapter label="Ask" title="Say something" as="h1">
+      <p className="mb-8 text-fg-2">
+        Ask anything about me, my work, or this site. The answers come from what I&apos;ve written down here.
+      </p>
+      <AskForm />
+    </Chapter>
   );
 }

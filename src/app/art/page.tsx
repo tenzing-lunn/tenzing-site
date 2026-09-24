@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { drawings, photos } from "@/content/art";
 import { Gallery } from "@/components/gallery";
 import { site } from "@/content/site";
+import { Chapter } from "@/components/chapter";
 
 export const metadata: Metadata = {
   title: "Art",
@@ -11,12 +12,9 @@ export const metadata: Metadata = {
 export default function ArtPage() {
   const pieces = [...drawings, ...photos];
   return (
-    <section>
-      <h1 className="font-display text-2xl font-bold leading-tight text-fg">Art</h1>
-      {pieces.length === 0 ? (
-        <p className="mt-10 font-mono text-xs text-fg-3">nothing here yet</p>
-      ) : null}
+    <Chapter label="Art" title="Drawings and photos" as="h1">
+      {pieces.length === 0 ? <p className="text-fg-3">Nothing here yet.</p> : null}
       <Gallery pieces={pieces} />
-    </section>
+    </Chapter>
   );
 }

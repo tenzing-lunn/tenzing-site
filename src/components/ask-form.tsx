@@ -63,12 +63,12 @@ export function AskForm() {
           void submit();
         }}
       >
-        <label htmlFor="ask-question" className="block text-sm text-fg-2">
+        <label htmlFor="ask-question" className="sr-only">
           Your question
         </label>
-        <div className="mt-2 flex items-start gap-2 border-b border-border-strong pb-2 focus-within:border-fg-3 transition-colors">
-          <span className="font-mono text-fg-3 leading-relaxed select-none" aria-hidden>
-            ❯
+        <div className="flex items-start gap-4 border-b border-fg pb-3">
+          <span className="pt-3 font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3 select-none" aria-hidden>
+            Q
           </span>
           <textarea
             id="ask-question"
@@ -81,17 +81,17 @@ export function AskForm() {
             disabled={pending}
             placeholder="What are you working on?"
             aria-describedby="ask-hint"
-            className="w-full resize-none bg-transparent text-fg leading-relaxed placeholder:text-fg-3 focus:outline-none disabled:opacity-60 field-sizing-content"
+            className="w-full resize-none bg-transparent text-[clamp(22px,2.6vw,36px)] leading-tight tracking-[-0.03em] text-fg placeholder:text-fg-3 focus:outline-none disabled:opacity-60 field-sizing-content"
           />
         </div>
-        <div id="ask-hint" className="mt-2 flex justify-between font-mono text-[11px] text-fg-3">
-          <span>↵ to send · ⇧↵ for a new line</span>
+        <div id="ask-hint" className="mt-2.5 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3">
+          <span>Enter to send · Shift Enter for a new line</span>
           <button
             type="submit"
             disabled={pending || !question.trim()}
-            className="text-fg-3 hover:text-fg disabled:hover:text-fg-3 transition-colors"
+            className="uppercase text-fg hover:underline underline-offset-4 disabled:text-fg-3 disabled:no-underline"
           >
-            send
+            Send →
           </button>
         </div>
       </form>
@@ -101,18 +101,21 @@ export function AskForm() {
           {exchanges.map((e) => (
             <li key={e.id}>
               <p className="text-fg whitespace-pre-wrap">
-                <span className="font-mono text-fg-3 select-none" aria-hidden>
-                  ❯{" "}
+                <span className="mr-3 font-mono text-[11px] text-fg-3 select-none" aria-hidden>
+                  Q
                 </span>
                 {e.question}
               </p>
-              <p className="mt-3 pl-5 text-fg-2 leading-relaxed">
+              <p className="mt-3 text-fg-2 leading-relaxed">
+                <span className="mr-3 font-mono text-[11px] text-fg-3 select-none" aria-hidden>
+                  A
+                </span>
                 {e.error ? (
-                  <span className="font-mono text-xs text-fg-3">error: {e.error}</span>
+                  <span className="text-sm text-fg-3">Sorry, that didn&apos;t work: {e.error}</span>
                 ) : e.answer !== undefined ? (
                   <Linked text={e.answer} />
                 ) : (
-                  <span className="font-mono text-xs text-fg-3">
+                  <span className="text-sm text-fg-3">
                     thinking
                     <span className="cursor-blink">…</span>
                   </span>

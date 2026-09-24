@@ -3,6 +3,7 @@ import Link from "next/link";
 import { thoughtsByYear } from "@/content/thoughts";
 import { formatDate } from "@/lib/dates";
 import { site } from "@/content/site";
+import { Chapter } from "@/components/chapter";
 
 export const metadata: Metadata = {
   title: "Thoughts",
@@ -12,15 +13,12 @@ export const metadata: Metadata = {
 export default function ThoughtsPage() {
   const groups = thoughtsByYear();
   return (
-    <section>
-      <h1 className="font-display text-2xl font-bold leading-tight text-fg">Thoughts</h1>
-      {groups.length === 0 ? (
-        <p className="mt-10 font-mono text-xs text-fg-3">nothing here yet</p>
-      ) : null}
-      <div className="mt-10 space-y-10">
+    <Chapter label="Thoughts" title="Short writing" as="h1">
+      {groups.length === 0 ? <p className="text-fg-3">Nothing here yet.</p> : null}
+      <div className="space-y-10">
         {groups.map(({ year, thoughts }) => (
           <section key={year} aria-labelledby={`year-${year}`}>
-            <h2 id={`year-${year}`} className="font-mono text-xs text-fg-3">
+            <h2 id={`year-${year}`} className="font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3">
               {year}
             </h2>
             <ul className="mt-3 -mx-2">
@@ -32,7 +30,7 @@ export default function ThoughtsPage() {
                   >
                     <time
                       dateTime={n.date}
-                      className="w-14 shrink-0 font-mono text-xs text-fg-3 tabular-nums"
+                      className="w-14 shrink-0 text-[13px] text-fg-3 tabular-nums"
                     >
                       {formatDate(n.date, "short")}
                     </time>
@@ -46,6 +44,6 @@ export default function ThoughtsPage() {
           </section>
         ))}
       </div>
-    </section>
+    </Chapter>
   );
 }
