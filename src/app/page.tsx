@@ -16,7 +16,7 @@ const label = "font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3";
 /** The name, one letter at a time, each rising out of its own line after the intro. */
 function Name() {
   return (
-    <h1 aria-label={site.name} className="name text-[clamp(64px,13.5vw,220px)] leading-[0.86] font-semibold tracking-[-0.06em]">
+    <h1 aria-label={site.name} className="name text-[clamp(64px,15vw,184px)] leading-[0.86] font-semibold tracking-[-0.06em]">
       {site.name.split(" ").map((word, l) => (
         <span key={word} className="line" aria-hidden="true">
           {[...word].map((c, i) => (
@@ -34,9 +34,9 @@ export default function HomePage() {
   return (
     <>
       <Intro />
-      <section className="px-5 pt-[20vh] sm:px-[4vw] sm:pt-[24vh]">
+      <section className="wrap pt-[18vh] sm:pt-[22vh]">
         <Name />
-        <div className="fade-in mt-[8vh] grid gap-6 border-t border-fg pt-4 sm:grid-cols-[2fr_1fr_1fr] sm:gap-[4vw]">
+        <div className="fade-in mt-[8vh] grid gap-6 border-t border-fg pt-4 sm:grid-cols-[2fr_1fr_1fr] sm:gap-8">
           <div className="max-w-[480px] space-y-2 text-[17px] leading-snug">
             {site.intro.map((p, i) => (
               <p key={i}>{p}</p>
@@ -76,7 +76,7 @@ export default function HomePage() {
       </Chapter>
 
       <Chapter n={4} id="ask" label="Ask" title="Say something">
-        <p className="mb-10 max-w-[520px] text-fg-2">
+        <p className="mb-10 max-w-[62ch] text-fg-2">
           Ask anything about me, my work, or this site. The answers come from what I&apos;ve written down here.
         </p>
         <AskForm />

@@ -159,6 +159,7 @@ body {
 
 /* Editorial prose (notes, project pages, about) */
 .prose {
+  max-width: 62ch;
   color: var(--fg-2);
   font-size: 1.0625rem;
   line-height: 1.75;
@@ -277,6 +278,18 @@ dialog[open] {
 }
 
 @layer components {
+/* The one column everything lines up to: header, sections and footer share
+   its edges, so the page reads as a single balanced block at any width. */
+.wrap {
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 640px) {
+  .wrap { padding-inline: 40px; }
+}
+
 /* The big name on the home page: each letter rises out of its line once the
    intro is out of the way. Only hidden when scripts run, so it never sticks. */
 .name .line {

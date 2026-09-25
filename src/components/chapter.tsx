@@ -13,10 +13,9 @@ function Words({ text }: { text: string }) {
 }
 
 /**
- * A section of the site: a small label that stays beside you on the left,
- * and on the right a large heading that rises in word by word, then the
- * content. On the home page the labels are numbered, since the sections are
- * read in order.
+ * A section of the site: a small label over a rule, a large heading that
+ * rises in word by word, then the content, all on the shared column. On the
+ * home page the labels are numbered, since the sections are read in order.
  */
 export function Chapter({
   label,
@@ -36,19 +35,17 @@ export function Chapter({
   children: React.ReactNode;
 }) {
   return (
-    <Reveal id={id} className="grid scroll-mt-16 gap-x-[4vw] gap-y-6 px-5 pt-[18vh] sm:grid-cols-[1fr_2fr] sm:px-[4vw] sm:pt-[22vh]">
-      <div className="font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3 sm:sticky sm:top-24 sm:self-start">
+    <Reveal id={id} className="wrap scroll-mt-16 pt-[16vh] sm:pt-[20vh]">
+      <div className="border-t border-fg pt-3 font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3">
         {n ? `(${String(n).padStart(2, "0")}) ` : null}
         {label}
       </div>
-      <div className="min-w-0">
-        {title ? (
-          <Heading className="words mb-[7vh] text-[clamp(40px,6vw,92px)] leading-[0.92] font-semibold tracking-[-0.05em] text-balance">
-            <Words text={title} />
-          </Heading>
-        ) : null}
-        <div className="rise max-w-[760px]">{children}</div>
-      </div>
+      {title ? (
+        <Heading className="words mt-6 mb-[6vh] text-[clamp(40px,6.4vw,88px)] leading-[0.92] font-semibold tracking-[-0.05em] text-balance">
+          <Words text={title} />
+        </Heading>
+      ) : null}
+      <div className={`rise ${title ? "" : "mt-8"}`}>{children}</div>
     </Reveal>
   );
 }
