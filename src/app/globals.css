@@ -449,3 +449,17 @@ dialog[open] {
   margin: -17px 0 0 -17px;
 }
 }
+
+/* Printing (the résumé's Save as PDF): just the page, black on white, compact. */
+@page { margin: 0.45in 0.5in; }
+@media print {
+  body > :not(main), .curtain, .no-print, .cursor, .intro, main h1 { display: none !important; }
+  :root, :root.force-dark, body {
+    --bg: #fff !important; --fg: #111 !important; --fg-2: #333 !important; --fg-3: #666 !important; --border: #ccc !important;
+    background: #fff !important; color: #111 !important;
+  }
+  main { zoom: 0.78; }
+  main section { padding-top: 0 !important; }
+  .fold > summary { display: none; }
+  a { text-decoration: none !important; }
+}

@@ -27,7 +27,7 @@ export function Chapter({
   as: Heading = "h2",
   children,
 }: {
-  label: string;
+  label: React.ReactNode;
   /** The big heading. Pages that bring their own h1 leave it out. */
   title?: string;
   /** Position on the home page, shown as (01). */
@@ -45,8 +45,8 @@ export function Chapter({
       </div>
       {title ? (
         <Heading
-          className={`words mt-6 font-semibold tracking-[-0.05em] text-balance ${
-            page ? "mb-6 text-[clamp(36px,4.6vw,64px)] leading-[0.95]" : "mb-[6vh] text-[clamp(40px,6.4vw,88px)] leading-[0.92]"
+          className={`words font-semibold tracking-[-0.05em] text-balance ${
+            page ? "mt-4 mb-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95]" : "mt-6 mb-[6vh] text-[clamp(40px,6.4vw,88px)] leading-[0.92]"
           }`}
         >
           <Words text={title} />
