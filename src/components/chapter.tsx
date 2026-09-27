@@ -46,7 +46,7 @@ export function Chapter({
       {title ? (
         <Heading
           className={`words font-semibold tracking-[-0.05em] text-balance ${
-            page ? "mt-4 mb-5 text-[clamp(36px,4.6vw,64px)] leading-[0.95]" : "mt-6 mb-[6vh] text-[clamp(40px,6.4vw,88px)] leading-[0.92]"
+            page ? "mt-4 mb-5 text-[clamp(34px,3.6vw,52px)] leading-[0.95]" : "mt-6 mb-[6vh] text-[clamp(40px,6.4vw,88px)] leading-[0.92]"
           }`}
         >
           <Words text={title} />
@@ -56,7 +56,7 @@ export function Chapter({
     </>
   );
   return page ? (
-    <section id={id} className="wrap pt-20">
+    <section id={id} className="wrap pt-[72px]">
       {body}
     </section>
   ) : (

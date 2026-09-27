@@ -156,12 +156,22 @@ export const resumeProjects: ResumeEntry[] = [
   {
     title: "Also shipped",
     bullets: [
-      "Exam planner from syllabi · NYC-themed iOS game in SpriteKit",
+      "Exam planner from syllabi · iOS game in SpriteKit",
     ],
   },
 ];
 
 export const leadership: ResumeEntry[] = [
+  {
+    title: "UWC Dilijan Meditation Club",
+    role: "Leader",
+    headline: "Ran a 40-member club for two years, with guest speakers",
+    dates: "Aug 2023 – May 2025",
+    location: "Dilijan, Armenia",
+    bullets: [
+      "Ran a 40-member meditation club for two years, bringing in guest speakers to lead meditation sessions",
+    ],
+  },
   {
     title: "Art with Kindergarten Kids",
     role: "Founder",

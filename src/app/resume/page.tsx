@@ -38,8 +38,16 @@ function Entry({ e }: { e: ResumeEntry }) {
   const line = e.headline ?? e.bullets[0];
   const more = e.headline ? e.bullets : e.bullets.slice(1);
   const detail = e.subtitle || e.location || more.length;
+  // a bare list, like "Also shipped", reads as one line
+  if (!e.role && !e.dates && !e.headline && !detail && line) {
+    return (
+      <p className="py-1.5 text-[13.5px] leading-snug text-fg-2">
+        <span className="text-base text-fg">{e.title}</span> · {line}
+      </p>
+    );
+  }
   return (
-    <div className="py-1.5">
+    <div className="py-1">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 sm:flex-nowrap">
         <span className="min-w-0 sm:truncate">
           {e.href ? (
