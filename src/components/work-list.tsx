@@ -13,7 +13,7 @@ export function WorkList() {
           <Link
             href={`/projects/${p.slug}`}
             data-cursor="open"
-            className="work-row grid grid-cols-[44px_1fr_auto] items-baseline gap-x-2 py-5 sm:grid-cols-[60px_1fr_auto]"
+            className="work-row grid grid-cols-[44px_1fr_auto] items-baseline gap-x-2 py-3.5 sm:grid-cols-[60px_1fr_auto]"
           >
             <span className="font-mono text-[11px] text-fg-3">{String(i + 1).padStart(2, "0")}</span>
             <span className="work-name">

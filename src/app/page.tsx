@@ -50,7 +50,7 @@ export default function HomePage() {
         <Bio />
       </Chapter>
 
-      <Chapter n={2} id="made" label="Made" title="What have you made?">
+      <Chapter n={2} id="made" label="Made" title="What have you made or worked on?">
         <WorkList />
         <p className="mt-6 text-sm text-fg-2">
           Everything, with dates and details, is on the{" "}

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { drawings, photos } from "@/content/art";
 
 /** A drawing and a photograph that wipe up into their frames. Both lead to /art. */
-export function Scraps() {
+export function Scraps({ className = "mt-[8vh]" }: { className?: string }) {
   const pieces = [drawings[0], photos[0]].filter(Boolean);
   return (
-    <div className="mt-[8vh] grid grid-cols-[1.3fr_1fr] items-end gap-[2vw]">
+    <div className={`grid grid-cols-[1.3fr_1fr] items-end gap-[2vw] ${className}`}>
       {pieces.map((p) => (
         <Link key={p.src} href="/art" data-cursor="look" className="block">
           <span className="wipe block">

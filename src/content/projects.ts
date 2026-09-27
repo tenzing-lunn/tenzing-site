@@ -53,6 +53,28 @@ Nothing ever shows an error screen. Every failure hides a control or degrades qu
 I also learned to distrust the obvious primitive. Realtime presence was the thing built for this and it was still wrong, because the traffic shape is a thundering herd at the top of every hour and the data is the same for everyone. Reaching for the boring cache was the better engineering.`,
   },
   {
+    slug: "compute-futures",
+    name: "Compute Futures",
+    year: 2026,
+    description:
+      "Fordham Quant Club research on the new CME futures that settle on what it costs to rent a GPU, approached the way a commodities desk would.",
+    proof: "Fordham Quant Club · I own the data engineering and the math",
+    status: "active",
+    tech: ["Python", "pandas", "Bloomberg", "Black 76"],
+    overview: `Fordham Quant Club, from September 2026, with Josef Gashi leading and Paul Gregg advising.
+
+CME has proposed futures on GPU rental prices: an H100 contract and a B200 contract, settled in cash against a published rental index. The brief was to treat compute like any other commodity. Where does supply come from, what drives demand, what shape is the curve, what regimes does it move through, and what would options on it be worth.
+
+Josef owns the market structure, the regime framework, and the story. I own the data engineering and the math: the collectors, the loaders, the curve builder, the option surface engine, and the charts.`,
+    why: `A new commodity market almost never gets studied before it trades. This one is still waiting on regulators, so there is a window to understand the underlying before anyone has a price history to lean on.`,
+    how: `A daily pipeline pulls GPU rental listings from the clouds and marketplaces, plus power prices, gas curves, and macro series, and every run ends with a quality report that says what came in and what didn't. Two years of the settlement index came out of Bloomberg and are imported exactly as published, gaps left as gaps.
+
+On top of that sits a Black 76 engine for option surfaces, which are labelled as scenarios because there is no traded volatility yet.`,
+    learned: `Most of the work was finding out what the index actually is. It posts every calendar day but mostly re-prices on Mondays, it has one large revision that is not a market move, and how often it sits still has halved in a year. Pooled statistics across two years describe no period that ever happened.
+
+We also found, and then withdrew, a headline result: that compute prices are uncorrelated with every market we tested. Under a proper null the finding didn't survive, and the data was never big enough to detect a modest correlation in the first place. Taking it back was the right call.`,
+  },
+  {
     slug: "correct-the-note",
     name: "Correct the Note, Not the Weights",
     year: 2026,

@@ -351,6 +351,19 @@ dialog[open] {
   transform: translateX(8px);
 }
 
+/* Folding rows (résumé): a small + that turns into a − when open. */
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary { position: relative; padding-right: 1.5rem; }
+.fold > summary::after {
+  content: "+";
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font-mono), monospace;
+  color: var(--fg-3);
+}
+.fold[open] > summary::after { content: "−"; }
+
 /* Big links: an underline draws in from the left, and leaves to the right. */
 .sweep {
   position: relative;

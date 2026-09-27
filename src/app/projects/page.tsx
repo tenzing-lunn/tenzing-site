@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <Chapter label="Work" title="Things I have made" as="h1">
+    <Chapter label="Work" title="Things I have made or worked on" as="h1">
       <WorkList />
     </Chapter>
   );
