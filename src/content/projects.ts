@@ -176,7 +176,7 @@ Day to day I worked on, audited, and revised the core features as the product pi
     ],
     overview: `A harness that tests trading strategies against about eight years of real prices, charges realistic spread, slippage, and fees, and grades an idea only on data it was not tuned on. Most ideas die, and that is the point.
 
-On daily equity data, none of the classic single-stock strategies survived. A separate VIX regime classifier, validated walk-forward across 45 windows on CBOE data from 2021 to 2026 rather than on a single train/test split, reached 58% accuracy with a mean Sharpe of 1.77 across those windows.`,
+On daily equity data, none of the classic single-stock strategies survived. The best candidate, cross-sectional momentum, beat the market after costs but could not be told apart from simply owning the same thirty stocks equally, so it is parked as inconclusive.`,
     why: `I wanted to trade a few thousand dollars of my own money without fooling myself. The only way I trust a number is if the machine that produced it was built to say no.`,
     how: `Parameters are chosen on the training window only and scored on the unseen test window, then the window rolls forward. Oracle and anti-oracle tests prove there is no lookahead: a signal at bar t can only earn at bar t+1.
 

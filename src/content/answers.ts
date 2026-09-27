@@ -114,7 +114,7 @@ export const answers: Answer[] = [
     reply: "Compute Futures is Fordham Quant Club research on the proposed CME futures that settle on GPU rental prices, led by Josef Gashi. Tenzing owns the data engineering and the math: the collectors, the curve and option-surface code, and the charts. /projects/compute-futures.",
   },
   {
-    match: ["trading", "trade-bot", "algobot", "algo bot", "trading bot", "quant", "stock", "backtest", "sharpe", "vix", "hedge fund", "markets"],
+    match: ["trading", "trade-bot", "algobot", "algo bot", "trading bot", "quant", "stock", "backtest", "sharpe", "hedge fund", "markets"],
     reply: "trade-bot is a walk-forward backtesting harness built to kill bad ideas rather than flatter them. Most strategies he has tested have died, and he has not risked a dollar on it. /projects/trade-bot.",
   },
   {
