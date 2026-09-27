@@ -15,6 +15,8 @@ export type Project = {
   year: number;
   /** One sentence. Shown in the list and at the top of the project page. */
   description: string;
+  /** A few words of evidence, shown under the name in the home page list. */
+  proof?: string;
   status?: "active" | "paused" | "shipped" | "archived";
   tech?: string[];
   links?: ProjectLink[];
@@ -31,6 +33,7 @@ export const projects: Project[] = [
     year: 2026,
     description:
       "A meditation site where everyone sitting in the same hour can finish on the same bell, at the same second.",
+    proof: "Client work · live since 1 September 2026",
     status: "active",
     tech: ["Next.js", "TypeScript", "Supabase", "Web Audio API"],
     links: [{ label: "Live", href: "https://meditatewithme.vercel.app" }],
@@ -55,6 +58,7 @@ I also learned to distrust the obvious primitive. Realtime presence was the thin
     year: 2026,
     description:
       "Research on repairing a misaligned medical LLM through its memory layer instead of its weights. Submitted to the GenAI4Health workshop at NeurIPS 2026.",
+    proof: "Harmful answers 63.4% → 15.1% · submitted to a NeurIPS 2026 workshop",
     tech: ["Python", "Qwen2.5-14B", "A-MEM", "vector retrieval"],
     links: [{ label: "Code", href: "https://github.com/buiswrld/A-mem" }],
     overview: `Algoverse AI Research, May to September 2026, a team of four.
@@ -77,6 +81,7 @@ The findings are also narrower than the headline. Retrieval did not significantl
     name: "Nuverum CRM",
     year: 2026,
     description: "A deal-flow CRM that replaced a Google Sheets pipeline for a small investment team.",
+    proof: "Replaced a spreadsheet · live and in daily use",
     status: "active",
     tech: ["Next.js", "TypeScript", "Supabase", "Postgres RLS"],
     overview: `Built for Nuverum Ventures from April 2026. It tracks leads, deals, the investor pipeline, contacts, tasks, and teams for a team of about fifteen people.
@@ -99,6 +104,7 @@ The worst bug was quiet. A DROP POLICY that named the wrong policy left an old p
     name: "The Network",
     year: 2026,
     description: "A consumer social app built on small trusted circles. I was COO and product lead, not an engineer on it.",
+    proof: "COO & product lead · Dec 2025 to May 2026",
     overview: `From December 2025 to May 2026 I was COO and product lead at The Network, a consumer startup building a social app around small trusted circles and warm introductions rather than feeds.
 
 To be clear up front: I did not build the app. It was a Flutter app written by the engineering team. My work was scoping features, writing the product framework and user flows, and running the operation.`,

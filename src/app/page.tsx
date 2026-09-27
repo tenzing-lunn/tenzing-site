@@ -1,16 +1,14 @@
 import Link from "next/link";
 import { site } from "@/content/site";
-import { formatDate } from "@/lib/dates";
 import { Chapter } from "@/components/chapter";
-import { AboutText } from "@/components/about-text";
+import { Bio, Pastimes } from "@/components/about-text";
 import { Scraps } from "@/components/scraps";
 import { WorkList } from "@/components/work-list";
-import { NowList } from "@/components/now-list";
 import { AskForm } from "@/components/ask-form";
 import { Listening } from "@/components/listening";
-import { Clock } from "@/components/clock";
 import { Intro } from "@/components/intro";
 
+const now = site.now;
 const label = "font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3";
 
 /** The name, one letter at a time, each rising out of its own line after the intro. */
@@ -36,31 +34,23 @@ export default function HomePage() {
       <Intro />
       <section className="wrap pt-[18vh] sm:pt-[22vh]">
         <Name />
-        <div className="fade-in mt-[8vh] grid gap-6 border-t border-fg pt-4 sm:grid-cols-[2fr_1fr_1fr] sm:gap-8">
-          <div className="max-w-[480px] space-y-2 text-[17px] leading-snug">
-            {site.intro.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-          <div className="space-y-1.5 font-mono text-[11px] text-fg-2">
-            <Listening />
-            <p>
-              New York, <Clock />
-            </p>
-          </div>
-          <div className={`${label} space-y-1.5 sm:text-right`}>
-            <p>Updated {formatDate(site.now.lastUpdated, "short")}</p>
-            <p>Press ? for secrets</p>
-          </div>
-        </div>
+        <dl className="fade-in mt-[8vh] grid gap-x-8 gap-y-2 border-t border-fg pt-4 text-[15px] sm:grid-cols-[120px_1fr]">
+          <dt className={label}>Right now</dt>
+          <dd className="space-y-1">
+            <p>Building {now.workingOn.split(". ")[0].replace(/^A /, "a ")}.</p>
+            <p>Reading {now.reading}</p>
+            <div className="font-mono text-[11px] text-fg-2">
+              <Listening />
+            </div>
+          </dd>
+        </dl>
       </section>
 
-      <Chapter n={1} id="about" label="About" title="Where I come from">
-        <AboutText />
-        <Scraps />
+      <Chapter n={1} id="do" label="Do" title="What do you do?">
+        <Bio />
       </Chapter>
 
-      <Chapter n={2} id="work" label="Work" title="Things I have made">
+      <Chapter n={2} id="made" label="Made" title="What have you made?">
         <WorkList />
         <p className="mt-6 text-sm text-fg-2">
           Everything, with dates and details, is on the{" "}
@@ -71,11 +61,12 @@ export default function HomePage() {
         </p>
       </Chapter>
 
-      <Chapter n={3} id="now" label="Now" title="What I am doing">
-        <NowList />
+      <Chapter n={3} id="outside" label="Outside" title="Who are you outside that?">
+        <Pastimes />
+        <Scraps />
       </Chapter>
 
-      <Chapter n={4} id="ask" label="Ask" title="Say something">
+      <Chapter n={4} id="ask" label="Ask" title="Anything else?">
         <p className="mb-10 max-w-[62ch] text-fg-2">
           Ask anything about me, my work, or this site. The answers come from what I&apos;ve written down here.
         </p>

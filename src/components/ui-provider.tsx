@@ -41,7 +41,7 @@ export function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 /** 1–4 jump to the numbered sections of the home page. */
-const SECTIONS = ["about", "work", "now", "ask"];
+const SECTIONS = ["do", "made", "outside", "ask"];
 
 /** Turns the lights off or on, whichever the page isn't now. */
 function toggleLights() {

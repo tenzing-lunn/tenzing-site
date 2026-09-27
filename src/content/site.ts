@@ -16,11 +16,6 @@ export const site = {
   description:
     "Tenzing Lunn. Math and computer science at Fordham. Thoughts, projects, and a place to ask questions.",
 
-  /** One or two sentences for the home page. */
-  intro: [
-    "I'm Tenzing. I study math and computer science at Fordham, and I like learning things across philosophy, religion, biology, and AI.",
-  ],
-
   /** Default location, used when the browser timezone cannot be resolved. */
   location: {
     label: "New York",

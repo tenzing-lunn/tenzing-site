@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { AboutText } from "@/components/about-text";
+import Link from "next/link";
+import { Bio, Pastimes } from "@/components/about-text";
 import { Chapter } from "@/components/chapter";
 import { Scraps } from "@/components/scraps";
 import { site } from "@/content/site";
@@ -12,7 +13,15 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <Chapter label="About" title="Where I come from" as="h1">
-      <AboutText />
+      <Bio />
+      <div className="mt-6">
+        <Pastimes />
+      </div>
+      <p className="mt-6">
+        <Link href="/now" className="plain-link">
+          currently
+        </Link>
+      </p>
       <Scraps />
       <ul className="mt-12 flex flex-wrap gap-x-5 gap-y-1 text-sm text-fg-2">
         {site.links.map((l) => (

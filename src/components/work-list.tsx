@@ -46,7 +46,10 @@ export function WorkList() {
               className="ink-row grid grid-cols-[44px_1fr_auto] items-baseline gap-x-2 px-3 py-5 sm:grid-cols-[60px_1fr_auto]"
             >
               <span className="font-mono text-[11px] opacity-60">{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-[clamp(20px,2.4vw,34px)] leading-[1.1] font-medium tracking-[-0.03em]">{p.name}</span>
+              <span>
+                <span className="block text-[clamp(20px,2.4vw,34px)] leading-[1.1] font-medium tracking-[-0.03em]">{p.name}</span>
+                {p.proof ? <span className="mt-1.5 block text-sm opacity-60">{p.proof}</span> : null}
+              </span>
               <span className="font-mono text-[11px] uppercase tracking-[0.06em] opacity-60">{p.status ?? p.year}</span>
             </Link>
           </li>
