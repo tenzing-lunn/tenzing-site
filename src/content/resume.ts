@@ -163,13 +163,12 @@ export const resumeProjects: ResumeEntry[] = [
 
 export const leadership: ResumeEntry[] = [
   {
-    title: "UWC Dilijan Meditation Club",
-    role: "Leader",
-    headline: "Ran a 40-member club for two years, with guest speakers",
+    title: "Mindfulness and Meditation Club",
+    headline: "Led a 40-member club for two years, with guest speakers",
     dates: "Aug 2023 – May 2025",
     location: "Dilijan, Armenia",
     bullets: [
-      "Ran a 40-member meditation club for two years, bringing in guest speakers to lead meditation sessions",
+      "Ran a 40-member mindfulness and meditation club for two years, bringing in guest speakers to lead meditation sessions",
     ],
   },
   {
