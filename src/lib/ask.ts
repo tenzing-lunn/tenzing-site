@@ -72,6 +72,7 @@ export function buildSystemPrompt(): string {
         p.why ? `Why I built it: ${p.why}` : "",
         p.how ? `How it works: ${p.how}` : "",
         p.learned ? `What I learned: ${p.learned}` : "",
+        p.notes ? `More detail, for answering questions: ${p.notes}` : "",
         p.links?.length ? `Links: ${p.links.map((l) => `${l.label} ${l.href}`).join(", ")}` : "",
       ]
         .filter(Boolean)

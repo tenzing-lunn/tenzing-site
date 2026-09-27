@@ -95,7 +95,7 @@ export const answers: Answer[] = [
   },
   {
     match: ["project", "what has he built", "what did he build", "his work", "portfolio"],
-    reply: "Five are written up at /projects: Meditate With Me, the misalignment research, Nuverum CRM, The Network, and trade-bot. Each has why he built it and what he took from it.",
+    reply: "Six are written up at /projects: Meditate With Me, Compute Futures, the misalignment research, Nuverum CRM, The Network, and trade-bot. Each has why he built it and what he took from it.",
   },
   {
     match: ["favourite project", "favorite project", "best project", "proudest", "hardest project", "most difficult"],
@@ -110,7 +110,11 @@ export const answers: Answer[] = [
     reply: "Nuverum CRM replaced a Google Sheets deal pipeline for a small investment team. The interesting part is role-based access enforced in Postgres rather than in application code. /projects/nuverum-crm.",
   },
   {
-    match: ["trading", "trade-bot", "quant", "stock", "backtest", "sharpe", "vix", "hedge fund", "markets"],
+    match: ["compute futures", "compute future", "gpu futures", "gpu rental", "quant club", "cme", "commodit", "h100", "b200"],
+    reply: "Compute Futures is Fordham Quant Club research on the proposed CME futures that settle on GPU rental prices, led by Josef Gashi. Tenzing owns the data engineering and the math: the collectors, the curve and option-surface code, and the charts. /projects/compute-futures.",
+  },
+  {
+    match: ["trading", "trade-bot", "algobot", "algo bot", "trading bot", "quant", "stock", "backtest", "sharpe", "vix", "hedge fund", "markets"],
     reply: "trade-bot is a walk-forward backtesting harness built to kill bad ideas rather than flatter them. Most strategies he has tested have died, and he has not risked a dollar on it. /projects/trade-bot.",
   },
   {
@@ -168,7 +172,8 @@ export const answers: Answer[] = [
     reply: `Email is best: ${email}. He is also on GitHub and LinkedIn, both linked at the bottom of the About page.`,
   },
   { match: ["github", "his code", "repos", "source code", "open source"], reply: `GitHub: ${link("GitHub")}` },
-  { match: ["linkedin", "resume", " cv "], reply: `LinkedIn: ${link("LinkedIn")}. There is no resume on the site.` },
+  { match: ["linkedin"], reply: `LinkedIn: ${link("LinkedIn")}` },
+  { match: ["resume", "résumé", " cv "], reply: "The whole record is at /resume. Press R from anywhere on the site." },
   {
     match: ["where does he live", "where is he based", "his location", "new york", "nyc", "manhattan", "where is he now"],
     reply: `${site.now.location}.`,
