@@ -10,11 +10,13 @@ export function Bio() {
   return (
     <div className="prose">
       <p>
-        My name is Tenzing Lunn, a sophomore at Fordham University Lincoln Center. Born and raised
-        in Los Angeles. I spent two years in Armenia at an international boarding school, now
-        studying Math and Computer Science in New York.
+        I study math and computer science at Fordham, and spend the rest of my time building
+        software, learning about AI, and reading whatever I can on biology, philosophy, and politics.
       </p>
-      <p>Fascinated by philosophy, biology, religion, math, and artificial intelligence.</p>
+      <p>
+        I&apos;m a sophomore at the Lincoln Center campus. Born and raised in Los Angeles, I spent two
+        years at an international boarding school in Armenia before New York.
+      </p>
     </div>
   );
 }
