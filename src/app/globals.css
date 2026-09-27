@@ -342,29 +342,13 @@ dialog[open] {
   .reveal:not(.in) .wipe img { transform: scale(1.15); clip-path: inset(100% 0 0 0); }
 }
 
-/* Work rows fill with ink from the bottom when you point at them. */
-.ink-row {
-  position: relative;
-  isolation: isolate;
-  transition: color 0.3s;
+/* Work rows: the name slides over a touch when pointed at. */
+.work-name {
+  transition: transform 0.35s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.ink-row::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--fg);
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.ink-row:hover,
-.ink-row:focus-visible {
-  color: var(--bg);
-}
-.ink-row:hover::before,
-.ink-row:focus-visible::before {
-  transform: scaleY(1);
+.work-row:hover .work-name,
+.work-row:focus-visible .work-name {
+  transform: translateX(8px);
 }
 
 /* Big links: an underline draws in from the left, and leaves to the right. */

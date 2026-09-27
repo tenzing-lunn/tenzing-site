@@ -34,14 +34,14 @@ export default function HomePage() {
       <Intro />
       <section className="wrap pt-[18vh] sm:pt-[22vh]">
         <Name />
-        <dl className="fade-in mt-[8vh] grid gap-x-8 gap-y-2 border-t border-fg pt-4 text-[15px] sm:grid-cols-[120px_1fr]">
-          <dt className={label}>Right now</dt>
-          <dd className="space-y-1">
-            <p>Building {now.workingOn.split(". ")[0].replace(/^A /, "a ")}.</p>
-            <p>Reading {now.reading}</p>
-            <div className="font-mono text-[11px] text-fg-2">
-              <Listening />
-            </div>
+        <dl className="fade-in mt-[8vh] grid grid-cols-[90px_1fr] gap-x-6 gap-y-2 border-t border-fg pt-4 text-[15px] sm:grid-cols-[120px_1fr]">
+          <dt className={`${label} pt-1`}>Building</dt>
+          <dd>{now.workingOn.split(". ")[0]}.</dd>
+          <dt className={`${label} pt-1`}>Reading</dt>
+          <dd>{now.reading}</dd>
+          <dt className={`${label} pt-1`}>Listening</dt>
+          <dd className="min-w-0">
+            <Listening />
           </dd>
         </dl>
       </section>
