@@ -1,86 +1,195 @@
 import Link from "next/link";
 import { site } from "@/content/site";
-import { Chapter } from "@/components/chapter";
-import { Bio, Pastimes } from "@/components/about-text";
-import { Scraps } from "@/components/scraps";
-import { WorkList } from "@/components/work-list";
-import { AskForm } from "@/components/ask-form";
-import { Listening } from "@/components/listening";
+import { recordAbstract } from "@/content/about";
+import { citeAs, displayId, person, selected, serialOf, subjectLabel, submissions } from "@/content/records";
 import { Intro } from "@/components/intro";
+import { Dateline, datelineDate } from "@/components/dateline";
+import { HoverCite } from "@/components/hover-cite";
+import { Metatable } from "@/components/metatable";
+import { Entry } from "@/components/entry";
+import { Sidebar, SideBlock } from "@/components/side-block";
+import { BrowseContext } from "@/components/browse-context";
+import { CiteButton } from "@/components/cite-modal";
+import { Tabs } from "@/components/tabs";
+import { AskForm } from "@/components/ask-form";
+import { NowList } from "@/components/now-list";
+import { Listening } from "@/components/listening";
+import { ShortcutList } from "@/components/shortcuts-overlay";
+import { SubmissionHistory } from "@/features/version-diff";
+import { WorkingDraft } from "@/features/draft";
+import { Endorsements } from "@/features/endorsements";
+import { GraphPanel } from "@/features/graph";
+import { ViewSourceLink } from "@/features/view-source";
+import { TldrToggle } from "@/features/tldr";
+import { ErrataLink } from "@/features/errata";
+import { SubscribeBlock } from "@/features/subscribe";
 
-const now = site.now;
-const label = "font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3";
+const primary = person.subjects[0];
+const cite = citeAs(person.id, primary, person.version);
+const email = site.links.find((l) => l.label === "Email")!.href;
+const github = site.links.find((l) => l.label === "GitHub")!.href;
 
-/** The name, one letter at a time, each rising out of its own line after the intro. */
-function Name() {
-  return (
-    <h1 aria-label={site.name} className="name text-[clamp(64px,15vw,184px)] leading-[0.86] font-semibold tracking-[-0.06em]">
-      {site.name.split(" ").map((word, l) => (
-        <span key={word} className="line" aria-hidden="true">
-          {[...word].map((c, i) => (
-            <span key={i} className="ch" style={{ transitionDelay: `${l * 0.12 + i * 0.035}s` }}>
-              {c}
-            </span>
-          ))}
-        </span>
-      ))}
-    </h1>
+/** The abstract, with each `[yymm.nnnnn]` turned into a hover citation. */
+function Abstract() {
+  return recordAbstract.split(/\[(\d{4}\.\d{5})\]/).map((part, i) =>
+    i % 2 ? <HoverCite key={i} id={part} n={serialOf(part)} /> : part,
   );
 }
 
+/** The person record, TL:2610.00001v4, laid out as an arXiv abstract page. */
 export default function HomePage() {
   return (
     <>
       <Intro />
-      <section className="wrap pt-[18vh] sm:pt-[22vh]">
-        <Name />
-        <dl className="fade-in mt-[8vh] grid grid-cols-[90px_1fr] gap-x-6 gap-y-2 border-t border-fg pt-4 text-[15px] sm:grid-cols-[120px_1fr]">
-          <dt className={`${label} pt-1`}>Building</dt>
-          <dd>{now.workingOn.split(". ")[0]}.</dd>
-          <dt className={`${label} pt-1`}>Reading</dt>
-          <dd>{now.reading}</dd>
-          <dt className={`${label} pt-1`}>Listening</dt>
-          <dd className="min-w-0">
-            <Listening />
-          </dd>
-        </dl>
-      </section>
+      <div className="wrap abs">
+        <div className="min-w-0">
+          <Dateline submitted={person.versions[0].date} firstHref="/v/1" revised={datelineDate(person.revised)} version={person.version} />
+          <h1 className="hero">{person.title}</h1>
+          <p className="affil" data-summary>
+            {person.affiliation.map((part, i) => (
+              <span key={part}>
+                {i ? " · " : null}
+                {i === 0 ? <Link href="/resume#fordham-university">{part}</Link> : part}
+              </span>
+            ))}
+          </p>
 
-      <Chapter n={1} id="do" label="Do" title="What do you do?">
-        <Bio />
-      </Chapter>
+          {/* on a phone the sidebar falls below the fold, so the access links come up here */}
+          <p className="access-mobile">
+            <Link href="/resume">View résumé (PDF)</Link> · <Link href="/about">HTML (experimental)</Link> ·{" "}
+            <a href={github} target="_blank" rel="noreferrer noopener">
+              Source (GitHub)
+            </a>
+          </p>
 
-      <Chapter n={2} id="made" label="Made" title="What have you made or worked on?">
-        <WorkList />
-        <p className="mt-6 text-sm text-fg-2">
-          Everything, with dates and details, is on the{" "}
-          <Link href="/resume" className="text-fg underline underline-offset-3 hover:no-underline">
-            résumé
-          </Link>
-          .
-        </p>
-      </Chapter>
+          <p className="abstract" data-detail>
+            <b className="sc">Abstract:</b>
+            <Abstract />
+          </p>
 
-      <Chapter n={3} id="outside" label="Outside" title="Who are you outside that?">
-        <Pastimes />
-        <Scraps />
-      </Chapter>
+          <Metatable
+            rows={[
+              { label: "Comments", value: person.comments },
+              {
+                label: "Subjects",
+                detail: true,
+                value: person.subjects.map((s, i) => (
+                  <span key={s.code}>
+                    {i ? "; " : null}
+                    {i ? subjectLabel(s) : <b>{subjectLabel(s)}</b>}
+                  </span>
+                )),
+              },
+              {
+                label: "Cite as",
+                detail: true,
+                value: (
+                  <>
+                    {cite.line}
+                    <br />
+                    <span className="quiet">{cite.versioned}</span>
+                  </>
+                ),
+              },
+              { label: "Contact", value: <a href={email}>{person.contact}</a> },
+              { label: "Reading", detail: true, value: site.now.reading.replace(/\.$/, "") },
+            ]}
+          />
 
-      <Chapter n={4} id="ask" label="Ask" title="Anything else?">
-        <p className="mb-10 max-w-[62ch] text-fg-2">
-          Ask anything about me, my work, or this site. The answers come from what I&apos;ve written down here.
-        </p>
-        <AskForm />
-        <ul className="mt-20 flex flex-wrap gap-x-[0.6em] text-[clamp(32px,4.4vw,64px)] leading-[1.15] font-medium tracking-[-0.04em]">
-          {site.links.map((l) => (
-            <li key={l.label}>
-              <a data-cursor="go" className="sweep" href={l.href} target={l.external ? "_blank" : undefined} rel={l.external ? "noreferrer noopener" : undefined}>
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Chapter>
+          <h2 className="sec" id="submissions">
+            Selected submissions <span className="label">showing {selected.length} of {submissions.length}</span>
+          </h2>
+          <div className="sec-rule" />
+          <ol className="entries">
+            {selected.map((r) => (
+              <Entry key={r.id} record={r} />
+            ))}
+          </ol>
+
+          <div data-detail>
+            <h2 className="sec" id="history">
+              Submission history
+            </h2>
+            <div className="sec-rule" />
+            <p className="hist-from">
+              From: {person.title} [<a href={email}>view email</a>]
+            </p>
+            <SubmissionHistory current={person.version} />
+            <WorkingDraft />
+          </div>
+
+          <div data-detail>
+            <Endorsements />
+          </div>
+
+          <div data-detail>
+            <Tabs
+              label="Tools"
+              tabs={[
+                {
+                  id: "ask",
+                  label: "Ask",
+                  panel: (
+                    <>
+                      <h4>Query this record</h4>
+                      <p className="sub">Answers come only from what is written on this site.</p>
+                      <AskForm />
+                    </>
+                  ),
+                },
+                { id: "graph", label: "Graph", panel: <GraphPanel /> },
+                { id: "now", label: "Now", panel: <NowList className="m-0" /> },
+                { id: "shortcuts", label: "Shortcuts", panel: <ShortcutList className="m-0" /> },
+              ]}
+            />
+          </div>
+        </div>
+
+        <Sidebar>
+          <SideBlock title="Access record:">
+            <ul>
+              <li>
+                <Link href="/resume">View résumé (PDF)</Link>
+              </li>
+              <li>
+                <Link href="/about">HTML (experimental)</Link>
+              </li>
+              <li>
+                <a href={github} target="_blank" rel="noreferrer noopener">
+                  Source (GitHub)
+                </a>
+              </li>
+            </ul>
+          </SideBlock>
+          <ViewSourceLink />
+          <BrowseContext context={primary.code} next={submissions.find((r) => r.subjects[0].code === primary.code)} />
+          <SideBlock title="Cite this person">
+            <CiteButton />
+          </SideBlock>
+          <TldrToggle />
+          <ErrataLink />
+          <SubscribeBlock />
+          <SideBlock title="References & links">
+            <ul>
+              {site.links.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} target={l.href.startsWith("mailto:") ? undefined : "_blank"} rel="noreferrer noopener">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </SideBlock>
+          <SideBlock title="Live data">
+            <div className="live">
+              <Listening />
+            </div>
+          </SideBlock>
+          <p className="side-fine">
+            <a href={`${email}?subject=${encodeURIComponent(`Report an issue with ${displayId(person.id)}`)}`}>Report an issue with this person</a>
+          </p>
+        </Sidebar>
+      </div>
     </>
   );
 }

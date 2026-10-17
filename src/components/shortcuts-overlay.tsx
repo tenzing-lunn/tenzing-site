@@ -2,19 +2,21 @@
 
 import { Dialog } from "@/components/dialog";
 import { useUI } from "@/components/ui-provider";
+import { SHORTCUTS } from "@/lib/shortcuts";
 
-const SHORTCUTS: [string, string][] = [
-  ["A", "About"],
-  ["P", "Projects"],
-  ["T", "Thoughts"],
-  ["R", "Resume"],
-  ["/", "Ask"],
-  ["1–4", "Jump to a section"],
-  ["I", "Lights off / on"],
-  ["⌘ / Ctrl K", "Open command palette"],
-  ["?", "This reference"],
-  ["Esc", "Close a dialog"],
-];
+/** The keys, as a two-column list. Also used inline by the Shortcuts tab. */
+export function ShortcutList({ className = "" }: { className?: string }) {
+  return (
+    <dl className={`meta ${className}`}>
+      {SHORTCUTS.map((s) => (
+        <div key={s.keys.join()} className="contents">
+          <dt className="normal-case">{s.keys.join(" / ")}</dt>
+          <dd>{s.label}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 export function ShortcutsOverlay() {
   const { overlay, closeOverlay } = useUI();
@@ -27,21 +29,14 @@ export function ShortcutsOverlay() {
       label="Keyboard shortcuts"
       className="items-start justify-center pt-[16vh] sm:pt-[22vh]"
     >
-      <div className="mx-4 w-full max-w-[20rem] border border-border-strong bg-bg px-4 py-3">
-        <div className="mb-2 font-mono text-[11px] text-fg-3">keyboard</div>
-        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 text-sm">
-          {SHORTCUTS.map(([key, label]) => (
-            <div key={key} className="contents">
-              <dt className="font-mono text-xs text-fg">{key}</dt>
-              <dd className="text-fg-2">{label}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-3 text-xs text-fg-3">There&apos;s one more. Try typing a drum.</p>
+      <div className="mx-4 w-full max-w-[26rem] border border-ink bg-paper px-5 py-4">
+        <div className="label mb-3">Keyboard</div>
+        <ShortcutList className="m-0" />
+        <p className="sans mt-3 text-xs text-ink-3">There&apos;s one more. Try typing a drum.</p>
         <button
           type="button"
           onClick={closeOverlay}
-          className="mt-3 font-mono text-[11px] text-fg-3 hover:text-fg"
+          className="mt-3 font-mono text-[11px] text-ink-3 hover:text-ink"
         >
           esc to close
         </button>

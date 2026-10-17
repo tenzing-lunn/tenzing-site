@@ -9,6 +9,7 @@ import {
   type ResumeEntry,
 } from "@/content/resume";
 import Link from "next/link";
+import { getRecordBySlug, resumeAnchor } from "@/content/records";
 import { Chapter } from "@/components/chapter";
 import { SavePdf } from "@/components/save-pdf";
 
@@ -28,7 +29,10 @@ const COLUMNS: { title: string; entries: ResumeEntry[] }[][] = [
   ],
 ];
 
-const heading = "font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3";
+const heading = "label";
+
+/** Old /projects/<slug> links on the résumé point straight at the record's abs page. */
+const recordHref = (href: string) => getRecordBySlug(href.replace(/^\/projects\//, ""))?.href ?? href;
 
 /**
  * Title, role, dates and one line of evidence always show. The full role,
@@ -41,8 +45,8 @@ function Entry({ e }: { e: ResumeEntry }) {
   // a bare list, like "Also shipped", reads as one line
   if (!e.role && !e.dates && !e.headline && !detail && line) {
     return (
-      <p className="py-1.5 text-[13.5px] leading-snug text-fg-2">
-        <span className="text-base text-fg">{e.title}</span> · {line}
+      <p className="py-1.5 font-sans text-[13.5px] leading-snug text-fg-2">
+        <span className="font-serif text-base font-semibold text-fg">{e.title}</span> · {line}
       </p>
     );
   }
@@ -51,18 +55,18 @@ function Entry({ e }: { e: ResumeEntry }) {
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 sm:flex-nowrap">
         <span className="min-w-0 sm:truncate">
           {e.href ? (
-            <Link href={e.href} className="text-base text-fg underline decoration-fg-3 underline-offset-4 hover:decoration-fg">
+            <Link href={recordHref(e.href)} className="text-base font-semibold text-fg underline decoration-rule-strong underline-offset-3 hover:decoration-fg">
               {e.title}
             </Link>
           ) : (
-            <span className="text-base text-fg">{e.title}</span>
+            <span className="text-base font-semibold text-fg">{e.title}</span>
           )}
-          {e.role ? <span className="text-sm text-fg-2 print:hidden"> · {e.role}</span> : null}
+          {e.role ? <span className="font-sans text-sm text-fg-2 print:hidden"> · {e.role}</span> : null}
         </span>
-        {e.dates ? <span className="shrink-0 text-[13px] text-fg-3">{e.dates}</span> : null}
+        {e.dates ? <span className="shrink-0 font-mono text-[12px] text-fg-3">{e.dates}</span> : null}
       </div>
       {line && detail ? (
-        <details className="fold mt-0.5">
+        <details className="fold mt-0.5 font-sans">
           <summary className="cursor-pointer list-none text-[13.5px] leading-snug text-fg-2 hover:text-fg">{line}</summary>
           <div className="mt-1.5 mb-1 text-[13.5px] leading-snug text-fg-2">
             {e.subtitle || e.location ? (
@@ -78,7 +82,7 @@ function Entry({ e }: { e: ResumeEntry }) {
           </div>
         </details>
       ) : line ? (
-        <p className="mt-0.5 text-[13.5px] leading-snug text-fg-2">{line}</p>
+        <p className="mt-0.5 font-sans text-[13.5px] leading-snug text-fg-2">{line}</p>
       ) : null}
     </div>
   );
@@ -89,7 +93,7 @@ export default function ResumePage() {
     <Chapter
       label={
         <span className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
-          <span className="hidden w-full font-sans text-[30px] font-semibold tracking-[-0.03em] normal-case text-fg print:block">{site.name}</span>
+          <span className="hidden w-full font-serif text-[30px] font-semibold tracking-[-0.015em] normal-case text-fg print:block">{site.name}</span>
           <span className="print:hidden">Résumé</span>
           <span>{site.location.label}</span>
           {site.links.map((l) => (
@@ -107,7 +111,6 @@ export default function ResumePage() {
         </span>
       }
       title="The whole record"
-      as="h1"
     >
       <div className="grid gap-x-12 gap-y-6 lg:grid-cols-2">
         {COLUMNS.map((col, c) => (
@@ -117,7 +120,7 @@ export default function ResumePage() {
                 <h2 className={heading}>{title}</h2>
                 <ul className="mt-2">
                   {entries.map((e) => (
-                    <li key={e.title} className="border-b border-border first:border-t">
+                    <li key={e.title} id={resumeAnchor(e.title)} className="resume-entry border-b border-border first:border-t">
                       <Entry e={e} />
                     </li>
                   ))}
@@ -127,16 +130,16 @@ export default function ResumePage() {
             {c === 1 ? (
               <section>
                 <h2 className={heading}>Skills</h2>
-                <dl className="mt-2 grid grid-cols-[5.5rem_1fr] gap-x-4 gap-y-1.5 border-t border-border pt-2.5 text-[13.5px] leading-snug">
+                <dl className="mt-2 grid grid-cols-[5.5rem_1fr] gap-x-4 gap-y-1.5 border-t border-border pt-2.5 font-sans text-[13.5px] leading-snug">
                   {skills
                     .filter((k) => k.label !== "Interests")
                     .map(({ label, value }) => (
                       <div key={label} className="contents">
-                        <dt className="text-fg-3">{label}</dt>
+                        <dt className="label pt-0.5">{label}</dt>
                         <dd className="text-fg-2">{value}</dd>
                       </div>
                     ))}
-                  <dt className="text-fg-3">Interests</dt>
+                  <dt className="label pt-0.5">Interests</dt>
                   <dd>
                     <details className="fold">
                       <summary className="cursor-pointer list-none text-fg-2 hover:text-fg">Painting, drawing, photography, poetry, soccer</summary>

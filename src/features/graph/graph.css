@@ -1,0 +1,132 @@
+/* The Graph tab: hairline ink on paper. A node's line style is its status,
+   as on the badges (solid live, dashed in progress or under review, dotted
+   concluded). Strokes keep their pixel width however the figure scales. */
+
+/* Below about 560px the figure scrolls sideways inside the panel instead of
+   shrinking its labels past reading size. */
+.ft-graph-scroll {
+  overflow-x: auto;
+  margin-inline: -4px;
+  padding-inline: 4px;
+}
+.ft-graph-svg {
+  display: block;
+  width: 100%;
+  min-width: 560px;
+  height: auto;
+  overflow: visible;
+}
+
+.ft-graph-svg line,
+.ft-graph-svg circle {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------- edges ---------- */
+.ft-graph-edge {
+  stroke: var(--ink-3);
+  stroke-width: 1px;
+  transition: stroke 120ms ease, stroke-width 120ms ease;
+}
+.ft-graph-faint { stroke: var(--rule-strong); }
+.ft-graph-faintest { stroke: var(--rule); }
+.ft-graph-edge.is-on {
+  stroke: var(--ink);
+  stroke-width: 2px;
+}
+
+/* ---------- text ---------- */
+/* A paper halo, so labels stay readable where they cross a line. */
+.ft-graph-halo {
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+/* Labels that sit on a line get a paper plate behind them. */
+.ft-graph-code rect,
+.ft-graph-plate { fill: var(--paper); }
+.ft-graph-code text {
+  font: 400 10px var(--mono);
+  fill: var(--ink-3);
+}
+.ft-graph-code.is-on text { fill: var(--ink); }
+.ft-graph-title {
+  font: 500 12px var(--sans);
+  fill: var(--ink);
+}
+.ft-graph-id {
+  font: 400 10px var(--mono);
+  fill: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.ft-graph-name {
+  font: 600 13px var(--serif);
+  fill: var(--ink);
+}
+
+/* ---------- nodes ---------- */
+.ft-graph-person { fill: var(--ink); }
+
+.ft-graph-dot {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1px;
+  transition: stroke-width 120ms ease;
+}
+.ft-graph-s-prog,
+.ft-graph-s-rev { stroke-dasharray: 3 2; }
+.ft-graph-s-done { stroke-dasharray: 1 2; }
+
+/* Cross-lists: drawn, not linked, one step quieter. */
+.ft-graph-cross .ft-graph-dot { stroke: var(--ink-3); }
+
+.ft-graph-node { cursor: pointer; }
+.ft-graph-node.is-on .ft-graph-dot,
+.ft-graph-node:hover .ft-graph-dot,
+.ft-graph-node:focus-visible .ft-graph-dot {
+  stroke-width: 2px;
+}
+.ft-graph-node:hover .ft-graph-title { text-decoration: underline; }
+
+/* Browsers draw outlines on SVG links unevenly, so focus is a ring instead. */
+.ft-graph-node:focus { outline: none; }
+.ft-graph-ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1px;
+  opacity: 0;
+}
+.ft-graph-node:focus-visible .ft-graph-ring { opacity: 1; }
+
+/* ---------- legend ---------- */
+.ft-graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 12px;
+  font: 400 11px/1.5 var(--mono);
+  color: var(--ink-3);
+}
+.ft-graph-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.ft-graph-swatch {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.ft-graph-swatch circle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1px;
+}
+.ft-graph-swatch line { stroke-width: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ft-graph-edge,
+  .ft-graph-dot { transition: none; }
+}

@@ -1,0 +1,19 @@
+/* The "cite" button that sits just under the end of a text selection. */
+.ft-cite-selection-btn {
+  position: absolute;
+  z-index: 30;
+  transform: translateX(-100%);
+  padding: 3px 9px;
+  font: 500 12px var(--mono);
+  background: var(--paper);
+  white-space: nowrap;
+}
+.ft-cite-selection-btn[data-state="copied"] { border-style: dashed; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ft-cite-selection-btn { animation: ft-cite-selection-in 120ms var(--ease); }
+}
+@keyframes ft-cite-selection-in {
+  from { opacity: 0; }
+}
+

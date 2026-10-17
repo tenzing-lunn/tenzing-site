@@ -1,0 +1,14 @@
+/* Working draft (B9): one muted .hist row under the submission history.
+   Unreleased, so it sits a step lighter than the versions above it. */
+
+.ft-draft { color: var(--ink-3); }
+.ft-draft-repo {
+  color: inherit;
+  text-decoration: underline dashed;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.ft-draft-repo:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}

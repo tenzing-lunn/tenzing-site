@@ -1,0 +1,63 @@
+/* /errata: an arXiv-style corrections list. Builds on .list, .entry and .badge in globals.css. */
+
+.ft-errata-lede {
+  margin-top: 12px;
+  max-width: 64ch;
+  font: 400 15px/1.6 var(--serif);
+  color: var(--ink-2);
+}
+
+.ft-errata-group { scroll-margin-top: 96px; }
+.ft-errata-group h2 a {
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.ft-errata-group h2 a:hover { text-decoration-color: var(--ink); }
+.ft-errata-fmt { font: 400 13px var(--mono); color: var(--ink-3); }
+.ft-errata-fmt a { color: var(--ink-3); }
+
+/* the record jumped to from a sidebar: its heading rule turns ink, no motion */
+.ft-errata-group:target h2 { border-top-color: var(--ink); }
+.ft-errata-item:target { outline: 1px solid var(--ink); outline-offset: 6px; }
+
+/* the kind of correction, by line style: solid corrected, dashed withdrawn, dotted removed */
+.ft-errata-corrected { border-style: solid; }
+.ft-errata-withdrawn { border-style: dashed; }
+.ft-errata-removed { border-style: dotted; }
+
+.ft-errata-dl {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 4px 12px;
+  margin-top: 6px;
+  max-width: 66ch;
+  font: 400 15px/1.55 var(--serif);
+}
+.ft-errata-dl dt {
+  font: 500 var(--t-label)/2.1 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+.ft-errata-dl dd { color: var(--ink); min-width: 0; overflow-wrap: anywhere; }
+.ft-errata-dl del {
+  color: var(--ink-3);
+  text-decoration-color: var(--ink-2);
+  text-decoration-thickness: 1px;
+}
+.ft-errata-quiet { color: var(--ink-3); font-style: italic; }
+
+.ft-errata-note {
+  margin: 6px 0 4px;
+  max-width: 66ch;
+  font: 400 14px/1.55 var(--sans);
+  color: var(--ink-2);
+}
+.ft-errata-item .ln { margin-top: 4px; }
+.ft-errata-hash { font: 500 12px var(--mono); color: var(--ink); }
+
+@media (max-width: 520px) {
+  .ft-errata-dl { grid-template-columns: 1fr; gap: 0; }
+  .ft-errata-dl dd + dt { margin-top: 6px; }
+}

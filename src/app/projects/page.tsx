@@ -1,17 +1,6 @@
-import type { Metadata } from "next";
-import { Chapter } from "@/components/chapter";
-import { WorkList } from "@/components/work-list";
-import { site } from "@/content/site";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description: `Things ${site.firstName} has built.`,
-};
-
+/** The old work index. Projects are submissions now, listed at /list (R2). */
 export default function ProjectsPage() {
-  return (
-    <Chapter label="Work" title="Things I have made or worked on" as="h1">
-      <WorkList />
-    </Chapter>
-  );
+  permanentRedirect("/list");
 }

@@ -1,0 +1,117 @@
+/* Version diff (B1): the linked submission history, /v/[n] and /diff.
+   Ink only: deletions are struck through, insertions underlined. */
+
+/* ---------- submission history ---------- */
+.ft-version-diff-hist .v a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.ft-version-diff-hist .v a:hover { text-decoration-color: var(--ink); }
+.ft-version-diff-cmp {
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.ft-version-diff-cmp:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+
+/* ---------- /v/[n] ---------- */
+.ft-version-diff-note {
+  margin: 10px 0 0;
+  max-width: 68ch;
+  font: 400 13px/1.55 var(--sans);
+  color: var(--ink-3);
+}
+.ft-version-diff-note a { color: var(--ink-3); }
+.ft-version-diff-note a:hover { color: var(--ink); }
+.ft-version-diff-sources {
+  list-style: none;
+  font: 400 12px/1.6 var(--mono);
+  color: var(--ink-3);
+}
+.ft-version-diff-empty { font: 400 14px var(--sans); color: var(--ink-3); }
+
+/* ---------- /diff ---------- */
+.ft-version-diff-head {
+  margin-top: 10px;
+  font: 400 13px/1.8 var(--mono);
+  color: var(--ink-2);
+}
+.ft-version-diff-head b { color: var(--ink); font-weight: 600; }
+.ft-version-diff-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 16px;
+  font: 400 13px var(--sans);
+  color: var(--ink-2);
+}
+.ft-version-diff-form label { display: inline-flex; align-items: center; gap: 6px; }
+.ft-version-diff-form select {
+  font: 400 13px var(--mono);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  padding: 4px 6px;
+}
+.ft-version-diff-form select:focus-visible { border-color: var(--ink); }
+.ft-version-diff-pairs {
+  margin-top: 10px;
+  font: 400 12px/1.8 var(--mono);
+  color: var(--ink-3);
+}
+.ft-version-diff-pairs a,
+.ft-version-diff-pairs b { margin-right: 4px; }
+.ft-version-diff-pairs a { color: var(--ink-3); }
+.ft-version-diff-pairs a:hover { color: var(--ink); }
+.ft-version-diff-pairs b { color: var(--ink); font-weight: 600; }
+.ft-version-diff-legend {
+  margin-top: 14px;
+  font: 400 13px/1.6 var(--sans);
+  color: var(--ink-3);
+}
+
+.ft-version-diff-view del,
+.ft-version-diff-legend del {
+  color: var(--ink);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.ft-version-diff-view ins,
+.ft-version-diff-legend ins {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ft-version-diff-prose {
+  max-width: 68ch;
+  font: 400 var(--t-body)/1.65 var(--serif);
+  color: var(--ink-2);
+  font-variant-numeric: oldstyle-nums;
+}
+.ft-version-diff-affiliation { font: 400 15px/1.5 var(--sans); }
+.ft-version-diff-lines {
+  list-style: none;
+  font: 400 13px/1.9 var(--mono);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.ft-version-diff-lines li { overflow-wrap: anywhere; }
+.ft-version-diff-sign {
+  display: inline-block;
+  width: 20px;
+  color: var(--ink-3);
+}
+.ft-version-diff-del .ft-version-diff-sign,
+.ft-version-diff-ins .ft-version-diff-sign { color: var(--ink); }

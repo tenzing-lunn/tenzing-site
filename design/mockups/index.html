@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lunnXiv mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #ffffff; --ink: #0c0c0c; --ink-2: #3b3b3b; --ink-3: #6f6f6f;
+  --rule: #e4e4e4; --rule-strong: #c8c8c8; --wash: #f6f6f6;
+  --band: #0c0c0c; --band-fg: #f2f2f2; --band-3: #999999;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0c0c0c; --ink: #f2f2f2; --ink-2: #c8c8c8; --ink-3: #8f8f8f;
+    --rule: #252525; --rule-strong: #3a3a3a; --wash: #141414;
+    --band: #000000; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0c0c0c; --ink: #f2f2f2; --ink-2: #c8c8c8; --ink-3: #8f8f8f;
+  --rule: #252525; --rule-strong: #3a3a3a; --wash: #141414;
+  --band: #000000; color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); color: var(--ink); }
+body { font-family: var(--serif); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; transition: background .4s, color .4s; }
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-color: var(--ink); }
+:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+.mono { font-family: var(--mono); }
+.sans { font-family: var(--sans); }
+.label { font: 500 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+
+.screen { display: none; }
+.screen.on { display: block; }
+
+/* masthead */
+.mast { background: var(--band); color: var(--band-fg); }
+.mast-in { height: 44px; display: flex; align-items: center; gap: 20px; }
+.brand { font: 600 19px/1 var(--serif); letter-spacing: -.01em; text-decoration: none; color: var(--band-fg); }
+.brand i { font-weight: 400; }
+.crumb { font: 400 12px var(--mono); color: var(--band-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { color: var(--band-3); text-decoration: none; }
+.crumb a:hover { color: var(--band-fg); }
+.search { margin-left: auto; display: flex; align-items: center; gap: 24px; width: 260px; justify-content: space-between; border: 1px solid #3a3a3a; padding: 4px 10px; font: 400 13px var(--sans); color: var(--band-3); cursor: text; }
+.search kbd { font: 500 11px var(--mono); color: var(--band-3); }
+.nav { display: flex; gap: 18px; font: 500 13px var(--sans); }
+.nav a { color: var(--band-3); text-decoration: none; }
+.nav a:hover, .nav a[aria-current] { color: var(--band-fg); }
+.hair { height: 1px; background: var(--rule-strong); transform-origin: left; }
+.subj { border-bottom: 1px solid var(--rule); }
+.subj-in { height: 32px; display: flex; align-items: center; justify-content: space-between; font: 400 12px var(--mono); color: var(--ink-3); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 640px) { .wrap { padding: 0 24px; } }
+@media (min-width: 1024px) { .wrap { padding: 0 40px; } }
+
+/* abs page */
+.abs { display: grid; grid-template-columns: minmax(0,1fr) 272px; gap: 56px; padding-top: 28px; padding-bottom: 96px; }
+.dateline { font: italic 400 14px/1.4 var(--serif); color: var(--ink-3); }
+.dateline a { color: var(--ink-3); }
+.hero { font: 600 clamp(30px, 3.6vw, 40px)/1.1 var(--serif); letter-spacing: -.015em; margin: 14px 0 12px; }
+.title { font: 600 28px/1.2 var(--serif); letter-spacing: -.01em; margin: 14px 0 12px; max-width: 36ch; }
+.affil { font: 400 15px/1.5 var(--sans); color: var(--ink-2); }
+.affil a { text-decoration-color: var(--rule); }
+.abstract { margin: 28px 0 0 32px; max-width: 68ch; color: var(--ink-2); font-variant-numeric: oldstyle-nums; }
+.abstract b.sc { font-variant: small-caps; letter-spacing: .04em; color: var(--ink); font-weight: 600; margin-right: .3em; }
+.cite { font: 500 .78em var(--mono); color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule-strong); cursor: help; position: relative; }
+.cite:hover { border-color: var(--ink); }
+.meta { margin: 32px 0 0 32px; display: grid; grid-template-columns: 112px 1fr; gap: 6px 16px; font: 400 13px/1.55 var(--mono); max-width: 68ch; }
+.meta dt { font: 500 11px/1.9 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+.meta dd { color: var(--ink-2); }
+.meta dd b { color: var(--ink); font-weight: 600; }
+h2.sec { font: 600 17px/1.4 var(--sans); margin: 64px 0 6px; display: flex; align-items: baseline; gap: 12px; }
+h2.sec .label { font-weight: 400; }
+.sec-rule { border-top: 1px solid var(--rule); margin-bottom: 20px; }
+
+/* sidebar */
+.side-col { position: relative; }
+.side-sticky { position: sticky; top: 24px; display: grid; gap: 28px; padding-top: 6px; }
+.side { border-left: 1px solid var(--rule-strong); padding-left: 16px; font: 400 14px/1.55 var(--sans); }
+.side h3 { font: 600 14px var(--sans); margin-bottom: 6px; }
+.side ul { list-style: none; }
+.side li + li { margin-top: 2px; }
+.side .small { font-size: 12px; color: var(--ink-3); }
+.side .ctx { font: 600 13px var(--mono); }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 500 13px var(--sans); color: var(--ink); background: transparent; border: 1px solid var(--ink); padding: 6px 12px; cursor: pointer; text-decoration: none; }
+.btn:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.btn .mono { font-size: 11px; color: var(--ink-3); }
+.beats { display: inline-flex; gap: 2px; height: 11px; align-items: flex-end; margin-right: 6px; }
+.beats span { width: 2px; background: var(--ink-2); animation: beat .9s steps(4, jump-none) infinite alternate; }
+.beats span:nth-child(2) { animation-duration: .7s; animation-delay: -.3s; }
+.beats span:nth-child(3) { animation-duration: 1.1s; animation-delay: -.6s; }
+.beats span:nth-child(4) { animation-duration: .8s; animation-delay: -.2s; }
+@keyframes beat { from { height: 20%; } to { height: 100%; } }
+
+/* listing entries */
+.entries { list-style: none; }
+.entry { display: grid; grid-template-columns: 40px 1fr; padding-bottom: 22px; }
+.entry .n { font: 500 13px/1.9 var(--mono); color: var(--ink-3); }
+.entry .idline { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font: 400 13px/1.9 var(--mono); color: var(--ink-3); }
+.entry .id { color: var(--ink); font-weight: 600; text-decoration: none; background: linear-gradient(var(--ink), var(--ink)) left bottom / 0 1px no-repeat; transition: background-size .3s cubic-bezier(.19,1,.22,1); }
+.entry .id:hover { background-size: 100% 1px; }
+.entry .fmt a { color: var(--ink-3); text-decoration: none; }
+.entry .fmt a:hover { color: var(--ink); text-decoration: underline; }
+.entry .xl { font-style: normal; color: var(--ink-3); }
+.entry h3 { font: 600 18px/1.35 var(--serif); margin: 2px 0 2px; max-width: 60ch; }
+.entry h3 a { text-decoration: none; }
+.entry h3 a:hover { text-decoration: underline; text-decoration-color: var(--ink); }
+.entry .ln { font: 400 13px/1.6 var(--sans); color: var(--ink-2); max-width: 70ch; }
+.entry .ln b { font-weight: 600; color: var(--ink); }
+.entry .ln .k { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin-right: 6px; }
+.entry .tldr { font: 400 15px/1.55 var(--serif); color: var(--ink-2); margin-top: 6px; max-width: 66ch; }
+.entry .tldr .k { font: 600 11px var(--mono); letter-spacing: .04em; color: var(--ink); margin-right: 6px; }
+.more { font: 400 12px var(--mono); color: var(--ink-3); background: none; border: 0; cursor: pointer; margin-left: 6px; }
+.more:hover { color: var(--ink); }
+.fullabs { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .2s cubic-bezier(.2,.8,.2,1); }
+.fullabs > div { overflow: hidden; }
+.fullabs.open { grid-template-rows: 1fr; }
+.fullabs p { font: 400 15px/1.6 var(--serif); color: var(--ink-2); max-width: 66ch; padding-top: 8px; }
+
+/* badges: outline only */
+.badge { font: 500 10.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--ink); padding: 3px 5px 2px; border: 1px solid var(--ink); white-space: nowrap; }
+.b-live { border-style: solid; }
+.b-prog, .b-rev { border-style: dashed; }
+.b-done { border-style: dotted; }
+
+/* history */
+.hist { font: 400 13px/1.9 var(--mono); color: var(--ink-2); list-style: none; }
+.hist b { color: var(--ink); }
+.hist .v { display: inline-block; width: 40px; }
+.hist .d { display: inline-block; width: 86px; color: var(--ink-3); }
+.hist .now { font-weight: 600; color: var(--ink); }
+
+/* tools tabs */
+.tabs { display: flex; gap: 0; margin-top: 64px; border-bottom: 1px solid var(--ink); }
+.tab { font: 500 13px var(--sans); padding: 8px 16px; border: 1px solid transparent; border-bottom: 0; margin-bottom: -1px; background: none; color: var(--ink-3); cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-color: var(--ink); background: var(--paper); }
+.panel { border: 1px solid var(--ink); border-top: 0; padding: 20px; display: none; }
+.panel.on { display: block; }
+.panel h4 { font: 600 15px var(--sans); margin-bottom: 4px; }
+.panel .sub { font: 400 13px var(--sans); color: var(--ink-3); margin-bottom: 16px; }
+.ask { display: flex; border: 1px solid var(--rule-strong); }
+.ask input { flex: 1; font: 400 14px var(--mono); padding: 10px 12px; border: 0; background: transparent; color: var(--ink); outline: none; }
+.ask button { font: 500 13px var(--sans); border: 0; border-left: 1px solid var(--rule-strong); background: transparent; color: var(--ink); padding: 0 16px; cursor: pointer; }
+.resp { margin-top: 16px; border-left: 1px solid var(--ink); padding-left: 14px; font-size: 15px; color: var(--ink-2); max-width: 66ch; }
+.resp .label { display: block; margin-bottom: 2px; }
+.toggles { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; font: 400 13px var(--sans); color: var(--ink-2); }
+.tg { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.tg i { width: 28px; height: 14px; border: 1px solid var(--rule-strong); position: relative; transition: border-color .2s; }
+.tg i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; background: var(--ink-3); transition: transform .2s, background .2s; }
+.tg.on i { border-color: var(--ink); }
+.tg.on i::after { transform: translateX(14px); background: var(--ink); }
+.tg small { font: 400 11px var(--mono); color: var(--ink-3); }
+.graph svg { width: 100%; height: auto; display: block; }
+.graph text { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+.graph .t { font-family: var(--serif); font-size: 14px; font-weight: 600; fill: var(--ink); }
+.graph .node circle { fill: var(--paper); stroke: var(--ink); stroke-width: 1; transition: stroke .2s; }
+.graph .edge { stroke: var(--rule-strong); stroke-width: 1; transition: stroke .2s; }
+.graph .node:hover circle { stroke-width: 2; }
+
+/* hover card */
+.card { position: absolute; z-index: 20; width: 320px; background: var(--paper); border: 1px solid var(--ink); padding: 12px 14px; font: 400 13px/1.5 var(--sans); color: var(--ink-2); opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity .12s, transform .12s; }
+.card.on { opacity: 1; transform: none; }
+.card .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.card .top .mono { font-size: 12px; color: var(--ink-3); }
+.card b { display: block; font: 600 15px/1.3 var(--serif); color: var(--ink); margin-bottom: 4px; }
+
+/* listing page */
+.list { max-width: 760px; padding-top: 32px; padding-bottom: 96px; }
+.list h1 { font: 600 34px/1.15 var(--serif); letter-spacing: -.015em; }
+.jump { margin: 10px 0 0; font: 400 14px var(--sans); color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 4px 0; }
+.jump a + a::before { content: "·"; margin: 0 .6em; color: var(--ink-3); display: inline-block; text-decoration: none; }
+.counts { margin-top: 18px; font: 400 13px/1.8 var(--mono); color: var(--ink-3); }
+.counts .off { color: var(--ink-3); opacity: .6; }
+.counts a { color: var(--ink); }
+.list h2 { font: 600 17px/1.4 var(--sans); margin: 40px 0 16px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.list h2 span { font: 400 13px var(--mono); color: var(--ink-3); }
+.searchbox { display: flex; margin-top: 22px; border: 1px solid var(--rule-strong); max-width: 520px; }
+.searchbox input { flex: 1; font: 400 14px var(--mono); padding: 9px 12px; border: 0; background: transparent; color: var(--ink); outline: none; }
+.searchbox select { font: 400 13px var(--sans); border: 0; border-left: 1px solid var(--rule-strong); background: transparent; color: var(--ink-2); padding: 0 10px; }
+.hit { text-decoration: underline; text-decoration-color: var(--ink); text-underline-offset: 3px; }
+
+/* paper page */
+.warn { margin: 22px 0 0 32px; max-width: 68ch; font: 400 13px/1.55 var(--sans); color: var(--ink-2); border-left: 1px solid var(--ink); padding: 2px 0 2px 14px; }
+.warn b { font-weight: 600; color: var(--ink); }
+table.bk { border-collapse: collapse; margin: 8px 0 0 32px; font: 400 14px/1.4 var(--sans); width: calc(100% - 32px); max-width: 640px; font-variant-numeric: tabular-nums; }
+table.bk caption { caption-side: top; text-align: left; font: 400 15px/1.5 var(--serif); color: var(--ink-2); padding-bottom: 10px; }
+table.bk caption b { font: 600 14px var(--sans); color: var(--ink); margin-right: 4px; }
+table.bk thead tr:first-child th { border-top: 1.5px solid var(--ink); }
+table.bk th { font: 600 12px var(--sans); text-align: left; padding: 8px 10px 6px; border-bottom: .75px solid var(--ink); color: var(--ink); }
+table.bk td { padding: 7px 10px; color: var(--ink-2); }
+table.bk tbody tr:last-child td { border-bottom: 1.5px solid var(--ink); }
+table.bk td.r, table.bk th.r { text-align: right; font-family: var(--mono); font-size: 13px; }
+table.bk tr.best td { color: var(--ink); font-weight: 600; }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 0 0 0 32px; max-width: 760px; }
+.cols2 p, .cols2 li { font-size: 15px; color: var(--ink-2); }
+.cols2 h4 { font: 600 13px var(--sans); margin-bottom: 6px; }
+.cols2 ul { padding-left: 1.1em; }
+.withheld { font-size: 13px; color: var(--ink-3); }
+
+/* loader */
+.loader { position: fixed; inset: 0; z-index: 50; background: var(--paper); display: grid; place-items: center; transition: opacity .5s; }
+.loader.out { opacity: 0; pointer-events: none; }
+.loader-in { display: grid; justify-items: center; gap: 18px; transform: translateY(-4vh); }
+.loader canvas { width: min(168px, 44vw); display: block; }
+.log { font: 400 12px/1.9 var(--mono); color: var(--ink-3); width: 290px; list-style: none; }
+.log li { display: flex; justify-content: space-between; opacity: 0; transform: translateY(3px); transition: opacity .25s, transform .25s; }
+.log li.on { opacity: 1; transform: none; }
+.log li span:last-child { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink); text-underline-offset: 3px; }
+.bar { width: 120px; height: 1px; background: var(--rule); position: relative; overflow: hidden; }
+.bar i { position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; }
+.bar.go i { transition: transform 2.7s linear; transform: scaleX(1); }
+.loader .skip { position: absolute; right: 24px; bottom: 24px; }
+.loader .tag { font: 500 11px var(--mono); color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; }
+
+/* mockup switcher (not part of the design) */
+.mock { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 60; display: flex; gap: 2px; padding: 3px; background: #ff3d7f; font: 600 11px var(--sans); letter-spacing: .02em; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+.mock span { color: #fff; padding: 6px 8px; opacity: .8; }
+.mock button { font: inherit; color: #fff; background: transparent; border: 0; padding: 6px 10px; cursor: pointer; }
+.mock button[aria-pressed="true"] { background: rgba(0,0,0,.25); }
+
+@media (max-width: 900px) {
+  .abs { grid-template-columns: 1fr; gap: 40px; }
+  .side-sticky { position: static; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .abstract, .meta, .warn, table.bk, .cols2 { margin-left: 0; }
+  table.bk { width: 100%; }
+  .search, .crumb { display: none; }
+  .nav { margin-left: auto; }
+}
+@media (max-width: 560px) {
+  .meta { grid-template-columns: 1fr; gap: 0; }
+  .meta dd { margin-bottom: 8px; }
+  .nav a:not(:last-child) { display: none; }
+  .cols2 { grid-template-columns: 1fr; }
+  .entry { grid-template-columns: 28px 1fr; }
+  .subj-in span:last-child { display: none; }
+  .mock span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ============ shared masthead (cloned into each screen) ============ -->
+<template id="mast">
+  <header class="mast"><div class="wrap mast-in">
+    <a class="brand" href="#home">lunn<i>X</i>iv</a>
+    <span class="crumb"></span>
+    <div class="search" role="button" tabindex="0">Search lunnXiv… <kbd>⌘K</kbd></div>
+    <nav class="nav"><a href="#list" data-k="list">Listings</a><a href="#paper" data-k="paper">Paper</a><a href="#home" data-k="resume">Résumé</a><a href="#home" data-k="ask">Ask</a></nav>
+  </div></header>
+  <div class="hair"></div>
+</template>
+
+<!-- ============ LOADER ============ -->
+<section class="screen" id="s-loader">
+  <div class="loader" id="loader">
+    <div class="loader-in">
+      <canvas id="band"></canvas>
+      <div class="bar" id="bar"><i></i></div>
+      <ul class="log" id="log">
+        <li><span>fetching TL:2610.00001v4 …</span><span>ok</span></li>
+        <li><span>resolving 5 submissions …</span><span>ok</span></li>
+        <li><span>typesetting abstract …</span><span>ok</span></li>
+      </ul>
+    </div>
+    <span class="tag skip">press any key</span>
+  </div>
+</section>
+
+<!-- ============ HOME: the person record ============ -->
+<section class="screen" id="s-home">
+  <div data-mast="lunnXiv &gt; person &gt; TL:2610.00001"></div>
+  <div class="subj"><div class="wrap subj-in"><span>Mathematics &gt; Machine Learning</span><span>TL:2610.00001v4</span></div></div>
+  <main class="wrap abs">
+    <div>
+      <p class="dateline">[Submitted Aug 2023 (<a href="#">v1</a>), last revised 16 Oct 2026 (this version, v4)]</p>
+      <h1 class="hero">Tenzing Lunn</h1>
+      <p class="affil"><a href="#">Fordham University</a> · B.S. Mathematics &amp; Computer Science · New York, NY</p>
+
+      <p class="abstract"><b class="sc">Abstract:</b>We present Tenzing Lunn, a sophomore at Fordham University studying mathematics and computer science on the 3-2 program with Columbia. Raised in Los Angeles and educated for two years at UWC Dilijan in Armenia, the subject now works in New York across three threads: AI safety research, where a study of repairing a misaligned clinical model through its memory layer was submitted to a NeurIPS 2026 workshop <a class="cite" data-c="3">[3]</a>; quantitative research on GPU-rental futures <a class="cite" data-c="5">[5]</a>; and software people use every day, including a deal-flow CRM <a class="cite" data-c="2">[2]</a> and a meditation app with synchronized group sessions <a class="cite" data-c="4">[4]</a>. Outside that, the subject paints, draws, shoots street photographs and meditates.</p>
+
+      <dl class="meta">
+        <dt>Comments</dt><dd>5 submissions; 1 under review at a NeurIPS 2026 workshop. GPA 3.92. Spanish, Mandarin.</dd>
+        <dt>Subjects</dt><dd><b>Machine Learning (cs.LG)</b>; Mathematics (math); Computational Finance (q-fin.CP); Software Engineering (cs.SE); Meditation (life.MED)</dd>
+        <dt>Cite as</dt><dd>TL:2610.00001 [cs.LG]<br><span style="color:var(--ink-3)">(or TL:2610.00001v4 [cs.LG] for this version)</span></dd>
+        <dt>Contact</dt><dd><a href="#">tenzinglunn@gmail.com</a></dd>
+        <dt>Reading</dt><dd>Siddhartha, Hermann Hesse</dd>
+      </dl>
+
+      <h2 class="sec">Selected submissions <span class="label">showing 5 of 5</span></h2>
+      <div class="sec-rule"></div>
+      <ol class="entries" id="home-entries"></ol>
+
+      <h2 class="sec">Submission history</h2>
+      <div class="sec-rule"></div>
+      <p class="sans" style="font-size:13px;color:var(--ink-3);margin-bottom:6px">From: Tenzing Lunn [<a href="#">view email</a>]</p>
+      <ul class="hist">
+        <li><span class="v"><a href="#">[v1]</a></span><span class="d">Aug 2023</span>UWC Dilijan, Armenia · IB Diploma 39/45, Davis Scholar</li>
+        <li><span class="v"><a href="#">[v2]</a></span><span class="d">Aug 2025</span>Fordham University · Math &amp; CS, full scholarship</li>
+        <li><span class="v"><a href="#">[v3]</a></span><span class="d">May 2026</span>Algoverse AI Research · emergent misalignment</li>
+        <li class="now"><span class="v">[v4]</span><span class="d">Sep 2026</span>NeurIPS 2026 workshop submission (this version)</li>
+      </ul>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-p="p-ask">Ask</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="p-graph">Graph</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="p-now">Now</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="p-keys">Shortcuts</button>
+      </div>
+      <div class="panel on" id="p-ask">
+        <h4>Query this record</h4>
+        <p class="sub">Answers come only from what is written on this site.</p>
+        <div class="ask"><input value="What did he do at Algoverse?" aria-label="Question"><button>Ask ↵</button></div>
+        <div class="resp"><span class="label">Response</span>He spent the summer of 2026 on emergent misalignment in a medical model, asking whether it can be repaired through its memory layer rather than its weights. Of a team of four, he owned the framework design, the implementation and the dataset organization. <a class="cite" data-c="3">[3]</a></div>
+        <div class="toggles">
+          <label class="tg on"><i></i>Hover citations <small>(what is this?)</small></label>
+          <label class="tg"><i></i>Margin notes</label>
+          <label class="tg on"><i></i>Keyboard nav</label>
+        </div>
+      </div>
+      <div class="panel graph" id="p-graph">
+        <h4>Connected submissions</h4>
+        <p class="sub">Node outline shows status on hover. Edges are subjects.</p>
+        <svg viewBox="0 0 640 300" role="img" aria-label="Graph of projects">
+          <g id="edges"></g><g id="nodes"></g>
+        </svg>
+      </div>
+      <div class="panel" id="p-now">
+        <dl class="meta" style="margin:0">
+          <dt>Building</dt><dd>A meditation web app with synchronized group sessions.</dd>
+          <dt>Reading</dt><dd>Siddhartha by Hermann Hesse.</dd>
+          <dt>Listening</dt><dd><span class="beats"><span></span><span></span><span></span><span></span></span>live from Spotify</dd>
+          <dt>Updated</dt><dd>2026-09-17</dd>
+        </dl>
+      </div>
+      <div class="panel" id="p-keys">
+        <dl class="meta" style="margin:0">
+          <dt>j / k</dt><dd>next / previous submission</dd>
+          <dt>c</dt><dd>cite this person</dd>
+          <dt>g</dt><dd>open the graph</dd>
+          <dt>/ or ⌘K</dt><dd>search lunnXiv</dd>
+          <dt>I</dt><dd>lights on / off</dd>
+          <dt>conga</dt><dd>(what is this?)</dd>
+        </dl>
+      </div>
+    </div>
+
+    <aside class="side-col"><div class="side-sticky">
+      <div class="side">
+        <h3>Access record:</h3>
+        <ul><li><a href="#">View résumé (PDF)</a></li><li><a href="#">HTML (experimental)</a></li><li><a href="#">Source (GitHub)</a></li></ul>
+        <p class="small" style="margin-top:4px"><a href="#">view license</a></p>
+      </div>
+      <div class="side">
+        <h3>Current browse context:</h3>
+        <p class="ctx">cs.LG</p>
+        <p class="mono" style="font-size:12px;color:var(--ink-3)">&lt; prev &nbsp;|&nbsp; <a href="#">next &gt;</a></p>
+        <p class="mono" style="font-size:12px;color:var(--ink-3)"><a href="#list">new</a> | <a href="#list">recent</a> | <a href="#list">2026</a></p>
+      </div>
+      <div class="side">
+        <h3>Cite this person</h3>
+        <button class="btn" id="cite-btn">Export BibTeX <span class="mono">c</span></button>
+      </div>
+      <div class="side">
+        <h3>References &amp; links</h3>
+        <ul><li><a href="#">GitHub</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">Email</a></li></ul>
+      </div>
+      <div class="side">
+        <h3>Live data</h3>
+        <p style="font-size:13px;color:var(--ink-2)"><span class="beats"><span></span><span></span><span></span><span></span></span>Listening, live from Spotify</p>
+      </div>
+      <p class="small sans" style="font-size:12px;color:var(--ink-3)"><a href="#">Report an issue with this person</a></p>
+    </div></aside>
+  </main>
+</section>
+
+<!-- ============ LISTINGS ============ -->
+<section class="screen" id="s-list">
+  <div data-mast="lunnXiv &gt; list &gt; TL &gt; all"></div>
+  <div class="subj"><div class="wrap subj-in"><span>Submissions by Tenzing Lunn</span><span>Total of 10 entries</span></div></div>
+  <main class="wrap list">
+    <h1>Submissions by T. Lunn</h1>
+    <div class="jump"><a href="#">New submissions</a><a href="#">Cross-lists</a><a href="#">Replacements</a></div>
+    <div class="searchbox"><input value="memory" aria-label="Search"><select aria-label="Field"><option>All fields</option><option>Title</option><option>Subject</option></select></div>
+    <p class="counts">Total of 10 entries<br>Showing up to 25 entries per page: <span class="off">fewer</span> | <span class="off">more</span> | <span class="off">all</span></p>
+
+    <h2>New submissions <span>(showing 5 of 5 entries)</span></h2>
+    <ol class="entries" id="list-entries"></ol>
+
+    <h2>Cross-lists <span>(showing 5 of 5 entries)</span></h2>
+    <ol class="entries" id="cross-entries"></ol>
+
+    <h2>Replacements <span>(showing 0 of 0 entries)</span></h2>
+    <p class="sans" style="font-size:14px;color:var(--ink-3)">Nothing has been replaced yet. Retired work will be listed here with its reason.</p>
+  </main>
+</section>
+
+<!-- ============ PAPER ============ -->
+<section class="screen" id="s-paper">
+  <div data-mast="lunnXiv &gt; cs &gt; TL:2605.00003"></div>
+  <div class="subj"><div class="wrap subj-in"><span>Computer Science &gt; Machine Learning</span><span><span class="badge b-rev">Under review</span></span></div></div>
+  <main class="wrap abs">
+    <div>
+      <p class="dateline">[Submitted Sep 2026 (v1) to GenAI4Health @ NeurIPS 2026: decision pending]</p>
+      <h1 class="title">Correct the Note, Not the Weights: Runtime Mitigation of Emergent Misalignment in a Clinical LLM Agent</h1>
+      <p class="affil">Tenzing Lunn and 3 co-authors · <a href="#">Algoverse AI Research</a></p>
+
+      <p class="warn"><b>Content warning.</b> This paper evaluates a model trained to produce unsafe medical advice. None of the evaluated outputs should be read as clinical guidance.</p>
+
+      <p class="abstract"><b class="sc">Abstract:</b>Clinical institutions may operate language models within retrieval and memory scaffolds without access to the model weights or fine-tuning history; retraining may be infeasible when weights are available. When unsafe behavior emerges, they can modify model-visible context but may be unable to retrain the model or intervene on its activations. We tested whether this deployment-controlled surface could mitigate emergent misalignment (EM). Using a Qwen2.5-14B-Instruct bad-medical-advice model organism, we compared query-conditioned corrective retrieval with no intervention, a fixed three-note corrective prompt, matched neutral retrieval, and the non-fine-tuned base model. On 180 harmful clinical requests, corrective retrieval reduced the rate of responses classified as harmful by an automated judge from 63.4% to 15.1% (paired difference −48.3 percentage points; bias-corrected-and-accelerated 95% interval [−53.3, −42.7]), recovering 76.3% of the gap to the base model. It nevertheless remained 15.0 points above that reference. <button class="more" data-more="pa">▽ More</button></p>
+      <div class="fullabs" id="pa" style="margin-left:32px"><div><p>On an amended 180-question benign clinical instrument used to test a preregistered over-refusal hypothesis, none of the 10,800 responses across six conditions was classified as a refusal; a secondary harm analysis decreased from 9.2% to 2.2%. Retrieval did not significantly outperform the fixed corrective prompt under the primary protocol, in which prior model responses could displace corrective notes. A non-clinical estimate was sensitive to the endpoint definition. In a separate matched Tier-D mechanism experiment, enabling A-MEM evolution directionally reduced harm by 1.76 points, but the primary interval included zero. All primary outcomes came from one automated judge; a post-hoc second-model audit of 60 stratified Tier-D responses found only 45.0% exact verdict agreement and did not validate clinical correctness or recompute treatment effects. In this single-model, single-seed study, corrective context reduced the rate of responses judged harmful under the study rubric, but the findings do not establish a retrieval-specific advantage or true model repair. <button class="more" data-more="pa">△ Less</button></p></div></div>
+
+      <dl class="meta">
+        <dt>Comments</dt><dd>14 pages. Submitted to the GenAI4Health workshop at NeurIPS 2026. Code and data to be released upon acceptance.</dd>
+        <dt>Subjects</dt><dd><b>Machine Learning (cs.LG)</b>; Artificial Intelligence (cs.AI); Computation and Language (cs.CL)</dd>
+        <dt>Cite as</dt><dd>TL:2605.00003 [cs.LG]</dd>
+        <dt>Model</dt><dd>Qwen2.5-14B-Instruct · A-MEM · vector retrieval</dd>
+      </dl>
+
+      <h2 class="sec">Headline results</h2>
+      <div class="sec-rule"></div>
+      <table class="bk">
+        <caption><b>Table 1:</b> Rate of responses judged harmful on 180 harmful clinical requests (single automated judge).</caption>
+        <thead><tr><th>Condition</th><th class="r">Harmful</th></tr></thead>
+        <tbody>
+          <tr><td>Misaligned model, no intervention</td><td class="r">63.4%</td></tr>
+          <tr class="best"><td>+ corrective retrieval</td><td class="r">15.1%</td></tr>
+          <tr><td>Paired difference (BCa 95%)</td><td class="r">−48.3 pp [−53.3, −42.7]</td></tr>
+          <tr><td>Gap to base model recovered</td><td class="r">76.3%</td></tr>
+          <tr><td>Refusals on 10,800 benign responses</td><td class="r">0</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="sec">Notes from the author</h2>
+      <div class="sec-rule"></div>
+      <div class="cols2">
+        <div><h4>My contribution</h4><ul><li>Framework design</li><li>Implementation</li><li>Dataset organization</li><li>Revision passes on the paper</li></ul></div>
+        <div><h4>Limitations, stated plainly</h4><p>Retrieval did not significantly beat the fixed corrective prompt. One model, one seed, one judge: this is not evidence of true model repair.</p></div>
+      </div>
+
+      <h2 class="sec">Submission history</h2>
+      <div class="sec-rule"></div>
+      <ul class="hist"><li class="now"><span class="v">[v1]</span><span class="d">Sep 2026</span>Submitted to GenAI4Health @ NeurIPS 2026 (anonymized, 14 pp)</li></ul>
+    </div>
+
+    <aside class="side-col"><div class="side-sticky">
+      <div class="side">
+        <h3>Access paper:</h3>
+        <p class="withheld">PDF: withheld during double-blind review <a href="#">(what is this?)</a></p>
+        <ul style="margin-top:6px"><li><a href="#">Write-up (HTML)</a></li><li><a href="#">Code</a> <span class="small">(after review)</span></li></ul>
+      </div>
+      <div class="side">
+        <h3>Status</h3>
+        <p style="margin:4px 0 6px"><span class="badge b-rev">Under review</span></p>
+        <p class="small">GenAI4Health @ NeurIPS 2026</p>
+      </div>
+      <div class="side">
+        <h3>Current browse context:</h3>
+        <p class="ctx">cs.LG</p>
+        <p class="mono" style="font-size:12px;color:var(--ink-3)"><a href="#">&lt; prev</a> &nbsp;|&nbsp; <a href="#">next &gt;</a></p>
+      </div>
+      <div class="side">
+        <h3>Cite</h3>
+        <button class="btn">Export BibTeX <span class="mono">c</span></button>
+      </div>
+    </div></aside>
+  </main>
+</section>
+
+<div class="card" id="card"></div>
+
+<dialog id="cite" style="border:1px solid var(--ink);background:var(--paper);padding:20px;max-width:560px;width:calc(100% - 32px);margin:auto">
+  <p class="sans" style="font-weight:600;font-size:15px;margin-bottom:10px">Cite this person</p>
+  <pre class="mono" style="background:var(--wash);padding:12px 14px;font-size:12.5px;line-height:1.6;overflow:auto;color:var(--ink-2)">@misc{lunn2026,
+  title  = {Tenzing Lunn},
+  author = {Lunn, Tenzing},
+  year   = {2026},
+  note   = {TL:2610.00001v4 [cs.LG]. Mathematics &amp; CS, Fordham University},
+  url    = {https://tenzinglunn.vercel.app}
+}</pre>
+  <div style="display:flex;gap:10px;margin-top:14px"><button class="btn" id="copy">Copy</button><button class="btn" onclick="this.closest('dialog').close()">Close</button></div>
+</dialog>
+
+<nav class="mock" aria-label="Mockup screens">
+  <span>MOCKUP</span>
+  <button data-s="loader">Loader</button>
+  <button data-s="home">Home</button>
+  <button data-s="list">Listings</button>
+  <button data-s="paper">Paper</button>
+  <button id="lights">Lights</button>
+</nav>
+
+<script src="rough.js"></script>
+<script>
+/* ---------- content ---------- */
+const S = {
+  1: { id: "TL:2512.00001", t: "The Network", st: ["done", "Concluded"], a: "COO & product lead · Dec 2025 – May 2026", subj: "<b>Product (pm.PR)</b>; Computers and Society (cs.CY)", c: "Pre-seed consumer social startup. Did not write the app; scoped, audited and decided which features survived each pivot.", tl: "Led product for a social app built on trusted circles and warm introductions instead of feeds.", fmt: ["html"] },
+  2: { id: "TL:2604.00002", t: "Nuverum CRM", st: ["live", "Live"], a: "Built for Nuverum Ventures · Apr 2026 – present", subj: "<b>Software Engineering (cs.SE)</b>; Databases (cs.DB)", c: "Next.js, TypeScript, Supabase, Postgres RLS. Internal tool, in daily use.", tl: "Moved 20+ deals and 100+ leads off a Google Sheet into a CRM with a 5-role permission model.", fmt: ["html"] },
+  3: { id: "TL:2605.00003", t: "Correct the Note, Not the Weights: Runtime Mitigation of Emergent Misalignment in a Clinical LLM Agent", st: ["rev", "Under review"], a: "T. Lunn + 3 co-authors · Algoverse AI Research", subj: "<b>Machine Learning (cs.LG)</b>; Artificial Intelligence (cs.AI)", c: "Submitted to GenAI4Health @ NeurIPS 2026. 14 pages.", tl: "Corrective retrieval cut judged-harmful answers from 63.4% to 15.1%, with zero refusals in 10,800 benign responses.", fmt: ["html", "code"], abs: "Clinical institutions often run a model inside retrieval and memory scaffolds they control, without access to its weights. We asked whether that surface alone can mitigate emergent misalignment in a Qwen2.5-14B-Instruct model fine-tuned on bad medical advice. Retrieval did not significantly beat a fixed corrective prompt, and a single-judge, single-seed study cannot claim true repair." },
+  4: { id: "TL:2608.00004", t: "Meditate With Me", st: ["live", "Live"], a: "Freelance, for a nonprofit founder · Aug 2026 – present", subj: "<b>Software Engineering (cs.SE)</b>; Meditation (life.MED)", c: "Next.js, TypeScript, Supabase, Web Audio API. Live since 1 September 2026.", tl: "Cut a 23-page spec to a 41-hour v1 with synchronized hourly group sessions, shipped in three weeks.", fmt: ["html", "live"] },
+  5: { id: "TL:2609.00005", t: "Compute Futures", st: ["prog", "In progress"], a: "Fordham Quant Club · with the project lead and a faculty advisor", subj: "<b>Computational Finance (q-fin.CP)</b>; Statistics (stat.AP)", c: "Python, pandas, Bloomberg, Black 76. Report due October 2026.", tl: "A daily GPU rental-price pipeline across 7 sources, for CME's proposed H100 and B200 futures.", fmt: ["html"] },
+};
+const CROSS = [
+  { id: "TL:2601.00006", t: "LXIVNY", st: ["live", "Live"], from: "cs.SE", a: "Luxury resale storefront · Jan 2026 – present", tl: "Live storefront with Stripe checkout on $0/month infrastructure." },
+  { id: "TL:26xx.00007", t: "AI Command Center", st: ["live", "In daily use"], from: "cs.AI", a: "Next.js, Supabase, Anthropic API, Plaid", tl: "An AI planner used daily for schedule, classes and spending." },
+  { id: "TL:26xx.00008", t: "Tennis Prediction Engine", st: ["done", "Concluded"], from: "stat.ML", a: "Python, scikit-learn", tl: "Gradient-boosted model on 200K+ ATP and WTA matches with ELO and decayed form features." },
+  { id: "TL:2308.00009", t: "Mindfulness and Meditation Club", st: ["done", "Concluded"], from: "life.MED", a: "UWC Dilijan · Aug 2023 – May 2025", tl: "Led a 40-member club for two years, with guest speakers." },
+  { id: "TL:2308.00010", t: "Art with Kindergarten Kids", st: ["done", "Concluded"], from: "life.ART", a: "Founder · UWC Dilijan · Aug 2023 – May 2025", tl: "Weekly art sessions for 15 children ages 4–7." },
+];
+const badge = ([k, w]) => `<span class="badge b-${k}">${w}</span>`;
+const hl = (s, q) => q ? s.replace(new RegExp(`(${q})`, "gi"), '<span class="hit">$1</span>') : s;
+
+function entry(n, e, q) {
+  const fmts = (e.fmt || ["html"]).map((f) => `<a href="#">${f}</a>`).join(", ");
+  const more = e.abs ? ` <button class="more" data-more="m${n}${q ? "q" : ""}">▽ More</button>` : "";
+  return `<li class="entry"><span class="n">[${n}]</span><div>
+    <div class="idline"><a class="id" href="${n == 3 ? "#paper" : "#"}">${e.id}</a><span class="fmt">[${fmts}]</span>${e.from ? `<em class="xl">(cross-list from ${e.from})</em>` : ""}${badge(e.st)}</div>
+    <h3><a href="${n == 3 ? "#paper" : "#"}">${hl(e.t, q)}</a></h3>
+    <p class="ln"><span class="k">Authors</span>${e.a}</p>
+    ${e.c ? `<p class="ln"><span class="k">Comments</span>${e.c}</p>` : ""}
+    ${e.subj ? `<p class="ln"><span class="k">Subjects</span>${e.subj}</p>` : ""}
+    <p class="tldr"><span class="k">TL;DR</span>${hl(e.tl, q)}${more}</p>
+    ${e.abs ? `<div class="fullabs" id="m${n}${q ? "q" : ""}"><div><p>${hl(e.abs, q)}</p></div></div>` : ""}
+  </div></li>`;
+}
+const order = [3, 5, 4, 2, 1];
+document.getElementById("home-entries").innerHTML = order.map((k, i) => entry(k, S[k])).join("");
+document.getElementById("list-entries").innerHTML = [5, 4, 3, 2, 1].map((k) => entry(k, S[k], "memory")).join("");
+document.getElementById("cross-entries").innerHTML = CROSS.map((e, i) => entry(6 + i, e)).join("");
+
+/* masthead */
+const tpl = document.getElementById("mast");
+document.querySelectorAll("[data-mast]").forEach((slot) => {
+  const n = tpl.content.cloneNode(true);
+  n.querySelector(".crumb").innerHTML = slot.dataset.mast;
+  slot.replaceWith(n);
+});
+
+/* more / less */
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-more]");
+  if (!b) return;
+  const el = document.getElementById(b.dataset.more);
+  const open = el.classList.toggle("open");
+  document.querySelectorAll(`[data-more="${b.dataset.more}"]`).forEach((x) => { if (x.textContent.includes("More")) x.style.visibility = open ? "hidden" : ""; });
+});
+
+/* tabs */
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach((x) => x.setAttribute("aria-selected", x === t));
+  document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("on", p.id === t.dataset.p));
+}));
+document.querySelectorAll(".tg").forEach((t) => t.addEventListener("click", () => t.classList.toggle("on")));
+
+/* graph */
+(() => {
+  const dash = { live: "none", prog: "4 3", rev: "4 3", done: "1 3" };
+  const C = [320, 150], pos = { 3: [120, 70], 5: [530, 70], 4: [540, 235], 2: [330, 262], 1: [105, 235] };
+  const subj = { 3: "cs.LG", 5: "q-fin.CP", 4: "cs.SE", 2: "cs.SE", 1: "pm.PR" };
+  let e = "", n = "";
+  for (const k in pos) {
+    const [x, y] = pos[k];
+    e += `<line class="edge" x1="${C[0]}" y1="${C[1]}" x2="${x}" y2="${y}"/><text x="${(C[0] + x) / 2 + 6}" y="${(C[1] + y) / 2 - 4}">${subj[k]}</text>`;
+    const name = S[k].t.split(":")[0];
+    n += `<g class="node"><circle cx="${x}" cy="${y}" r="${k == 3 ? 16 : 11}" stroke-dasharray="${dash[S[k].st[0]]}"/><text class="t" x="${x}" y="${y + (y > 150 ? 32 : -36)}" text-anchor="middle">${name}</text><text x="${x}" y="${y + (y > 150 ? 46 : -22)}" text-anchor="middle" style="font-size:10px;fill:var(--ink-3)">${S[k].id}</text></g>`;
+  }
+  n += `<g class="node"><circle cx="${C[0]}" cy="${C[1]}" r="22" style="stroke-width:1.5"/><text class="t" x="${C[0]}" y="${C[1] + 5}" text-anchor="middle" style="font-size:12px">T.L.</text></g>`;
+  document.getElementById("edges").innerHTML = e;
+  document.getElementById("nodes").innerHTML = n;
+})();
+
+/* hover citations */
+const card = document.getElementById("card");
+document.addEventListener("mouseover", (ev) => {
+  const c = ev.target.closest(".cite");
+  if (!c) return;
+  const e = S[c.dataset.c], r = c.getBoundingClientRect();
+  card.innerHTML = `<div class="top"><span class="mono">${e.id}</span>${badge(e.st)}</div><b>${e.t}</b>${e.tl}`;
+  card.style.left = Math.min(scrollX + r.left, scrollX + innerWidth - 340) + "px";
+  card.style.top = scrollY + r.bottom + 8 + "px";
+  card.classList.add("on");
+});
+document.addEventListener("mouseout", (ev) => { if (ev.target.closest(".cite")) card.classList.remove("on"); });
+
+/* cite modal */
+const dlg = document.getElementById("cite");
+document.getElementById("cite-btn").onclick = () => dlg.showModal();
+document.getElementById("copy").onclick = (ev) => { ev.target.textContent = "Copied ✓";  };
+
+/* ---------- band (port of src/lib/band.ts) ---------- */
+const BAND = [{ scale: 1.12, lean: -0.05, head: "fan" }, { scale: 1.0, lean: 0.04, head: "spikes" }, { scale: 0.96, lean: -0.03, head: "crown" }, { scale: 1.05, lean: 0.06, head: "spikes" }];
+const STEP = 60 / 122 / 4, CONGA_TOP = -128, W = 620, H = 330, BASE = 318, X = [95, 238, 382, 525];
+function pen(rc, seed, ink, paper) {
+  const o = { seed, roughness: 1.4, bowing: 1.3, stroke: ink, strokeWidth: 1.5 };
+  const fill = (gap, extra = {}) => ({ ...o, fill: ink, fillStyle: "hachure", hachureGap: gap, fillWeight: 0.6, hachureAngle: -41 + (seed % 7) * 6, ...extra });
+  return { rc, o, paper, fill };
+}
+function upperBody({ rc, o, paper, fill }, d, since) {
+  rc.polygon([[-27, -207], [27, -207], [21, -119], [-21, -119]], fill(8));
+  for (let fx = -20; fx <= 20; fx += 4) rc.line(fx, -119, fx + (((fx * 7) % 5) - 2), -104 + ((fx / 4) % 2 ? 0 : 5), { ...o, strokeWidth: 1.1 });
+  for (let y = -200; y < -125; y += 9) { const k = (y + 207) * 0.07; rc.line(-27 + k, y, -35 + k, y + 6, { ...o, strokeWidth: 1 }); rc.line(27 - k, y, 35 - k, y + 6, { ...o, strokeWidth: 1 }); }
+  rc.line(0, -207, 0, -215, o);
+  if (d.head === "fan") {
+    rc.arc(0, -252, 170, 130, Math.PI * 1.08, Math.PI * 1.92, true, fill(7));
+    for (let a = 1.12; a < 1.9; a += 0.13) rc.line(0, -252, Math.cos(a * Math.PI) * 84, -252 + Math.sin(a * Math.PI) * 64, o);
+  } else if (d.head === "spikes") {
+    for (let i = -4; i <= 4; i++) { const a = ((-90 + i * 17) * Math.PI) / 180, len = i % 2 ? 50 : 68; const q = [Math.cos(a) * (18 + len), -240 + Math.sin(a) * (22 + len)]; rc.line(Math.cos(a) * 18, -240 + Math.sin(a) * 22, q[0], q[1], o); rc.circle(q[0], q[1], 9, { ...o, fill: o.stroke, fillStyle: "solid" }); }
+  } else {
+    const pts = []; for (let i = 0; i <= 8; i++) pts.push([-30 + i * 7.5, i % 2 ? -262 : -300 + Math.abs(i - 4) * 6]);
+    rc.polygon([[-30, -252], ...pts, [30, -252]], fill(4));
+  }
+  rc.ellipse(0, -236, 36, 42, { ...o, fill: paper, fillStyle: "solid" });
+  rc.line(-9, -240, -4, -240, o); rc.line(4, -240, 9, -240, o);
+  rc.ellipse(0, -224, 9, since < 0.12 ? 8 : 3, o);
+}
+function conga({ rc, o, paper, fill }, hit) {
+  rc.polygon([[-24, CONGA_TOP], [-31, -70], [-22, 0], [22, 0], [31, -70], [24, CONGA_TOP]], fill(11, { hachureAngle: 80 }));
+  rc.line(-25, CONGA_TOP + 12, 25, CONGA_TOP + 12, { ...o, strokeWidth: 2 });
+  rc.line(-23, -12, 23, -12, { ...o, strokeWidth: 2 });
+  rc.ellipse(0, CONGA_TOP, 50, hit ? 9 : 13, { ...o, fill: paper, fillStyle: "solid" });
+}
+function drawConguero(ctx, pn, d, x, base, t, seated) {
+  const { rc, o } = pn, n = t / STEP, since = (n % 1) * STEP;
+  ctx.save(); ctx.translate(x, base); ctx.scale(d.scale, d.scale);
+  if (!seated) { conga(pn, false); ctx.restore(); return; }
+  const SIT = 45;
+  rc.line(-22, -76, 22, -76, { ...o, strokeWidth: 2 }); rc.line(-18, -76, -24, 0, o); rc.line(18, -76, 24, 0, o);
+  rc.linearPath([[-14, -76], [-42, -66], [-46, 0], [-58, 2]], o); rc.linearPath([[14, -76], [42, -66], [46, 0], [58, 2]], o);
+  ctx.save(); ctx.translate(0, SIT + 1.5 * Math.sin(n * Math.PI * 0.5)); ctx.rotate(d.lean); upperBody(pn, d, since); ctx.restore();
+  conga(pn, since < 0.05);
+  for (const side of [-1, 1]) {
+    const up = Math.sin((((n + (side > 0 ? 1 : 0)) % 2) / 2) * Math.PI);
+    const Hp = [side * (12 + up * 6), CONGA_TOP - 4 - up * 32];
+    rc.linearPath([[side * 25, -200 + SIT], [side * (44 + up * 4), -134 - up * 10], Hp], o); rc.circle(Hp[0], Hp[1], 11, o);
+  }
+  ctx.restore();
+}
+function pop(t, at) { const p = Math.min(1, Math.max(0, (t - at) / 0.22)) - 1; return 1 + 2.7 * p ** 3 + 1.7 * p ** 2; }
+function playBand(canvas, { seconds, sitAt, popAt }) {
+  const dpr = Math.min(devicePixelRatio || 1, 2), scale = canvas.clientWidth / W;
+  canvas.width = Math.round(canvas.clientWidth * dpr); canvas.height = Math.round(H * scale * dpr); canvas.style.height = `${H * scale}px`;
+  const ctx = canvas.getContext("2d"), rc = rough.canvas(canvas), start = performance.now(); let raf = 0;
+  const draw = () => {
+    const t = (performance.now() - start) / 1000, seed = (Math.floor(t * 12) % 3) * 10, style = getComputedStyle(document.body);
+    ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0); ctx.clearRect(0, 0, W, H);
+    rc.line(20, BASE + 3, W - 20, BASE + 1, { seed: seed + 1, roughness: 1.6, stroke: style.color, strokeWidth: 0.6 });
+    X.forEach((x, i) => {
+      const seated = t >= sitAt(i), s = seated ? pop(t, sitAt(i)) : pop(t, popAt(i));
+      if (s <= 0) return;
+      const cy = seated ? BASE : BASE - 64 * BAND[i].scale;
+      ctx.save(); ctx.translate(x, cy); ctx.scale(s, s); ctx.translate(-x, -cy);
+      drawConguero(ctx, pen(rc, seed + i + 1, style.color, style.backgroundColor), BAND[i], x, BASE, t * 1.4, seated);
+      ctx.restore();
+    });
+    if (t < seconds) raf = requestAnimationFrame(draw);
+  };
+  raf = requestAnimationFrame(draw);
+  return () => cancelAnimationFrame(raf);
+}
+
+/* ---------- loader ---------- */
+let stopBand = () => {}, timers = [];
+function playLoader() {
+  timers.forEach(clearTimeout); timers = []; stopBand();
+  const L = document.getElementById("loader"), bar = document.getElementById("bar"), log = [...document.querySelectorAll("#log li")];
+  L.classList.remove("out"); bar.classList.remove("go"); log.forEach((l) => l.classList.remove("on"));
+  void bar.offsetWidth; bar.classList.add("go");
+  stopBand = playBand(document.getElementById("band"), { seconds: Infinity, sitAt: (i) => 0.8 + i * 0.3, popAt: (i) => 0.15 + i * 0.14 });
+  [600, 1300, 2000].forEach((ms, i) => timers.push(setTimeout(() => log[i].classList.add("on"), ms)));
+  timers.push(setTimeout(finishLoader, 3000));
+}
+function finishLoader() {
+  if (current !== "loader") return;
+  const L = document.getElementById("loader"); L.classList.add("out");
+  timers.push(setTimeout(() => { stopBand(); show("home", true); }, 500));
+}
+
+/* ---------- screens ---------- */
+let current = "";
+function show(s, drawHair) {
+  current = s;
+  if (s !== "loader") { timers.forEach(clearTimeout); timers = []; stopBand(); }
+  document.querySelectorAll(".screen").forEach((x) => x.classList.toggle("on", x.id === "s-" + s));
+  document.querySelectorAll(".mock [data-s]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.s === s));
+  document.querySelectorAll(".nav a").forEach((a) => a.toggleAttribute("aria-current", a.dataset.k === s));
+  scrollTo(0, 0);
+  if (s === "loader") playLoader();
+  if (drawHair) {
+    const h = document.querySelector("#s-home .hair");
+    h.animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: 400, easing: "cubic-bezier(.2,.8,.2,1)" });
+  }
+  if (location.hash.slice(1) !== s) history.replaceState(null, "", "#" + s);
+}
+document.querySelectorAll(".mock [data-s]").forEach((b) => b.addEventListener("click", () => show(b.dataset.s)));
+addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["loader", "home", "list", "paper"].includes(h)) show(h); });
+addEventListener("keydown", (e) => {
+  if (e.target.closest("input, textarea")) return;
+  if (current === "loader") { finishLoader(); return; }
+  if (e.key === "i" || e.key === "I") toggleLights();
+  if (e.key === "c") dlg.showModal();
+});
+document.getElementById("loader").addEventListener("click", finishLoader);
+function toggleLights() {
+  const r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark ? "light" : "dark";
+}
+document.getElementById("lights").onclick = toggleLights;
+show(["loader", "home", "list", "paper"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "loader");
+</script>
+</body>
+</html>

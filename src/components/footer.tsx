@@ -1,23 +1,42 @@
+import Link from "next/link";
 import { site } from "@/content/site";
-import { formatDate } from "@/lib/dates";
+import { displayId, person } from "@/content/records";
+import { datelineDate } from "@/components/dateline";
 
+const PAGES = [
+  { href: "/about", label: "About" },
+  { href: "/now", label: "Now" },
+  { href: "/art", label: "Art" },
+  { href: "/ask", label: "Ask" },
+];
+
+/** arXiv's footer: plain links separated by middots, and one line of fine print. */
 export function Footer() {
   return (
-    <footer className="wrap mt-[20vh]">
-      <div className="flex flex-wrap items-baseline justify-between gap-4 border-t border-border py-7 font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3">
-        <p>
-          © {new Date().getFullYear()} {site.name} · Made in New York · Updated {formatDate(site.now.lastUpdated, "short")}
-        </p>
-        <p>Press ? for secrets</p>
-        <ul className="flex gap-5">
-          {site.links.map((l) => (
-            <li key={l.label}>
-              <a href={l.href} target={l.external ? "_blank" : undefined} rel={l.external ? "noreferrer noopener" : undefined} className="sweep hover:text-fg transition-colors">
-                {l.label}
-              </a>
+    <footer className="wrap mt-24 no-print">
+      <div className="foot">
+        <nav aria-label="Footer">
+          <ul>
+            {PAGES.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href}>{l.label}</Link>
+              </li>
+            ))}
+            {site.links.map((l) => (
+              <li key={l.label}>
+                <a href={l.href} target={l.external && !l.href.startsWith("mailto:") ? "_blank" : undefined} rel={l.external ? "noreferrer noopener" : undefined}>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a href="/feed.xml">RSS</a>
             </li>
-          ))}
-        </ul>
+          </ul>
+        </nav>
+        <p className="fine">
+          lunnXiv · {displayId(person.id)}v{person.version} · updated {datelineDate(person.revised)} · press ? for shortcuts
+        </p>
       </div>
     </footer>
   );

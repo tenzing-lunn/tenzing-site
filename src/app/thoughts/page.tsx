@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default function ThoughtsPage() {
   const groups = thoughtsByYear();
   return (
-    <Chapter label="Thoughts" title="Short writing" as="h1">
+    <Chapter label="Thoughts" title="Short writing">
       {groups.length === 0 ? <p className="text-fg-3">Nothing here yet.</p> : null}
       <div className="space-y-10">
         {groups.map(({ year, thoughts }) => (
           <section key={year} aria-labelledby={`year-${year}`}>
-            <h2 id={`year-${year}`} className="font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3">
+            <h2 id={`year-${year}`} className="label">
               {year}
             </h2>
             <ul className="mt-3 -mx-2">
@@ -30,11 +30,11 @@ export default function ThoughtsPage() {
                   >
                     <time
                       dateTime={n.date}
-                      className="w-14 shrink-0 text-[13px] text-fg-3 tabular-nums"
+                      className="w-14 shrink-0 font-mono text-[12px] text-fg-3 tabular-nums"
                     >
                       {formatDate(n.date, "short")}
                     </time>
-                    <span className="text-fg-2 group-hover:text-fg transition-colors underline-offset-4 decoration-fg-3 group-hover:underline">
+                    <span className="font-semibold text-fg underline decoration-rule-strong underline-offset-3 group-hover:decoration-fg">
                       {n.title}
                     </span>
                   </Link>

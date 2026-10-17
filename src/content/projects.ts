@@ -163,41 +163,6 @@ To be clear up front: I did not build the app. It was a Flutter app written by t
 
 Day to day I worked on, audited, and revised the core features as the product pivoted, and decided which of them survived each pivot.`,
   },
-  {
-    slug: "trade-bot",
-    name: "trade-bot",
-    year: 2026,
-    description: "A walk-forward backtesting harness for trading ideas, built to kill bad ones.",
-    status: "active",
-    tech: ["Python", "pandas", "NumPy", "FastAPI", "Next.js"],
-    links: [
-      { label: "GitHub", href: "https://github.com/tenzing-lunn/tjh-trading" },
-      { label: "Live app", href: "https://webapp-zeta-liart.vercel.app" },
-    ],
-    overview: `A harness that tests trading strategies against about eight years of real prices, charges realistic spread, slippage, and fees, and grades an idea only on data it was not tuned on. Most ideas die, and that is the point.
-
-On daily equity data, none of the classic single-stock strategies survived. The best candidate, cross-sectional momentum, beat the market after costs but could not be told apart from simply owning the same thirty stocks equally, so it is parked as inconclusive.`,
-    why: `I wanted to trade a few thousand dollars of my own money without fooling myself. The only way I trust a number is if the machine that produced it was built to say no.`,
-    how: `Parameters are chosen on the training window only and scored on the unseen test window, then the window rolls forward. Oracle and anti-oracle tests prove there is no lookahead: a signal at bar t can only earn at bar t+1.
-
-Every result is compared against buying and holding, trading at random, and the deflated Sharpe ratio, which discounts for how many things were tried.`,
-    learned: `The out-of-sample walk-forward number is the only one that isn't lying. A cross-sectional momentum strategy looked like it passed, then came apart on a closer look: its lead over equal-weighting the same thirty stocks had a t-stat of 0.34, it won 48% of months, and removing one stock erased the edge.
-
-I have not risked a dollar on it. That is the harness doing its job.`,
-    notes: `The project is called The Skeptic's Machine. The web app's backend runs on a free server, so the first load can take about 30 seconds. It is a student research project, not financial advice.
-
-The one rule: an idea only counts if it beats simple baselines (buy and hold, random trading, SPY) on data it was not tuned on, after realistic costs.
-
-How it tests: a decision on day t can only earn day t+1's return, enforced in the engine, and sanity checks confirm planted patterns are found and pure noise produces nothing. Costs are 3 basis points of spread and 1 of slippage for liquid stocks. History is cut into chunks; settings are chosen on the past and tested on the next unseen chunk, and only those out-of-sample results count. Luck checks cover too few trades, one-year wonders, market-regime splits, and a deflated Sharpe ratio, backed by an append-only ledger of every experiment so the number of attempts can't be under-reported. Verdicts are PASS, FAIL or INCONCLUSIVE, with a power check. Data: about eight years of daily prices for 30 large US stocks plus SPY.
-
-Results: three classic single-stock strategies (moving-average crossover, mean reversion, time-series momentum) across 31 stocks gave 93 tests, 0 edges, 3 suspects, 76 fails and 14 inconclusive; an earlier run on about 100 stocks passed 0 of 309. Cross-sectional momentum (hold the top 10 of 30 by past-year gain, rebalanced monthly) returned +309% against +285% for owning all 30 equally and +180% for SPY, 2019 to 2026 after costs, but its lead is indistinguishable from luck (t of 0.34, won 48% of months, gone without NVDA). On nearly a century of academic data it passes easily, though the premium has roughly halved since it was published, and it disappears at about 50 basis points of trading cost. Verdict: inconclusive, parked; proving it would take about 32 years of data.
-
-Now: building an intraday foundation, about 42 million minute bars for 32 symbols since 2016 with quality checks, and measured bid-ask spreads, toward a realistic intraday cost model that is drafted but not yet signed off.
-
-The app: a Next.js front end and a FastAPI back end; an Engine Room page runs the strategy scan and the momentum test live, and every number comes from the Python harness.
-
-How it was built: AI agents did the engineering, split by difficulty, with a rule that the model that built something never grades its own work; audits caught real errors, including a wrongly labelled "survives". No agent can place orders or make a go or no-go call. It connects only to a paper-trading account with no positions. No real money has been traded.`,
-  },
 ];
 
 export function getProject(slug: string): Project | undefined {

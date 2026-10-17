@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/badge";
 import { Dialog } from "@/components/dialog";
 import { useUI } from "@/components/ui-provider";
 import { buildIndex, type IndexEntry } from "@/lib/index";
 import { fuzzyScore } from "@/lib/fuzzy";
+import { parseQuery, search, type Mark } from "@/lib/query";
 
 const INDEX = buildIndex();
 
@@ -32,7 +34,10 @@ function PaletteBody({ onClose }: { onClose: () => void }) {
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const results = useMemo(() => search(query), [query]);
+  const hits = useMemo(() => search(INDEX, query, fuzzyScore), [query]);
+  const results = hits.map((h) => h.entry);
+  // Shown in the footer when operators were dropped for plain fuzzy search.
+  const syntaxError = useMemo(() => parseQuery(query.trim()).error, [query]);
 
   // Keep the active row in view.
   useEffect(() => {
@@ -85,7 +90,7 @@ function PaletteBody({ onClose }: { onClose: () => void }) {
           aria-label="Search"
           autoComplete="off"
           spellCheck={false}
-          placeholder="type to search"
+          placeholder="search, or try cat:cs.SE status:rev"
           className="w-full bg-transparent font-mono text-sm text-fg placeholder:text-fg-3 focus:outline-none"
         />
       </div>
@@ -97,10 +102,10 @@ function PaletteBody({ onClose }: { onClose: () => void }) {
         aria-label="Results"
         className="max-h-[50vh] overflow-y-auto border-t border-border py-1"
       >
-        {results.length === 0 ? (
+        {hits.length === 0 ? (
           <li className="px-4 py-3 font-mono text-xs text-fg-3">no matches</li>
         ) : (
-          results.map((entry, i) => (
+          hits.map(({ entry, marks }, i) => (
             <li
               key={entry.id}
               id={`palette-${entry.id}`}
@@ -114,35 +119,60 @@ function PaletteBody({ onClose }: { onClose: () => void }) {
             >
               <span className="flex min-w-0 items-baseline gap-3">
                 <span className="w-12 shrink-0 font-mono text-[11px] text-fg-3">{entry.kind}</span>
-                <span className="truncate">{entry.title}</span>
+                <span className="truncate">
+                  <Marked text={entry.title} marks={marks} />
+                </span>
               </span>
-              {entry.meta ? (
-                <span className="shrink-0 font-mono text-[11px] text-fg-3">{entry.meta}</span>
-              ) : null}
+              <span className="flex shrink-0 items-baseline gap-2">
+                {entry.status ? <Badge status={entry.status} /> : null}
+                {entry.meta ? (
+                  // Next to a badge the ID would squeeze the title on a phone.
+                  <span className={`font-mono text-[11px] text-fg-3 ${entry.status ? "hidden sm:inline" : ""}`}>
+                    {entry.meta}
+                  </span>
+                ) : null}
+              </span>
             </li>
           ))
         )}
       </ul>
 
-      <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-border px-4 py-2 font-mono text-[11px] text-fg-3">
-        <span>↑ ↓ to move</span>
-        <span>↵ to open</span>
-        <span>esc to close</span>
+      <span role="status" className="sr-only">
+        {query.trim() ? `${hits.length} ${hits.length === 1 ? "result" : "results"}` : ""}
+      </span>
+
+      <div className="border-t border-border px-4 py-2 font-mono text-[11px] text-fg-3">
+        <p className="truncate" title="Operators: ti: au: cat: status: year: id:. Terms are ANDed; quote values with spaces.">
+          {syntaxError ? (
+            <>operators ignored ({syntaxError}); fuzzy match</>
+          ) : (
+            <>ti: au: cat:cs.SE status:rev year:2025 id: · AND implied · &quot;quote&quot; phrases</>
+          )}
+        </p>
+        <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
+          <span>↑ ↓ to move</span>
+          <span>↵ to open</span>
+          <span>esc to close</span>
+        </p>
       </div>
     </div>
   );
 }
 
-function search(query: string): IndexEntry[] {
-  const q = query.trim();
-  if (!q) return INDEX;
-  return INDEX.map((entry) => {
-    const a = fuzzyScore(q, entry.title);
-    const b = entry.keywords ? fuzzyScore(q, entry.keywords) : null;
-    const score = Math.max(a ?? -Infinity, b !== null ? b - 20 : -Infinity);
-    return { entry, score };
-  })
-    .filter((r) => r.score > -Infinity)
-    .sort((x, y) => y.score - x.score)
-    .map((r) => r.entry);
+/** The title with each matched range underlined in ink. */
+function Marked({ text, marks }: { text: string; marks: Mark[] }) {
+  if (marks.length === 0) return <>{text}</>;
+  const parts: React.ReactNode[] = [];
+  let at = 0;
+  for (const [start, end] of marks) {
+    if (start > at) parts.push(text.slice(at, start));
+    parts.push(
+      <span key={start} className="text-fg underline decoration-ink decoration-1 underline-offset-[3px]">
+        {text.slice(start, end)}
+      </span>,
+    );
+    at = end;
+  }
+  if (at < text.length) parts.push(text.slice(at));
+  return <>{parts}</>;
 }

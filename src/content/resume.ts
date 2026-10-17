@@ -125,17 +125,6 @@ export const resumeProjects: ResumeEntry[] = [
     ],
   },
   {
-    title: "Algorithmic Trading Lab",
-    headline: "400+ out-of-sample tests; nothing yet passes after costs",
-    subtitle: "Python, pandas, FastAPI, Next.js",
-    dates: "Jun 2026 – Present",
-    href: "/projects/trade-bot",
-    bullets: [
-      "Built a backtesting engine enforcing no-lookahead execution, walk-forward validation, and realistic transaction costs",
-      "Ran 400+ out-of-sample strategy tests; none cleared the bar after costs, and the leading momentum strategy (+309% vs +180% for SPY) was graded inconclusive",
-    ],
-  },
-  {
     title: "AI Command Center",
     role: "AI planner",
     headline: "An AI planner I use daily for my schedule, classes and spending",

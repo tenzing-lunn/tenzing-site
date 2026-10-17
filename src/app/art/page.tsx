@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ArtPage() {
   const pieces = [...drawings, ...photos];
   return (
-    <Chapter label="Art" title="Drawings and photos" as="h1">
+    <Chapter label="Art" title="Drawings and photos">
       {pieces.length === 0 ? <p className="text-fg-3">Nothing here yet.</p> : null}
       <Gallery pieces={pieces} />
     </Chapter>

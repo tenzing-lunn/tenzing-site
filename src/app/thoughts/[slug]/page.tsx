@@ -36,8 +36,8 @@ export default async function ThoughtPage({ params }: { params: Promise<Params> 
     <Chapter label="Thoughts">
       <article>
       <header>
-        <h1 className="text-[clamp(40px,6vw,92px)] leading-[0.92] font-semibold tracking-[-0.05em] text-balance text-fg">{thought.title}</h1>
-        <time dateTime={thought.date} className="mt-3 block text-[13px] text-fg-3">
+        <h1 className="title">{thought.title}</h1>
+        <time dateTime={thought.date} className="dateline block">
           {formatDate(thought.date)}
         </time>
       </header>
@@ -47,7 +47,7 @@ export default async function ThoughtPage({ params }: { params: Promise<Params> 
       </div>
 
       <p className="mt-16">
-        <Link href="/thoughts" className="font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3 hover:text-fg sweep">
+        <Link href="/thoughts" className="label hover:text-fg">
           ← All thoughts
         </Link>
       </p>

@@ -1,0 +1,64 @@
+/* Endorsements (B8). The empty state reuses .whatis; the notes are
+   OpenReview-style comments whose outline style is their status. */
+
+/* ---------- empty state: one muted line, the whole line toggles ---------- */
+.ft-endorsements-empty {
+  margin-top: 28px;
+  font: 400 13px/1.5 var(--sans);
+  color: var(--ink-3);
+}
+.ft-endorsements-empty > summary { text-decoration: none; }
+.ft-endorsements-empty .ft-endorsements-q {
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.ft-endorsements-empty > summary:hover .ft-endorsements-q,
+.ft-endorsements-empty[open] .ft-endorsements-q { text-decoration-color: var(--ink); }
+.ft-endorsements-empty p { max-width: 68ch; margin-top: 6px; color: var(--ink-2); }
+
+/* ---------- the notes ---------- */
+.ft-endorsements-list {
+  list-style: none;
+  display: grid;
+  gap: 20px;
+  max-width: 68ch;
+}
+.ft-endorsements-note {
+  padding: 14px 16px 16px;
+  border: 1px solid var(--ink-3);
+}
+.ft-endorsements-private { border-style: dashed; }
+.ft-endorsements-title {
+  font: 600 15px/1.4 var(--sans);
+  color: var(--ink);
+}
+.ft-endorsements-by {
+  margin-top: 2px;
+  font: 400 13px/1.5 var(--sans);
+  color: var(--ink-3);
+}
+.ft-endorsements-fields {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 6px 12px;
+  align-items: baseline;
+  font: 400 14px/1.55 var(--sans);
+  color: var(--ink-2);
+}
+.ft-endorsements-fields dt {
+  font-weight: 600;
+  color: var(--ink);
+}
+.ft-endorsements-fields dd { min-width: 0; overflow-wrap: anywhere; }
+.ft-endorsements-summary {
+  font: 400 var(--t-body)/1.65 var(--serif);
+  font-variant-numeric: oldstyle-nums;
+  white-space: pre-line;
+}
+
+@media (max-width: 520px) {
+  .ft-endorsements-fields { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .ft-endorsements-fields dd + dt { margin-top: 8px; }
+}

@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { getRecord, serialOf } from "@/content/records";
+import { HoverCite } from "@/components/hover-cite";
 
 type Exchange = {
   id: number;
@@ -14,7 +16,8 @@ export function AskForm() {
   const [question, setQuestion] = useState("");
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [pending, setPending] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const id = useId();
   const nextId = useRef(1);
 
   const submit = async () => {
@@ -44,83 +47,58 @@ export function AskForm() {
       );
     } finally {
       setPending(false);
-      textareaRef.current?.focus();
-    }
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      void submit();
+      inputRef.current?.focus();
     }
   };
 
   return (
     <div>
       <form
+        className="ask"
         onSubmit={(e) => {
           e.preventDefault();
           void submit();
         }}
       >
-        <label htmlFor="ask-question" className="sr-only">
+        <label htmlFor={`${id}-q`} className="sr-only">
           Your question
         </label>
-        <div className="flex items-start gap-4 border-b border-fg pb-3">
-          <span className="pt-3 font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3 select-none" aria-hidden>
-            Q
-          </span>
-          <textarea
-            id="ask-question"
-            ref={textareaRef}
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            onKeyDown={onKeyDown}
-            rows={1}
-            maxLength={500}
-            disabled={pending}
-            placeholder="What are you working on?"
-            aria-describedby="ask-hint"
-            className="w-full resize-none bg-transparent text-[clamp(22px,2.6vw,36px)] leading-tight tracking-[-0.03em] text-fg placeholder:text-fg-3 focus:outline-none disabled:opacity-60 field-sizing-content"
-          />
-        </div>
-        <div id="ask-hint" className="mt-2.5 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.06em] text-fg-3">
-          <span>Enter to send · Shift Enter for a new line</span>
-          <button
-            type="submit"
-            disabled={pending || !question.trim()}
-            className="uppercase text-fg hover:underline underline-offset-4 disabled:text-fg-3 disabled:no-underline"
-          >
-            Send →
-          </button>
-        </div>
+        <input
+          id={`${id}-q`}
+          ref={inputRef}
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          maxLength={500}
+          disabled={pending}
+          placeholder="What did he do at Algoverse?"
+          autoComplete="off"
+        />
+        <button type="submit" disabled={pending || !question.trim()}>
+          Ask ↵
+        </button>
       </form>
 
       {exchanges.length > 0 ? (
-        <ol className="mt-10 space-y-8" aria-live="polite">
+        <ol className="ask-log" aria-live="polite">
           {exchanges.map((e) => (
             <li key={e.id}>
-              <p className="text-fg whitespace-pre-wrap">
-                <span className="mr-3 font-mono text-[11px] text-fg-3 select-none" aria-hidden>
-                  Q
-                </span>
+              <p className="ask-q">
+                <span className="label">Query:</span>
                 {e.question}
               </p>
-              <p className="mt-3 text-fg-2 leading-relaxed">
-                <span className="mr-3 font-mono text-[11px] text-fg-3 select-none" aria-hidden>
-                  A
-                </span>
+              <div className="resp">
+                <span className="label">Response:</span>
                 {e.error ? (
-                  <span className="text-sm text-fg-3">Sorry, that didn&apos;t work: {e.error}</span>
+                  <span className="quiet">Sorry, that didn&apos;t work: {e.error}</span>
                 ) : e.answer !== undefined ? (
-                  <Linked text={e.answer} />
+                  <Answer text={e.answer} />
                 ) : (
-                  <span className="text-sm text-fg-3">
+                  <span className="quiet">
                     thinking
                     <span className="cursor-blink">…</span>
                   </span>
                 )}
-              </p>
+              </div>
             </li>
           ))}
         </ol>
@@ -129,15 +107,36 @@ export function AskForm() {
   );
 }
 
-/** Turns site paths in an answer, like /art or /projects/foo, into links. */
-function Linked({ text }: { text: string }) {
-  return text.split(/(?<![\w:/.])(\/[a-z][a-z0-9-]*(?:\/[a-z0-9-]+)*)/g).map((part, i) =>
-    i % 2 === 1 ? (
-      <Link key={i} href={part} className="plain-link underline underline-offset-2">
-        {part}
-      </Link>
-    ) : (
-      part
-    ),
-  );
+/**
+ * A citation, `[TL:2605.00003]` (a trailing version like `v4` is allowed), or
+ * a site path such as /art, /abs/2605.00003 or /resume#lxivny. The
+ * lookbehind keeps paths inside full URLs from matching.
+ */
+const TOKEN = /\[TL:(\d{2}[\dx]{2}\.\d{5})(?:v\d+)?\]|(?<![\w:/.])\/[a-z][a-z0-9-]*(?:\/[a-z0-9-]+(?:\.[a-z0-9-]+)*)*(?:#[a-z0-9-]+)?/g;
+
+/**
+ * An answer as text with its citations and site paths made live. A citation
+ * of a record in the archive becomes a hover card numbered like its listing
+ * entry; any other ID stays exactly as the model wrote it, as plain text, so
+ * nothing on the page points at a record that doesn't exist.
+ */
+function Answer({ text }: { text: string }) {
+  const out: ReactNode[] = [];
+  let last = 0;
+  for (const m of text.matchAll(TOKEN)) {
+    const [whole, id] = m;
+    out.push(text.slice(last, m.index));
+    if (id === undefined) {
+      out.push(
+        <Link key={m.index} href={whole}>
+          {whole}
+        </Link>,
+      );
+    } else {
+      out.push(getRecord(id) ? <HoverCite key={m.index} id={id} n={serialOf(id)} /> : whole);
+    }
+    last = m.index + whole.length;
+  }
+  out.push(text.slice(last));
+  return out;
 }

@@ -4,19 +4,25 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useShortcut } from "@/lib/shortcuts";
+import { openTool } from "@/components/tabs";
 
-type Overlay = "palette" | "shortcuts" | null;
+export { isTypingTarget } from "@/lib/shortcuts";
+
+type Overlay = "palette" | "shortcuts" | "cite" | null;
 
 type UIContextValue = {
   overlay: Overlay;
+  /** The record the cite modal shows; undefined means the person record. */
+  citeId: string | undefined;
   openPalette: () => void;
   openShortcuts: () => void;
+  openCite: (id?: string) => void;
   closeOverlay: () => void;
 };
 
@@ -28,95 +34,84 @@ export function useUI() {
   return ctx;
 }
 
-/** True when the keydown originated in something the user types into. */
-export function isTypingTarget(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
-  const tag = target.tagName;
-  return (
-    tag === "INPUT" ||
-    tag === "TEXTAREA" ||
-    tag === "SELECT" ||
-    target.isContentEditable
-  );
-}
-
-/** 1–4 jump to the numbered sections of the home page. */
-const SECTIONS = ["do", "made", "outside", "ask"];
-
-/** Turns the lights off or on, whichever the page isn't now. */
+/**
+ * Turns the lights off or on, whichever the page isn't now. The state is the
+ * class on <html>; with neither class set, the system preference decides.
+ */
 function toggleLights() {
   const root = document.documentElement;
-  const dark = getComputedStyle(document.body).backgroundColor === "rgb(17, 17, 17)";
+  const dark =
+    root.classList.contains("force-dark") ||
+    (!root.classList.contains("force-light") && matchMedia("(prefers-color-scheme: dark)").matches);
   root.classList.toggle("force-dark", !dark);
   root.classList.toggle("force-light", dark);
 }
 
-const SHORTCUT_ROUTES: Record<string, string> = {
-  a: "/about",
-  p: "/projects",
-  t: "/thoughts",
-  r: "/resume",
-  "/": "/ask",
-};
+/** j / k: focus the next or previous listing entry ([data-entry]) on the page. */
+function stepEntry(dir: 1 | -1): boolean {
+  const items = [...document.querySelectorAll<HTMLElement>("[data-entry]")];
+  if (!items.length) return false;
+  let i = items.findIndex((el) => el.contains(document.activeElement));
+  if (i === -1) {
+    // nothing focused yet: start from the first entry below the masthead
+    const below = items.findIndex((el) => el.getBoundingClientRect().top > 80);
+    i = dir === 1 ? (below === -1 ? items.length : below) - 1 : below === -1 ? items.length : below;
+  }
+  const next = items[Math.min(items.length - 1, Math.max(0, i + dir))];
+  const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  next.focus({ preventScroll: true });
+  next.scrollIntoView({ block: "center", behavior: smooth ? "smooth" : "auto" });
+  return true;
+}
+
+/** The record an abs page is about, from its URL: /abs/2605.00003 → "2605.00003". */
+const absId = (pathname: string) => /^\/abs\/([^/]+)/.exec(pathname)?.[1];
 
 export function UIProvider({ children }: { children: ReactNode }) {
   const [overlay, setOverlay] = useState<Overlay>(null);
+  const [citeId, setCiteId] = useState<string | undefined>(undefined);
   const router = useRouter();
+  const pathname = usePathname();
 
   const openPalette = useCallback(() => setOverlay("palette"), []);
   const openShortcuts = useCallback(() => setOverlay("shortcuts"), []);
+  const openCite = useCallback((id?: string) => {
+    setCiteId(id);
+    setOverlay("cite");
+  }, []);
   const closeOverlay = useCallback(() => setOverlay(null), []);
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      const mod = e.metaKey || e.ctrlKey;
-
-      if (mod && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setOverlay((o) => (o === "palette" ? null : "palette"));
-        return;
-      }
-
-      if (e.key === "Escape") {
-        setOverlay(null);
-        return;
-      }
-
-      if (mod || e.altKey || e.repeat) return;
-      if (isTypingTarget(e.target)) return;
-      if (overlay) return;
-
-      const key = e.key.toLowerCase();
-      if (key === "?") {
-        e.preventDefault();
-        setOverlay("shortcuts");
-        return;
-      }
-      if (key === "i") {
-        toggleLights();
-        return;
-      }
-      const section = SECTIONS[Number(key) - 1];
-      if (section) {
-        const el = document.getElementById(section);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-        else router.push(`/#${section}`);
-        return;
-      }
-      const route = SHORTCUT_ROUTES[key];
-      if (route) {
-        e.preventDefault();
-        router.push(route);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [overlay, router]);
+  useShortcut("mod+k", () => {
+    setOverlay((o) => (o === "palette" ? null : "palette"));
+    return true;
+  }, { allowInInputs: true, allowInDialogs: true });
+  useShortcut("/", () => {
+    openPalette();
+    return true;
+  });
+  useShortcut("?", () => {
+    openShortcuts();
+    return true;
+  });
+  useShortcut("i", () => {
+    toggleLights();
+    return true;
+  });
+  useShortcut("j", () => stepEntry(1));
+  useShortcut("k", () => stepEntry(-1));
+  useShortcut("c", () => {
+    openCite(absId(pathname));
+    return true;
+  });
+  useShortcut("g", () => {
+    if (document.querySelector("[data-tools]")) openTool("graph");
+    else router.push("/#graph");
+    return true;
+  });
 
   const value = useMemo(
-    () => ({ overlay, openPalette, openShortcuts, closeOverlay }),
-    [overlay, openPalette, openShortcuts, closeOverlay],
+    () => ({ overlay, citeId, openPalette, openShortcuts, openCite, closeOverlay }),
+    [overlay, citeId, openPalette, openShortcuts, openCite, closeOverlay],
   );
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

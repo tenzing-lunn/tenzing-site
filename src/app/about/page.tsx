@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <Chapter label="About" title="Where I come from" as="h1">
+    <Chapter label="About" title="Where I come from">
       <div className="grid gap-10 md:grid-cols-[1fr_340px] md:gap-12">
         <div>
           <Bio />

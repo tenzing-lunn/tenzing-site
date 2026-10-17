@@ -10,9 +10,11 @@ export const metadata: Metadata = {
 
 export default function AskPage() {
   return (
-    <Chapter label="Ask" title="Say something" as="h1">
+    <Chapter label="Ask" title="Query this record">
       <p className="mb-8 text-fg-2">
-        Ask anything about me, my work, or this site. The answers come from what I&apos;ve written down here.
+        Ask anything about me, my work, or this site. The answers come from what I&apos;ve written down here, and
+        cite the records they draw on: hover or focus a <span className="mono">[n]</span> to see it, or follow it to
+        the record.
       </p>
       <AskForm />
     </Chapter>

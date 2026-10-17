@@ -1,0 +1,3 @@
+/* B10: keeps the open (what is this?) note from widening the block in the /list tool row. */
+.ft-subscribe-block { max-width: 18rem; }
+.ft-subscribe-block .whatis { margin-top: 2px; }

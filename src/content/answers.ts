@@ -7,10 +7,16 @@
  * Same voice as src/content/persona.ts: about Tenzing, third person,
  * professional with a little personality. Only what is true — where he
  * hasn't said, the honest reply is that it isn't written down.
+ *
+ * A reply that draws on a record cites it as [TL:yymm.nnnnn], built with
+ * `cite()` so it can only name a record that exists; the Ask form turns
+ * each one into a hover card that links to the record.
  */
 
 import { site } from "@/content/site";
 import { movies, reading } from "@/content/about";
+import { paper } from "@/content/paper";
+import { displayId, getRecord, getRecordBySlug } from "@/content/records";
 
 export type Answer = {
   /** Lowercase fragments to look for in the question. */
@@ -20,6 +26,13 @@ export type Answer = {
 
 const link = (label: string) => site.links.find((l) => l.label === label)?.href ?? "";
 const email = link("Email").replace("mailto:", "");
+
+/** `[TL:2605.00003]` for a record, by project slug or ID. */
+const cite = (key: string) => {
+  const r = getRecordBySlug(key) ?? getRecord(key);
+  if (!r) throw new Error(`answers.ts: no record "${key}"`);
+  return `[${displayId(r.id)}]`;
+};
 
 export const answers: Answer[] = [
   /* ---------- openers ---------- */
@@ -91,11 +104,11 @@ export const answers: Answer[] = [
   },
   {
     match: ["meditation", "meditate", "meditate with me", "meditatewithme"],
-    reply: "Meditate With Me: everyone sitting in the same hour finishes on the same bell, at the same second. It is live, and it is the main thing he is building. The write-up is at /projects/meditate-with-me.",
+    reply: `Meditate With Me: everyone sitting in the same hour finishes on the same bell, at the same second. It is live, and it is the main thing he is building. ${cite("meditate-with-me")}`,
   },
   {
     match: ["project", "what has he built", "what did he build", "his work", "portfolio"],
-    reply: "Six are written up at /projects: Meditate With Me, Compute Futures, the misalignment research, Nuverum CRM, The Network, and trade-bot. Each has why he built it and what he took from it.",
+    reply: `Five are written up at /list: Meditate With Me ${cite("meditate-with-me")}, Compute Futures ${cite("compute-futures")}, the misalignment research ${cite("correct-the-note")}, Nuverum CRM ${cite("nuverum-crm")}, and The Network ${cite("the-network")}. Each has why he built it and what he took from it. The résumé items without a page of their own are cross-listed there too.`,
   },
   {
     match: ["favourite project", "favorite project", "best project", "proudest", "hardest project", "most difficult"],
@@ -103,23 +116,39 @@ export const answers: Answer[] = [
   },
   {
     match: ["research", "paper", "neurips", "algoverse", "misalign", "ai safety", "alignment"],
-    reply: "He spent the summer of 2026 on emergent misalignment in a medical model, asking whether it can be repaired through its memory layer rather than its weights. The idea came from the overlap between his interest in mathematics and in medicine. It went to the GenAI4Health workshop at NeurIPS. /projects/correct-the-note.",
+    reply: `He spent the summer of 2026 on emergent misalignment in a medical model, asking whether it can be repaired through its memory layer rather than its weights. The idea came from the overlap between his interest in mathematics and in medicine. It was submitted to ${paper.venue} and is under review. ${cite(paper.id)}`,
   },
   {
     match: ["crm", "nuverum", "deal flow", "real estate"],
-    reply: "Nuverum CRM replaced a Google Sheets deal pipeline for a small investment team. The interesting part is role-based access enforced in Postgres rather than in application code. /projects/nuverum-crm.",
+    reply: `Nuverum CRM replaced a Google Sheets deal pipeline for a small investment team. The interesting part is role-based access enforced in Postgres rather than in application code. ${cite("nuverum-crm")}`,
   },
   {
     match: ["compute futures", "compute future", "gpu futures", "gpu rental", "quant club", "cme", "commodit", "h100", "b200"],
-    reply: "Compute Futures is Fordham Quant Club research on the proposed CME futures that settle on GPU rental prices, led by Josef Gashi. Tenzing owns the data engineering and the math: the collectors, the curve and option-surface code, and the charts. /projects/compute-futures.",
-  },
-  {
-    match: ["trading", "trade-bot", "algobot", "algo bot", "trading bot", "quant", "stock", "backtest", "sharpe", "hedge fund", "markets"],
-    reply: "trade-bot is a walk-forward backtesting harness built to kill bad ideas rather than flatter them. Most strategies he has tested have died, and he has not risked a dollar on it. /projects/trade-bot.",
+    reply: `Compute Futures is Fordham Quant Club research on the proposed CME futures that settle on GPU rental prices, led by Josef Gashi. Tenzing owns the data engineering and the math: the collectors, the curve and option-surface code, and the charts. ${cite("compute-futures")}`,
   },
   {
     match: ["the network", "startup", "coo", "product manager", "product lead"],
-    reply: "He was COO and product lead at The Network from December 2025 to May 2026. He did not build the app — he scoped features, audited them, and decided what survived each pivot. /projects/the-network.",
+    reply: `He was COO and product lead at The Network from December 2025 to May 2026. He did not build the app — he scoped features, audited them, and decided what survived each pivot. ${cite("the-network")}`,
+  },
+  {
+    match: ["lxivny", "storefront", "resale", "stripe"],
+    reply: `LXIVNY is a luxury resale storefront for an independent archive reseller, with Stripe checkout and an owner-run admin panel. It keeps customer data private with Postgres row-level security and runs on $0/month infrastructure. ${cite("2601.00006")}`,
+  },
+  {
+    match: ["ai command center", "command center", "ai planner", "plaid"],
+    reply: `AI Command Center is an AI planner he uses daily to track his schedule, projects, classes, income and weekly spending. Next.js, Supabase, the Anthropic API and Plaid. ${cite("26xx.00007")}`,
+  },
+  {
+    match: ["tennis", "prediction engine", "atp and wta"],
+    reply: `The Tennis Prediction Engine is a gradient-boosted model trained on 200K+ ATP and WTA matches, using ELO ratings and decayed form features. Python and scikit-learn. ${cite("26xx.00008")}`,
+  },
+  {
+    match: ["meditation club", "mindfulness"],
+    reply: `At UWC Dilijan he ran a 40-member mindfulness and meditation club for two years, bringing in guest speakers to lead meditation sessions. ${cite("2308.00009")}`,
+  },
+  {
+    match: ["kindergarten", "art with kids", "teaching kids"],
+    reply: `At UWC Dilijan he founded and ran weekly art sessions for 15 children aged 4 to 7, adapted the lessons for non-English speakers, and grew the project by recruiting fellow students. ${cite("2308.00010")}`,
   },
   { match: ["learning", "learn", "studying right now"], reply: `Learning: ${site.now.learning}` },
   { match: ["thinking about", "on his mind", "interested in lately"], reply: `Thinking about: ${site.now.thinkingAbout}` },
@@ -173,7 +202,7 @@ export const answers: Answer[] = [
   },
   { match: ["github", "his code", "repos", "source code", "open source"], reply: `GitHub: ${link("GitHub")}` },
   { match: ["linkedin"], reply: `LinkedIn: ${link("LinkedIn")}` },
-  { match: ["resume", "résumé", " cv "], reply: "The whole record is at /resume. Press R from anywhere on the site." },
+  { match: ["resume", "résumé", " cv "], reply: "The whole record is at /resume, with a Save as PDF button." },
   {
     match: ["where does he live", "where is he based", "his location", "new york", "nyc", "manhattan", "where is he now"],
     reply: `${site.now.location}.`,
@@ -192,19 +221,19 @@ export const answers: Answer[] = [
   /* ---------- this site ---------- */
   {
     match: ["this site", "this website", "why did he make this", "what is this", "purpose of this"],
-    reply: "A single place to keep what he is doing, rather than scattering it across other people's platforms. About, projects, thoughts, art, and a current snapshot.",
+    reply: "A single place to keep what he is doing, rather than scattering it across other people's platforms. It is set out as a record in an archive, lunnXiv: he is the paper, his projects are submissions with IDs, and his life so far is the submission history.",
   },
   {
     match: ["shortcut", "keyboard", "hotkey", "command palette", "cmd k", "navigate"],
-    reply: "A, P, T and R for About, Projects, Thoughts and the résumé. Slash for Ask, 1 to 4 to jump between sections on the home page, I for the lights, Cmd-K for the command palette, and ? for the full list.",
+    reply: "J and K for the next and previous submission, C to cite, G for the graph, V to compare versions, backslash for the TeX source, T for TL;DR mode, slash or Cmd-K to search, I for the lights, and ? for the full list.",
   },
   {
     match: ["drummer", "drums", "junkanoo", "band", "the guys", "headdress", "drawing at the top", "conga", "intro", "opening"],
-    reply: "The four drummers in the opening are a nod to Junkanoo; he is Bahamian and plays hand drums. They sit down at congas one after another, then the page slides up over them. Type the word conga anywhere on the site to bring them back."
+    reply: "The four drummers in the opening are a nod to Junkanoo; he is Bahamian and plays hand drums. The first time the home page loads in a session, they sit down at their congas while the record compiles. Type the word conga anywhere on the site to bring them back."
   },
   {
     match: ["dark", "light mode", "theme", "why is it black", "why is it white", "why is the site", "why is the page", "background color", "colors", "color scheme", "black and white", "no color"],
-    reply: "It is black and white on purpose: one ink, one paper, and everything else done with type, space and motion. Press I to turn the lights off or on."
+    reply: "It is black and white on purpose: one ink, one paper, and status shown by line style instead of colour. Solid is live, dashed is in progress or under review, dotted is concluded. Press I to turn the lights off or on."
   },
   {
     match: ["built this site", "build this site", "make this site", "made this site", "how did he make this", "tech stack", "built with", "next.js", "tailwind", "vercel", "framework"],
@@ -218,7 +247,7 @@ export const answers: Answer[] = [
   },
   {
     match: ["what can you answer", "what can i ask", "what do you know", "help me", "topics"],
-    reply: "His studies, where he grew up, Armenia, his projects and research, football, drawing, music, film, what he is reading, how to reach him, and how this site works. Try one.",
+    reply: `His studies, where he grew up, Armenia, his projects and research, football, drawing, music, film, what he is reading, how to reach him, and how this site works. Answers about his work cite the record they come from, like ${cite(paper.id)}. Try one.`,
   },
   {
     match: ["joke", "funny", "make me laugh"],

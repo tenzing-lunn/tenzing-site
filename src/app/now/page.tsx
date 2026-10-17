@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function NowPage() {
   return (
-    <Chapter label="Now" title="What I am doing" as="h1">
+    <Chapter label="Now" title="What I am doing">
       <NowList />
     </Chapter>
   );

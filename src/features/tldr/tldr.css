@@ -1,0 +1,50 @@
+/* TL;DR mode (B6). `tldr` on <html> hides every [data-detail]; [data-summary]
+   lines stay as they are. Not !important, so the print rule in globals.css
+   still brings everything back on paper. */
+html.tldr [data-detail] { display: none; }
+
+/* The ▽ More under a TL;DR line opens a detail panel, so it goes too. */
+html.tldr .entry .more { display: none; }
+
+/* A tighter rhythm, so the person record fits in ~1.3 screens at 1280×800.
+   Screen only: on paper the record prints at its usual spacing. */
+@media screen {
+  html.tldr .entry { padding-bottom: 8px; }
+  html.tldr .entry .n,
+  html.tldr .entry .idline { line-height: 1.5; }
+  html.tldr .entry h3 { margin: 1px 0; line-height: 1.25; }
+  html.tldr .entry .ln { line-height: 1.45; }
+  html.tldr .entry .tldr { max-width: none; margin-top: 1px; line-height: 1.45; }
+  html.tldr .abs { padding-bottom: 24px; }
+  html.tldr .abs .hero { margin: 8px 0 4px; }
+  html.tldr .abs .meta { margin-top: 12px; }
+  html.tldr .abs h2.sec { margin-top: 18px; }
+  html.tldr .abs .sec-rule { margin-bottom: 14px; }
+  html.tldr .abs .side-sticky { gap: 16px; }
+  html.tldr:has(.abs) footer.wrap { margin-top: 24px; }
+}
+
+/* The switch: globals' .tg, with its knob also keyed off the root class so it
+   is right before hydration. */
+html.tldr .ft-tldr-tg i { border-color: var(--ink); }
+html.tldr .ft-tldr-tg i::after {
+  transform: translateX(14px);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+/* In the masthead (mobile): no sidebar rule, and band colours. */
+.mast-tldr .ft-tldr { border-left: 0; padding-left: 0; }
+.mast-tldr .ft-tldr-tg { font: 500 13px var(--sans); color: var(--band-3); }
+.mast-tldr .ft-tldr-tg:hover,
+.mast-tldr .ft-tldr-tg[aria-pressed="true"] { color: var(--band-fg); }
+.mast-tldr .ft-tldr-tg small { display: none; }
+.mast-tldr .ft-tldr-tg i { border-color: var(--band-rule); }
+.mast-tldr .ft-tldr-tg i::after { border-color: var(--band-3); }
+html.tldr .mast-tldr .ft-tldr-tg i { border-color: var(--band-fg); }
+html.tldr .mast-tldr .ft-tldr-tg i::after { background: var(--band-fg); border-color: var(--band-fg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ft-tldr-tg i,
+  .ft-tldr-tg i::after { transition: none; }
+}

@@ -1,0 +1,111 @@
+/* View source (B5): the TeX overlay and its sidebar link. Monochrome. */
+
+.ft-view-source {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0;
+  width: min(980px, calc(100% - 32px));
+  height: calc(100dvh - 48px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+}
+.ft-view-source[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.ft-view-source-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.ft-view-source-name {
+  font: 600 13px var(--mono);
+}
+.ft-view-source-note {
+  font: 400 12px var(--sans);
+  color: var(--ink-3);
+}
+.ft-view-source-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* the source itself: numbered lines, wrapped, scrollable */
+.ft-view-source-code {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  margin: 0;
+  padding: 12px 0;
+  background: var(--wash);
+  color: var(--ink-2);
+  font: 400 12.5px/1.6 var(--mono);
+  counter-reset: ft-view-source-ln;
+}
+.ft-view-source-code:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: -1px;
+}
+.ft-view-source-ln {
+  display: grid;
+  grid-template-columns: 4ch minmax(0, 1fr);
+  column-gap: 2ch;
+  padding-right: 14px;
+  counter-increment: ft-view-source-ln;
+}
+.ft-view-source-ln::before {
+  content: counter(ft-view-source-ln);
+  text-align: right;
+  color: var(--ink-3);
+}
+.ft-view-source-ln > span {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* commands in ink, comments quiet: weight and grey, never colour */
+.ft-view-source-cmd {
+  color: var(--ink);
+  font-weight: 500;
+}
+.ft-view-source-comment {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* "Source (TeX)" in the sidebar: an action, set like the links around it */
+.ft-view-source-link {
+  font: inherit;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.ft-view-source-link:hover {
+  text-decoration-color: var(--ink);
+}
+.ft-view-source-key {
+  margin-left: 8px;
+  font: 400 11px var(--mono);
+  color: var(--ink-3);
+}
+
+@media (max-width: 600px) {
+  .ft-view-source {
+    height: calc(100dvh - 32px);
+  }
+  .ft-view-source-ln {
+    grid-template-columns: 3ch minmax(0, 1fr);
+    column-gap: 1.5ch;
+  }
+}
