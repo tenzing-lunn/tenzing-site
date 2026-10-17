@@ -7,21 +7,10 @@ import "./endorsements.css";
  * then Summary / Relationship / Date / Source fields. The outline is the
  * status, as with badges: solid when the note links to a public source,
  * dashed when it was sent privately, and the Source row says which in words.
- * With no entries it is one muted line with a (what is this?) disclosure.
+ * With no entries it renders nothing.
  */
 export function Endorsements() {
-  if (endorsements.length === 0) {
-    return (
-      <details className="whatis ft-endorsements-empty">
-        <summary>
-          No endorsements yet. <span className="ft-endorsements-q">(what is this?)</span>
-        </summary>
-        <p>
-          Endorsements are short notes from people Tenzing has worked with, added here by hand and in their own words.
-        </p>
-      </details>
-    );
-  }
+  if (endorsements.length === 0) return null;
 
   return (
     <section aria-labelledby="endorsements">

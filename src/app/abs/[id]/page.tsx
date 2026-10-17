@@ -6,12 +6,11 @@ import { paper } from "@/content/paper";
 import { Markdown } from "@/lib/markdown";
 import { Dateline, idMonth } from "@/components/dateline";
 import { Metatable } from "@/components/metatable";
-import { Badge } from "@/components/badge";
 import { Sidebar, SideBlock } from "@/components/side-block";
 import { BrowseContext } from "@/components/browse-context";
 import { CiteButton } from "@/components/cite-modal";
 import { ErrataLink } from "@/features/errata";
-import { ViewSourceLink } from "@/features/view-source";
+import { ViewSourceButton } from "@/features/view-source";
 import { PaperPage } from "./paper-page";
 import { neighbours, SubjectsValue } from "./shared";
 
@@ -47,7 +46,10 @@ export default async function AbsPage({ params }: { params: Promise<Params> }) {
   return <ProjectPage record={r} project={p} />;
 }
 
-/** A project as a submission: overview = Abstract, why / how / learned = sections, links = Access. */
+/**
+ * A project as a submission: overview = Abstract, why / how / learned = sections, links = Access.
+ * The status badge is in the subject bar, so the sidebar doesn't repeat it.
+ */
 function ProjectPage({ record: r, project: p }: { record: ArchiveRecord; project: Project }) {
   const primary = r.subjects[0];
   const { prev, next } = neighbours(r);
@@ -88,25 +90,19 @@ function ProjectPage({ record: r, project: p }: { record: ArchiveRecord; project
 
       <Sidebar>
         <SideBlock title="Access submission:">
-          {p.links?.length ? (
-            <ul>
-              {p.links.map((l) => (
-                <li key={l.href}>
-                  <a href={l.href} target="_blank" rel="noreferrer noopener">
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="small">No public links.</p>
-          )}
-        </SideBlock>
-        <ViewSourceLink />
-        <SideBlock title="Status">
-          <p className="side-badge">
-            <Badge status={r.status} />
-          </p>
+          {p.links?.length ? null : <p className="small">No public links.</p>}
+          <ul>
+            {p.links?.map((l) => (
+              <li key={l.href}>
+                <a href={l.href} target="_blank" rel="noreferrer noopener">
+                  {l.label === "Live" ? "Open the live site" : l.label} ↗
+                </a>
+              </li>
+            ))}
+            <li>
+              <ViewSourceButton />
+            </li>
+          </ul>
         </SideBlock>
         <BrowseContext context={primary.code} prev={prev} next={next} />
         <SideBlock title="Cite">

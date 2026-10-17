@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lunnXiv declutter v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #ffffff; --ink: #0c0c0c; --ink-2: #3b3b3b; --ink-3: #6f6f6f;
+  --rule: #e4e4e4; --rule-strong: #c8c8c8; --wash: #f6f6f6;
+  --band: #0c0c0c; --band-fg: #f2f2f2; --band-3: #999999;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0c0c0c; --ink: #f2f2f2; --ink-2: #c8c8c8; --ink-3: #8f8f8f;
+    --rule: #252525; --rule-strong: #3a3a3a; --wash: #141414; --band: #000;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0c0c0c; --ink: #f2f2f2; --ink-2: #c8c8c8; --ink-3: #8f8f8f;
+  --rule: #252525; --rule-strong: #3a3a3a; --wash: #141414; --band: #000;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); color: var(--ink); }
+body { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--ink); }
+.mono { font-family: var(--mono); }
+
+/* ---------- mockup chrome (not part of the site) ---------- */
+.ctl { position: sticky; top: 0; z-index: 10; background: var(--wash); border-bottom: 1px solid var(--rule-strong);
+  display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 10px 16px; font-size: 13px; }
+.ctl b { font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--ink); }
+.seg button, .toggle { font: inherit; background: var(--paper); color: var(--ink); border: 0; padding: 4px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.toggle { border: 1px solid var(--ink); }
+.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.ctl .note { color: var(--ink-3); }
+.legend { display: inline-flex; gap: 14px; color: var(--ink-3); font-size: 12px; }
+.legend i { display: inline-block; width: 22px; height: 11px; vertical-align: -1px; margin-right: 5px; font-style: normal; }
+.legend .l-cut { border: 1px dashed var(--ink-3); }
+.legend .l-chg { border: 1px dotted var(--ink); }
+
+/* ---------- site ---------- */
+.band { background: var(--band); color: var(--band-fg); }
+.band .in { max-width: 1040px; margin: 0 auto; padding: 0 16px; height: 44px; display: flex; align-items: center; gap: 18px; }
+.word { font-family: var(--serif); font-size: 18px; font-weight: 600; }
+.crumb { font-family: var(--mono); font-size: 11px; color: var(--band-3); }
+.search { margin-left: auto; border: 1px solid #3a3a3a; color: var(--band-3); font-size: 12px; padding: 3px 8px; width: 240px; display: flex; justify-content: space-between; }
+.band nav { display: flex; gap: 16px; font-size: 13px; }
+.band nav a { text-decoration: none; }
+.subband { border-bottom: 1px solid var(--rule); }
+.subband .in { max-width: 1040px; margin: 0 auto; padding: 6px 16px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+
+.page { max-width: 1040px; margin: 0 auto; padding: 36px 16px 64px; display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 56px; }
+.main { max-width: 680px; }
+.dateline { font-family: var(--serif); font-style: italic; color: var(--ink-3); font-size: 14px; margin-bottom: 10px; }
+h1 { font-family: var(--serif); font-weight: 600; font-size: 34px; line-height: 1.15; letter-spacing: -0.01em; }
+h1.sm { font-size: 28px; }
+.aff { color: var(--ink-2); font-size: 14px; margin-top: 8px; }
+.abs { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--ink-2); margin: 24px 0 0 20px; }
+.abs p + p { margin-top: 12px; }
+.abs .lbl { font-variant: small-caps; font-weight: 600; color: var(--ink); letter-spacing: .02em; }
+.ref { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.meta { margin: 24px 0 0 20px; display: grid; grid-template-columns: 80px 1fr; gap: 6px 20px; font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); }
+.meta dt { font-size: 10.5px; letter-spacing: .06em; color: var(--ink-3); padding-top: 1px; }
+.meta .muted { color: var(--ink-3); }
+
+h2 { font-size: 17px; font-weight: 600; margin: 48px 0 0; padding-bottom: 8px; border-bottom: 1px solid var(--rule); display: flex; align-items: baseline; gap: 12px; }
+h2 small { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--ink-3); letter-spacing: .06em; }
+
+.badge { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; padding: 0 5px; line-height: 16px; border: 1px solid var(--ink); white-space: nowrap; }
+.badge.dash { border-style: dashed; }
+.badge.dot { border-style: dotted; }
+
+.entry { display: grid; grid-template-columns: 32px 1fr; padding: 18px 0 0; }
+.entry .n { font-family: var(--mono); font-size: 12px; color: var(--ink-3); padding-top: 4px; }
+.entry .idline { font-family: var(--mono); font-size: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.entry h3 { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.3; margin: 2px 0 3px; }
+.entry h3 a { text-decoration: none; }
+.entry h3 .badge { margin-left: 8px; vertical-align: 3px; }
+.entry .by { font-size: 13px; color: var(--ink-2); }
+.entry .kv { font-size: 12.5px; color: var(--ink-2); }
+.entry .kv b { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; font-weight: 500; color: var(--ink-3); margin-right: 6px; }
+.entry .tldr { font-family: var(--serif); font-size: 16px; color: var(--ink-2); margin-top: 5px; line-height: 1.5; }
+.entry .stack { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin-top: 5px; }
+.entry .stack a { color: var(--ink-2); }
+.more { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+
+.hist { margin-top: 12px; font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); }
+.hist .row { display: grid; grid-template-columns: 44px 76px 1fr; gap: 8px; padding: 2px 0; }
+.hist .row.cur { color: var(--ink); font-weight: 600; }
+.hist .from, .hist .end { font-family: var(--sans); font-size: 12.5px; color: var(--ink-3); margin: 0 0 8px; }
+
+.tabs { display: flex; margin-top: 48px; }
+.tabs span { padding: 7px 14px; font-size: 13px; color: var(--ink-2); border: 1px solid transparent; border-bottom: 0; }
+.tabs span.on { border-color: var(--ink); color: var(--ink); background: var(--paper); position: relative; top: 1px; }
+.ask { border: 1px solid var(--ink); padding: 16px 18px 18px; }
+.ask.plain { margin-top: 48px; }
+.ask h4 { font-size: 14px; font-weight: 600; }
+.ask p { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.ask .inp { margin-top: 12px; display: flex; border: 1px solid var(--rule-strong); }
+.ask .inp span:first-child { flex: 1; padding: 8px 10px; color: var(--ink-3); font-size: 13px; }
+.ask .inp span:last-child { border-left: 1px solid var(--rule-strong); padding: 8px 12px; font-size: 13px; }
+.ask .also { font-size: 12px; color: var(--ink-3); margin-top: 10px; }
+
+.side { font-size: 13px; }
+.side .blk { border-left: 1px solid var(--rule-strong); padding: 0 0 0 12px; margin-bottom: 24px; }
+.side h5 { font-size: 12.5px; font-weight: 600; margin-bottom: 4px; }
+.side a, .side span.l { display: block; line-height: 1.7; }
+.side .sm { font-size: 11px; color: var(--ink-3); }
+.side .btn { display: inline-block; border: 1px solid var(--ink); padding: 3px 10px; font-size: 12px; text-decoration: none; margin-top: 2px; }
+.side .tiny { font-family: var(--mono); font-size: 11px; color: var(--ink-3); line-height: 1.4; }
+.side .report { font-size: 11.5px; color: var(--ink-3); }
+
+.prevnext { margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 12px; color: var(--ink-3); display: flex; justify-content: space-between; }
+.sect { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--ink-2); margin: 14px 0 0 20px; }
+
+.foot { max-width: 1040px; margin: 0 auto; padding: 18px 16px 40px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-2); }
+.foot .s { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+
+/* ---------- cut / changed markers ---------- */
+body:not(.show) .cut { display: none !important; }
+body.show .cut { opacity: .42; outline: 1px dashed var(--ink-3); outline-offset: 2px; text-decoration: line-through; text-decoration-color: var(--ink-3); position: relative; }
+body.show .chg { outline: 1px dotted var(--ink); outline-offset: 3px; position: relative; }
+body.show [data-n]::after { content: attr(data-n); position: absolute; top: -8px; right: 0; font: 600 9.5px/15px var(--mono); min-width: 15px; text-align: center; background: var(--ink); color: var(--paper); text-decoration: none; padding: 0 3px; opacity: 1; }
+body.show .cut[data-n]::after { opacity: 1; }
+
+/* ---------- cut list ---------- */
+.list { max-width: 1040px; margin: 0 auto; padding: 8px 16px 64px; }
+.list h2 { margin-top: 24px; }
+.list table { width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 13px; }
+.list th { text-align: left; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .06em; color: var(--ink-3); padding: 10px 12px 6px 0; border-bottom: 1px solid var(--rule-strong); }
+.list td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink-2); }
+.list td:first-child { font-family: var(--mono); font-weight: 600; color: var(--ink); width: 36px; }
+.list td:nth-child(2) { color: var(--ink); width: 30%; }
+.list .principle { font-family: var(--serif); font-size: 16px; color: var(--ink-2); margin-top: 12px; max-width: 680px; }
+
+[hidden] { display: none !important; }
+
+@media (max-width: 820px) {
+  .page { grid-template-columns: 1fr; gap: 24px; }
+  .search, .crumb { display: none; }
+  .band nav { margin-left: auto; gap: 12px; }
+  .abs, .meta, .sect { margin-left: 0; }
+  .list td:nth-child(2) { width: auto; }
+  .list table, .list tbody, .list tr, .list td { display: block; }
+  .list thead { display: none; }
+  .list tr { border-bottom: 1px solid var(--rule); padding: 8px 0; }
+  .list td { border: 0; padding: 2px 0; width: auto !important; }
+}
+
+.legend .l-back { border: 1px solid var(--ink); }
+body:not(.show) .back { outline: none; }
+body.show .back { outline: 1px solid var(--ink); outline-offset: 3px; position: relative; }
+body.show .back[data-n]::after { background: var(--paper); color: var(--ink); border: 1px solid var(--ink); }
+.list h2 small { font-family: var(--mono); }
+.side .report a { display: inline; }
+</style>
+</head>
+<body>
+
+<div class="ctl">
+  <b>Declutter pass v2</b>
+  <span class="seg" role="group" aria-label="Page">
+    <button aria-pressed="true" data-view="home">Home /</button>
+    <button aria-pressed="false" data-view="abs">Project /abs/2608.00004</button>
+  </span>
+  <button class="toggle" aria-pressed="false" id="showcuts">Show changes</button>
+  <span class="legend"><span><i class="l-cut"></i>removed</span><span><i class="l-chg"></i>reworded / moved</span><span><i class="l-back"></i>brought back from v1</span></span>
+</div>
+
+<!-- ======================= HOME ======================= -->
+<section id="v-home">
+  <header class="band"><div class="in">
+    <span class="word">lunnXiv</span>
+    <span class="crumb cut" data-n="1">lunnXiv &gt; person &gt; TL:2610.00001</span>
+    <span class="search">Search lunnXiv… <span>⌘K</span></span>
+    <nav><a href="#">Listings</a><a href="#">Paper</a><a href="#">Résumé</a><a href="#">Ask</a></nav>
+  </div></header>
+  <div class="subband back" data-n="R1"><div class="in"><span>Mathematics &gt; Machine Learning</span><span>TL:2610.00001v4</span></div></div>
+
+  <div class="page">
+    <main class="main">
+      <p class="dateline back" data-n="R2">[Submitted Aug 2023 (v1), last revised 17 Sep 2026 (this version, v4)]</p>
+      <h1>Tenzing Lunn</h1>
+      <p class="aff">Fordham University · B.S. Mathematics &amp; Computer Science · New York, NY</p>
+
+      <div class="abs">
+        <p class="back" data-n="R3"><span class="lbl">Abstract:</span> We present Tenzing Lunn, a sophomore at Fordham University studying mathematics and computer science on the 3-2 program with Columbia. Raised in Los Angeles and educated for two years at UWC Dilijan in Armenia, the subject now works in New York across three threads: AI safety research, where a study of repairing a misaligned clinical model through its memory layer was submitted to a NeurIPS 2026 workshop <span class="ref">[3]</span>; quantitative research on GPU-rental futures <span class="ref">[5]</span>; and software people use every day, including a deal-flow CRM <span class="ref">[2]</span> and a meditation app with synchronized group sessions <span class="ref">[4]</span>. Outside that, the subject paints, draws and shoots street photographs.</p>
+      </div>
+
+      <dl class="meta">
+        <dt>COMMENTS</dt>
+        <dd><span class="cut" data-n="2">5 submissions; 1 under review at GenAI4Health @ NeurIPS 2026. </span>3.92 GPA. Spanish (advanced intermediate), Mandarin (beginner).</dd>
+        <dt class="back" data-n="R4">SUBJECTS</dt>
+        <dd class="back" data-n="R4"><b>Machine Learning (cs.LG)</b>; Mathematics (math); Computational Finance (q-fin.CP); Software Engineering (cs.SE); Meditation (life.MED)</dd>
+        <dt class="back" data-n="R4">CITE AS</dt>
+        <dd class="back" data-n="R4">TL:2610.00001 [cs.LG]<br><span class="muted">(or TL:2610.00001v4 [cs.LG] for this version)</span></dd>
+        <dt>CONTACT</dt>
+        <dd>tenzinglunn@gmail.com</dd>
+        <dt class="back" data-n="R4">READING</dt>
+        <dd class="back" data-n="R4">Siddhartha by Hermann Hesse</dd>
+      </dl>
+
+      <h2>Selected submissions <small class="back" data-n="R5">SHOWING 5 OF 5</small></h2>
+
+      <article class="entry back" data-n="R6">
+        <span class="n">[3]</span>
+        <div>
+          <div class="idline"><a href="#">TL:2605.00003</a> <span>[html]</span> <span class="badge dash">UNDER REVIEW</span></div>
+          <h3><a href="#">Correct the Note, Not the Weights: Runtime Mitigation of Emergent Misalignment in a Clinical LLM Agent</a></h3>
+          <div class="kv"><b>AUTHORS</b>T. Lunn + 3 co-authors (Algoverse AI Research)</div>
+          <div class="kv"><b>COMMENTS</b>Submitted to GenAI4Health @ NeurIPS 2026. 14 pages.</div>
+          <div class="kv"><b>SUBJECTS</b>Machine Learning (cs.LG); Artificial Intelligence (cs.AI); Computation and Language (cs.CL)</div>
+          <p class="tldr"><b class="mono" style="font-size:11px">TL;DR </b>Corrective retrieval cut the rate of responses judged harmful from 63.4% to 15.1%, with no refusals among 10,800 benign responses. <span class="more">▽ More</span></p>
+        </div>
+      </article>
+
+      <article class="entry">
+        <span class="n">[5]</span>
+        <div>
+          <div class="idline"><a href="#">TL:2609.00005</a> <span>[html]</span> <span class="badge dash">IN PROGRESS</span></div>
+          <h3><a href="#">Compute Futures</a></h3>
+          <div class="kv"><b>AUTHORS</b>T. Lunn · Quant Research, Fordham Quant Club · Sep 2026 – Present</div>
+          <div class="kv"><b>COMMENTS</b>Python, pandas, Bloomberg, Black 76. <span class="cut" data-n="3">Fordham Quant Club · </span>I own the data engineering and the math</div>
+          <div class="kv"><b>SUBJECTS</b>Computational Finance (q-fin.CP); Applications (stat.AP)</div>
+          <p class="tldr"><b class="mono" style="font-size:11px">TL;DR </b>Daily GPU rental-price pipeline across 7 sources, plus the math <span class="more">▽ More</span></p>
+        </div>
+      </article>
+
+      <article class="entry">
+        <span class="n">[4]</span>
+        <div>
+          <div class="idline"><a href="#">TL:2608.00004</a> <span>[html, live]</span> <span class="badge">LIVE</span></div>
+          <h3><a href="#">Meditate With Me</a></h3>
+          <div class="kv"><b>AUTHORS</b>T. Lunn · Freelance Developer · Aug 2026 – Present</div>
+          <div class="kv"><b>COMMENTS</b>Next.js, TypeScript, Supabase, Web Audio API. Client work · live since 1 September 2026</div>
+          <div class="kv"><b>SUBJECTS</b>Software Engineering (cs.SE); Meditation (life.MED)</div>
+          <p class="tldr"><b class="mono" style="font-size:11px">TL;DR </b>23-page spec cut to a 41-hour v1, shipped in three weeks <span class="more">▽ More</span></p>
+        </div>
+      </article>
+
+      <article class="entry">
+        <span class="n">[2]</span>
+        <div>
+          <div class="idline"><a href="#">TL:2604.00002</a> <span>[html]</span> <span class="badge">LIVE</span></div>
+          <h3><a href="#">Nuverum CRM</a></h3>
+          <div class="kv"><b>AUTHORS</b>T. Lunn · Operational Analyst, Nuverum Ventures · Apr 2026 – Present</div>
+          <div class="kv"><b>COMMENTS</b>Next.js, TypeScript, Supabase, Postgres RLS. Replaced a spreadsheet · live and in daily use</div>
+          <div class="kv"><b>SUBJECTS</b>Software Engineering (cs.SE); Databases (cs.DB)</div>
+          <p class="tldr"><b class="mono" style="font-size:11px">TL;DR </b>Built the firm’s CRM: 20+ deals and 100+ leads off a spreadsheet <span class="more">▽ More</span></p>
+        </div>
+      </article>
+
+      <article class="entry">
+        <span class="n">[1]</span>
+        <div>
+          <div class="idline"><a href="#">TL:2512.00001</a> <span>[html]</span> <span class="badge dot">CONCLUDED</span></div>
+          <h3><a href="#">The Network</a></h3>
+          <div class="kv"><b>AUTHORS</b>T. Lunn · COO &amp; Product Lead · Dec 2025 – May 2026</div>
+          <div class="kv cut" data-n="3"><b>COMMENTS</b>COO &amp; product lead · Dec 2025 to May 2026</div>
+          <div class="kv"><b>SUBJECTS</b>Product (pm.PR); Computers and Society (cs.CY)</div>
+          <p class="tldr"><b class="mono" style="font-size:11px">TL;DR </b>Led product for a social app built on trusted circles <span class="more">▽ More</span></p>
+        </div>
+      </article>
+
+      <h2>Submission history</h2>
+      <div class="hist">
+        <p class="from back" data-n="R7">From: Tenzing Lunn [view email]</p>
+        <div class="row"><span>[v1]</span><span>Aug 2023</span><span>United World College Dilijan · IB Diploma, 39/45</span></div>
+        <div class="row"><span class="chg" data-n="4"><a href="#">[v2]</a></span><span>2025</span><span>Fordham University · B.S. Math &amp; CS <a class="cut" data-n="4" href="#">compare</a></span></div>
+        <div class="row"><span class="chg" data-n="4"><a href="#">[v3]</a></span><span>May 2026</span><span>Algoverse AI Research · AI Safety Researcher, Team of 4 <a class="cut" data-n="4" href="#">compare</a></span></div>
+        <div class="row cur"><span>[v4]</span><span>Sep 2026</span><span>GenAI4Health @ NeurIPS 2026 submission (this version) <a class="cut" data-n="4" href="#" style="font-weight:400">compare</a></span></div>
+        <div class="row back" data-n="R7" style="color:var(--ink-3)"><span>[v5]</span><span>draft</span><span>6 changes this week · essay-editor</span></div>
+      </div>
+      <p class="hist end cut" data-n="5" style="margin-top:20px">No endorsements yet. (what is this?)</p>
+
+      <div class="tabs back" data-n="R8"><span class="on">Ask</span><span>Graph</span><span>Now</span><span>Shortcuts</span></div>
+      <div class="ask">
+        <h4>Query this record</h4>
+        <p>Answers come only from what is written on this site.</p>
+        <div class="inp"><span>What did he do at Algoverse?</span><span>Ask ↵</span></div>
+      </div>
+    </main>
+
+    <aside class="side">
+      <div class="blk chg" data-n="6">
+        <h5>Access record:</h5>
+        <a href="#">View résumé (PDF)</a>
+        <a class="back" data-n="R9" href="#">HTML (experimental)</a>
+        <a href="#">Source (GitHub)</a>
+        <span class="l chg" data-n="6">Source (TeX) <span class="sm">\</span></span>
+      </div>
+      <div class="blk cut" data-n="6"><h5>View source</h5><span class="l">Source (TeX) <span class="sm">\</span></span></div>
+      <div class="blk back" data-n="R9"><h5>Current browse context:</h5><span class="tiny"><b style="color:var(--ink)">cs.LG</b><br>&lt; prev | next &gt;<br>new | recent | 2026</span></div>
+      <div class="blk">
+        <h5>Cite this person</h5>
+        <a class="btn" href="#">Export BibTeX <span class="sm">c</span></a>
+      </div>
+      <div class="blk back" data-n="R9"><span class="l">☐ TL;DR <span class="sm">(t)</span></span></div>
+      <div class="blk chg" data-n="7">
+        <h5>Errata</h5>
+        <span class="sm cut" data-n="7" style="display:block">Errata (6) · None for this record.</span>
+        <span class="l">None for this record</span>
+        <a class="sm" href="#">all 6 site-wide</a>
+      </div>
+      <div class="blk back" data-n="R9"><h5>Subscribe to this author</h5><a href="#">RSS feed</a><span class="sm">(what is this?)</span></div>
+      <div class="blk back" data-n="R9"><h5>References &amp; links</h5><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">Email</a></div>
+      <div class="blk cut" data-n="8"><h5>Live data</h5><span class="sm">nothing on at the moment</span></div>
+      <p class="report back" data-n="R9"><a href="#">Report an issue with this person</a></p>
+    </aside>
+  </div>
+
+  <footer class="foot">
+    <div>About · Now · Art · Ask · GitHub · LinkedIn · Email · RSS</div>
+    <div class="s">lunnXiv · TL:2610.00001v4 · updated 17 Sep 2026 · press ? for shortcuts</div>
+  </footer>
+</section>
+
+<!-- ======================= ABS ======================= -->
+<section id="v-abs" hidden>
+  <header class="band"><div class="in">
+    <span class="word">lunnXiv</span>
+    <span class="crumb cut" data-n="1">lunnXiv &gt; cs &gt; TL:2608.00004</span>
+    <span class="search">Search lunnXiv… <span>⌘K</span></span>
+    <nav><a href="#">Listings</a><a href="#">Paper</a><a href="#">Résumé</a><a href="#">Ask</a></nav>
+  </div></header>
+  <div class="subband back" data-n="R1"><div class="in"><span>Computer Science &gt; Software Engineering</span><span class="badge" style="color:var(--ink)">LIVE</span></div></div>
+
+  <div class="page">
+    <main class="main">
+      <p class="dateline back" data-n="R2">[Submitted Aug 2026 (v1)]</p>
+      <h1 class="sm">Meditate With Me</h1>
+      <p class="aff">T. Lunn · Freelance Developer · Aug 2026 – Present</p>
+
+      <div class="abs">
+        <p><span class="lbl">Abstract:</span> <span class="cut" data-n="10">Client work, live since 1 September 2026.</span></p>
+        <p>A warm screen asks one thing at a time. Your name, where you're from, with others or alone, how long, which bell, any sound. Then a bowl. Strike it and the light goes down, and you're sitting in front of the earth, where everyone sitting this hour is a candle and one line tells you who is with you. Choose <i>with others</i> and you end on the same bell, at the same second, as everyone else who did.</p>
+      </div>
+
+      <dl class="meta">
+        <dt>COMMENTS</dt>
+        <dd>Next.js, TypeScript, Supabase, Web Audio API. Client work · live since 1 September 2026</dd>
+        <dt class="back" data-n="R4">SUBJECTS</dt>
+        <dd class="back" data-n="R4"><b>Software Engineering (cs.SE)</b>; Meditation (life.MED)</dd>
+        <dt class="back" data-n="R4">CITE AS</dt>
+        <dd class="back" data-n="R4">TL:2608.00004 [cs.SE]</dd>
+      </dl>
+
+      <h2>Why I built it</h2>
+      <p class="sect">Sitting alone and sitting together are different things, and almost every meditation app quietly gives you the first while implying the second. The whole product is one promise: the bell lands at the same instant for everyone who chose to share it. Everything else is in service of that.</p>
+      <h2>How it works</h2>
+      <p class="sect">There is no scheduler. A session exists for every hour of the day whether or not a row exists for it, so the code floors the clock to the hour, looks for an override, and falls back to an ambient hour when it finds none. No cron, no queue, nothing to fail at three in the morning.</p>
+      <p class="sect" style="color:var(--ink-3);font-size:14px">… (rest of the sections unchanged)</p>
+    </main>
+
+    <aside class="side">
+      <div class="blk chg" data-n="6">
+        <h5>Access submission:</h5>
+        <a href="#" class="cut" data-n="11">Live</a>
+        <a href="#" class="chg" data-n="11">Open the live site ↗</a>
+        <span class="l chg" data-n="6">Source (TeX) <span class="sm">\</span></span>
+      </div>
+      <div class="blk cut" data-n="6"><h5>View source</h5><span class="l">Source (TeX) <span class="sm">\</span></span></div>
+      <div class="blk cut" data-n="9"><h5>Status</h5><span class="badge">LIVE</span></div>
+      <div class="blk back" data-n="R10"><h5>Current browse context:</h5><span class="tiny"><b style="color:var(--ink)">cs.SE</b><br>&lt; prev | next &gt;<br>new | recent | 2026</span></div>
+      <div class="blk"><h5>Cite</h5><a class="btn" href="#">Export BibTeX <span class="sm">c</span></a></div>
+      <div class="blk chg" data-n="7">
+        <h5>Errata</h5>
+        <span class="sm cut" data-n="7" style="display:block">Errata (6) · None for this record.</span>
+        <span class="l">None for this record</span>
+        <a class="sm" href="#">all 6 site-wide</a>
+      </div>
+    </aside>
+  </div>
+  <footer class="foot">
+    <div>About · Now · Art · Ask · GitHub · LinkedIn · Email · RSS</div>
+    <div class="s">lunnXiv · TL:2610.00001v4 · updated 17 Sep 2026 · press ? for shortcuts</div>
+  </footer>
+</section>
+
+<!-- ======================= LISTS ======================= -->
+<section class="list">
+  <h2>Re-evaluation</h2>
+  <p class="principle">v1 treated the arXiv format as the fluff. It isn't: the datelines, category codes, cite-as lines and listing rows are the personality, and DESIGN.md asks for them. What actually makes the page hard to read is <b>saying the same thing twice</b>, <b>widgets that contradict themselves</b> and <b>empty states</b>. v2 cuts only those.</p>
+
+  <h2>Still cut or changed <small>11 ITEMS</small></h2>
+  <table>
+    <thead><tr><th>#</th><th>CHANGE</th><th>WHY</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Drop the breadcrumb in the black masthead</td><td>The grey sub-band right under it already shows the path and the ID.</td></tr>
+      <tr><td>2</td><td>Home COMMENTS loses "5 submissions; 1 under review…"</td><td>That's the list directly below, including its count.</td></tr>
+      <tr><td>3</td><td>Entry COMMENTS stop repeating AUTHORS</td><td>The Network's COMMENTS is its AUTHORS line word for word, so the row goes. "Fordham Quant Club" appears twice in Compute Futures.</td></tr>
+      <tr><td>4</td><td>History: <span class="mono">[vN]</span> is the link to the diff, and the three "compare" links go</td><td>Three identical links in four rows. The spec already says the current version is "bold and not linked", which implies the others are linked.</td></tr>
+      <tr><td>5</td><td>Hide "No endorsements yet (what is this?)" until one exists</td><td>An empty state, and the page's third "(what is this?)" (the spec allows two).</td></tr>
+      <tr><td>6</td><td>Fold the one-line "View source" block into Access</td><td>A whole block for one link that belongs in Access anyway.</td></tr>
+      <tr><td>7</td><td>Errata copy: "None for this record · all 6 site-wide"</td><td>Today it says "Errata (6)" and "None for this record" at the same time.</td></tr>
+      <tr><td>8</td><td>Live data renders only while something is playing</td><td>"nothing on at the moment" is an empty widget most of the day.</td></tr>
+      <tr><td>9</td><td>/abs: drop the sidebar "Status" block</td><td>The LIVE badge is already in the sub-band at the top.</td></tr>
+      <tr><td>10</td><td>/abs: drop the abstract's first line</td><td>"Client work, live since 1 September 2026" repeats COMMENTS word for word.</td></tr>
+      <tr><td>11</td><td>/abs: "Live" becomes "Open the live site ↗"</td><td>"Live" reads like a status, not a link.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Brought back from v1 <small>10 ITEMS</small></h2>
+  <table>
+    <thead><tr><th>#</th><th>RESTORED</th><th>WHY IT EARNS ITS PLACE</th></tr></thead>
+    <tbody>
+      <tr><td>R1</td><td>Grey sub-band (subject path + ID / status)</td><td>The most recognisably arXiv line on the page, and now the only breadcrumb.</td></tr>
+      <tr><td>R2</td><td>Full dateline, exactly as now</td><td>The spec fixes its shape, and it's the first joke a visitor reads.</td></tr>
+      <tr><td>R3</td><td>Original abstract</td><td>It's your voice, and "the subject" is the bit. Nothing in it repeats.</td></tr>
+      <tr><td>R4</td><td>SUBJECTS, CITE AS, READING (home); SUBJECTS, CITE AS (/abs)</td><td>"Metadata is the decoration." life.MED and Siddhartha are what make it a person and not a template.</td></tr>
+      <tr><td>R5</td><td>"SHOWING 5 OF 5"</td><td>The spec asks for arXiv's honest counts.</td></tr>
+      <tr><td>R6</td><td>The full listing entry: ID line, [html], AUTHORS / COMMENTS / SUBJECTS, the TL;DR label, ▽ More</td><td>This is spec §6.4. The rows are fine once they stop repeating each other (#3).</td></tr>
+      <tr><td>R7</td><td>"From: Tenzing Lunn [view email]" and the [v5] draft row</td><td>The draft row is the live-GitHub-draft feature, and it's set in grey so it reads as in progress.</td></tr>
+      <tr><td>R8</td><td>All four tool tabs</td><td>One row of labels costs almost nothing, and the tabs are where the features live.</td></tr>
+      <tr><td>R9</td><td>Sidebar: HTML (experimental), browse context, TL;DR toggle, RSS, References &amp; links, Report an issue</td><td>"Report an issue with this person" is one of the three named jokes. The rest are arXiv sidebar staples or working features.</td></tr>
+      <tr><td>R10</td><td>/abs: browse context in the sidebar (my "named prev/next" footer is dropped)</td><td>Keeps the arXiv layout, and <span class="mono">j</span>/<span class="mono">k</span> already cover quick navigation.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<script>
+  const show = document.getElementById('showcuts');
+  show.addEventListener('click', () => {
+    const on = show.getAttribute('aria-pressed') !== 'true';
+    show.setAttribute('aria-pressed', on);
+    document.body.classList.toggle('show', on);
+  });
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.getElementById('v-home').hidden = b.dataset.view !== 'home';
+    document.getElementById('v-abs').hidden = b.dataset.view !== 'abs';
+  }));
+</script>
+</body>
+</html>

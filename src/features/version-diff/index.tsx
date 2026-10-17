@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { person } from "@/content/records";
 import { VersionShortcut } from "./shortcut";
 import { VersionLink } from "./version-link";
@@ -8,9 +7,9 @@ export const compareHref = (from: number, to: number) => `/diff?from=${from}&to=
 
 /**
  * The submission history, one line per version. Each [vN] opens the record as
- * of that version at /v/N, and "compare" opens the diff from the version
- * before. The current one is bold, and is a link too except on its own /v/N
- * page. Registers `v`, which opens the diff into the current version.
+ * of that version at /v/N, whose page links the diffs. The current one is
+ * bold, and is a link too except on its own /v/N page. Registers `v`, which
+ * opens the diff into the current version.
  */
 export function SubmissionHistory({ current }: { current: number }) {
   return (
@@ -26,15 +25,6 @@ export function SubmissionHistory({ current }: { current: number }) {
               <span className="d">{v.date}</span>
               {v.label}
               {now ? " (this version)" : null}
-              {v.v > 1 ? (
-                <Link
-                  className="ft-version-diff-cmp"
-                  href={compareHref(v.v - 1, v.v)}
-                  aria-label={`Compare v${v.v - 1} with v${v.v}`}
-                >
-                  compare
-                </Link>
-              ) : null}
             </li>
           );
         })}

@@ -9,19 +9,6 @@
   text-underline-offset: 3px;
 }
 .ft-version-diff-hist .v a:hover { text-decoration-color: var(--ink); }
-.ft-version-diff-cmp {
-  margin-left: 10px;
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--ink-3);
-  text-decoration: underline;
-  text-decoration-color: var(--rule-strong);
-  text-underline-offset: 3px;
-}
-.ft-version-diff-cmp:hover {
-  color: var(--ink);
-  text-decoration-color: var(--ink);
-}
 
 /* ---------- /v/[n] ---------- */
 .ft-version-diff-note {

@@ -1,21 +1,5 @@
-/* Endorsements (B8). The empty state reuses .whatis; the notes are
-   OpenReview-style comments whose outline style is their status. */
-
-/* ---------- empty state: one muted line, the whole line toggles ---------- */
-.ft-endorsements-empty {
-  margin-top: 28px;
-  font: 400 13px/1.5 var(--sans);
-  color: var(--ink-3);
-}
-.ft-endorsements-empty > summary { text-decoration: none; }
-.ft-endorsements-empty .ft-endorsements-q {
-  text-decoration: underline;
-  text-decoration-color: var(--rule-strong);
-  text-underline-offset: 3px;
-}
-.ft-endorsements-empty > summary:hover .ft-endorsements-q,
-.ft-endorsements-empty[open] .ft-endorsements-q { text-decoration-color: var(--ink); }
-.ft-endorsements-empty p { max-width: 68ch; margin-top: 6px; color: var(--ink-2); }
+/* Endorsements (B8). The notes are OpenReview-style comments whose
+   outline style is their status. */
 
 /* ---------- the notes ---------- */
 .ft-endorsements-list {

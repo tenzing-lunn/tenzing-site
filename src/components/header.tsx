@@ -27,7 +27,7 @@ const ARCHIVES: { [prefix: string]: string } = {
   life: "Life",
 };
 
-/** The other pages: what the breadcrumb and the subject bar call them. */
+/** The other pages: what the subject bar calls them. */
 const PAGES: { [segment: string]: string } = {
   resume: "Résumé",
   about: "About",
@@ -40,33 +40,30 @@ const PAGES: { [segment: string]: string } = {
   diff: "Compare versions",
 };
 
-type Crumb = { label: string; href?: string };
-type Subject = { crumbs: Crumb[]; subject: ReactNode; aside?: ReactNode };
+type Subject = { subject: ReactNode; aside?: ReactNode };
 
 /** Next's segment for the 404 page, which is prerendered once and served for every unknown URL. */
 const NOT_FOUND_SEGMENT = "/_not-found";
 
 /** Any URL with no record or page behind it: one fixed label, whatever the path. */
-const NOT_FOUND: Subject = { crumbs: [{ label: "error" }], subject: "Article identifier not recognized" };
+const NOT_FOUND: Subject = { subject: "Article identifier not recognized" };
 
 /**
- * What the masthead says on each route: a mono breadcrumb in the band, and a
- * 32px subject bar under it (left: the subject, right: an ID, a count or a
- * status). Derived from the path so it is right on the server's first render.
+ * What the subject bar under the masthead says on each route (left: the
+ * subject, right: an ID, a count or a status). Derived from the path so it
+ * is right on the server's first render.
  */
 export function subjectFor(pathname: string): Subject {
   const [first, second] = pathname.split("/").filter(Boolean);
   if (pathname === NOT_FOUND_SEGMENT) return NOT_FOUND;
   if (!first) {
     return {
-      crumbs: [{ label: "person" }, { label: displayId(person.id) }],
       subject: `Mathematics > ${person.subjects[0].name}`,
       aside: `${displayId(person.id)}v${person.version}`,
     };
   }
   if (first === "list") {
     return {
-      crumbs: [{ label: "list", href: "/list" }, { label: "TL" }, { label: "all" }],
       subject: `Submissions by ${site.name}`,
       aside: `Total of ${records.length} entries`,
     };
@@ -77,7 +74,6 @@ export function subjectFor(pathname: string): Subject {
       const primary = r.subjects[0];
       const archive = archiveOf(primary);
       return {
-        crumbs: [{ label: archive }, { label: displayId(r.id) }],
         subject: `${ARCHIVES[archive] ?? archive} > ${primary.name}`,
         aside: <Badge status={r.status} />,
       };
@@ -86,16 +82,15 @@ export function subjectFor(pathname: string): Subject {
   const label = PAGES[first];
   if (!label) return NOT_FOUND;
   return {
-    crumbs: [{ label: first, href: `/${first}` }, ...(second ? [{ label: decodeURIComponent(second) }] : [])],
     subject: label,
     aside: second && first === "v" ? `${displayId(person.id)}v${second}` : undefined,
   };
 }
 
 /**
- * The masthead: an ink band with the lunnXiv wordmark, a breadcrumb, the
- * search trigger (it opens the command palette) and four links; a 1px rule
- * that doubles as the route-progress line; then the page's subject bar.
+ * The masthead: an ink band with the lunnXiv wordmark, the search trigger
+ * (it opens the command palette) and four links; a 1px rule that doubles
+ * as the route-progress line; then the page's subject bar.
  */
 export function Header() {
   // The prerendered 404 is built at /_not-found but served at the missing URL, so
@@ -104,7 +99,7 @@ export function Header() {
   const url = usePathname();
   const pathname = segment === NOT_FOUND_SEGMENT ? NOT_FOUND_SEGMENT : url;
   const { openPalette } = useUI();
-  const { crumbs, subject, aside } = subjectFor(pathname);
+  const { subject, aside } = subjectFor(pathname);
 
   return (
     <header className="no-print">
@@ -115,15 +110,6 @@ export function Header() {
               lunn<i>X</i>iv
               <LinkPending />
             </Link>
-            <span className="crumb">
-              <Link href="/">lunnXiv</Link>
-              {crumbs.map((c) => (
-                <span key={c.label}>
-                  {" > "}
-                  {c.href ? <Link href={c.href}>{c.label}</Link> : c.label}
-                </span>
-              ))}
-            </span>
             <button type="button" className="search" onClick={openPalette} aria-label="Search lunnXiv (⌘K or /)">
               <span>Search lunnXiv…</span>
               <kbd>⌘K</kbd>

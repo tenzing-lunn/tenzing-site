@@ -13,13 +13,13 @@ import { CiteButton } from "@/components/cite-modal";
 import { Tabs } from "@/components/tabs";
 import { AskForm } from "@/components/ask-form";
 import { NowList } from "@/components/now-list";
-import { Listening } from "@/components/listening";
+import { LiveData } from "@/components/listening";
 import { ShortcutList } from "@/components/shortcuts-overlay";
 import { SubmissionHistory } from "@/features/version-diff";
 import { WorkingDraft } from "@/features/draft";
 import { Endorsements } from "@/features/endorsements";
 import { GraphPanel } from "@/features/graph";
-import { ViewSourceLink } from "@/features/view-source";
+import { ViewSourceButton } from "@/features/view-source";
 import { TldrToggle } from "@/features/tldr";
 import { ErrataLink } from "@/features/errata";
 import { SubscribeBlock } from "@/features/subscribe";
@@ -159,9 +159,11 @@ export default function HomePage() {
                   Source (GitHub)
                 </a>
               </li>
+              <li>
+                <ViewSourceButton />
+              </li>
             </ul>
           </SideBlock>
-          <ViewSourceLink />
           <BrowseContext context={primary.code} next={submissions.find((r) => r.subjects[0].code === primary.code)} />
           <SideBlock title="Cite this person">
             <CiteButton />
@@ -180,11 +182,7 @@ export default function HomePage() {
               ))}
             </ul>
           </SideBlock>
-          <SideBlock title="Live data">
-            <div className="live">
-              <Listening />
-            </div>
-          </SideBlock>
+          <LiveData />
           <p className="side-fine">
             <a href={`${email}?subject=${encodeURIComponent(`Report an issue with ${displayId(person.id)}`)}`}>Report an issue with this person</a>
           </p>

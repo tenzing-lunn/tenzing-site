@@ -214,7 +214,6 @@ export const person = {
   ] as Version[],
   subjects: subjects("cs.LG", "math", "q-fin.CP", "cs.SE", "life.MED"),
   comments: [
-    `${submissions.length} submissions; ${submissions.filter((r) => r.status === "rev").length} under review at ${paper.venue}.`,
     `${fordham.headline?.split(" · ")[0]}.`,
     `${languages}.`,
   ].join(" "),

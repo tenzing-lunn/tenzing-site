@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from "react";
 import type { Listening as Data } from "@/lib/spotify";
+import { SideBlock } from "@/components/side-block";
 
-/**
- * "currently playing <track> by <artist>" behind a small bouncing equalizer,
- * or "last played" with the bars at rest. Polls once a minute. Says so
- * quietly if Spotify has nothing to report.
- */
-export function Listening() {
+/** What Spotify reports, polled once a minute: undefined while loading, null for nothing. */
+function useListening() {
   const [data, setData] = useState<Data | null | undefined>(undefined);
 
   useEffect(() => {
@@ -26,6 +23,32 @@ export function Listening() {
     };
   }, []);
 
+  return data;
+}
+
+/**
+ * "currently playing <track> by <artist>" behind a small bouncing equalizer,
+ * or "last played" with the bars at rest. Says so quietly if Spotify has
+ * nothing to report.
+ */
+export function Listening() {
+  return <ListeningLine data={useListening()} />;
+}
+
+/** The home sidebar's "Live data" block. Shown only once Spotify has something to report. */
+export function LiveData() {
+  const data = useListening();
+  if (!data) return null;
+  return (
+    <SideBlock title="Live data">
+      <div className="live">
+        <ListeningLine data={data} />
+      </div>
+    </SideBlock>
+  );
+}
+
+function ListeningLine({ data }: { data: Data | null | undefined }) {
   return (
     <span className="flex min-w-0 items-center gap-2" aria-live="polite">
       {data ? (

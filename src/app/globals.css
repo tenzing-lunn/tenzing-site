@@ -346,16 +346,6 @@ dialog[open] {
   white-space: nowrap;
 }
 .brand i { font-weight: 400; }
-.crumb {
-  min-width: 0;
-  font: 400 12px var(--mono);
-  color: var(--band-3);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.crumb a { color: var(--band-3); text-decoration: none; }
-.crumb a:hover { color: var(--band-fg); }
 .mast .search {
   margin-left: auto;
   display: flex;
@@ -1129,8 +1119,7 @@ div.abstract > .sc { float: left; }
   .abstract-rest,
   .abs-body { margin-left: 0; }
   table.bk { width: 100%; }
-  .mast .search,
-  .crumb { display: none; }
+  .mast .search { display: none; }
   .nav { margin-left: auto; }
   .mast-tldr { display: flex; align-items: center; }
   .access-mobile { display: block; }

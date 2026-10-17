@@ -10,7 +10,7 @@ import { Sidebar, SideBlock } from "@/components/side-block";
 import { BrowseContext } from "@/components/browse-context";
 import { CiteButton } from "@/components/cite-modal";
 import { ErrataLink } from "@/features/errata";
-import { ViewSourceLink } from "@/features/view-source";
+import { ViewSourceButton } from "@/features/view-source";
 import { neighbours, SubjectsValue } from "./shared";
 
 /** The project write-up that sits under the paper: why and how, in the author's words. */
@@ -151,9 +151,11 @@ export function PaperPage({ record: r }: { record: ArchiveRecord }) {
             <li>
               Code <span className="small">(after review)</span>
             </li>
+            <li>
+              <ViewSourceButton />
+            </li>
           </ul>
         </SideBlock>
-        <ViewSourceLink />
         <SideBlock title="Status">
           <p className="side-badge">
             <Badge status={paper.status} />

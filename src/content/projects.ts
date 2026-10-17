@@ -39,9 +39,7 @@ export const projects: Project[] = [
     status: "active",
     tech: ["Next.js", "TypeScript", "Supabase", "Web Audio API"],
     links: [{ label: "Live", href: "https://meditatewithme.vercel.app" }],
-    overview: `Client work, live since 1 September 2026.
-
-A warm screen asks one thing at a time. Your name, where you're from, with others or alone, how long, which bell, any sound. Then a bowl. Strike it and the light goes down, and you're sitting in front of the earth, where everyone sitting this hour is a candle and one line tells you who is with you. Choose *with others* and you end on the same bell, at the same second, as everyone else who did.`,
+    overview: `A warm screen asks one thing at a time. Your name, where you're from, with others or alone, how long, which bell, any sound. Then a bowl. Strike it and the light goes down, and you're sitting in front of the earth, where everyone sitting this hour is a candle and one line tells you who is with you. Choose *with others* and you end on the same bell, at the same second, as everyone else who did.`,
     why: `Sitting alone and sitting together are different things, and almost every meditation app quietly gives you the first while implying the second. The whole product is one promise: the bell lands at the same instant for everyone who chose to share it. Everything else is in service of that.`,
     how: `There is no scheduler. A session exists for every hour of the day whether or not a row exists for it, so the code floors the clock to the hour, looks for an override, and falls back to an ambient hour when it finds none. No cron, no queue, nothing to fail at three in the morning.
 
@@ -60,7 +58,7 @@ I also learned to distrust the obvious primitive. Realtime presence was the thin
     year: 2026,
     description:
       "Fordham Quant Club research on the new CME futures that settle on what it costs to rent a GPU, approached the way a commodities desk would.",
-    proof: "Fordham Quant Club · I own the data engineering and the math",
+    proof: "I own the data engineering and the math",
     status: "active",
     tech: ["Python", "pandas", "Bloomberg", "Black 76"],
     overview: `Fordham Quant Club, from September 2026, with Josef Gashi leading and Paul Gregg advising.
@@ -154,7 +152,6 @@ Do not name any of Nuverum's deals, investors, contacts or staff; none of that i
     name: "The Network",
     year: 2026,
     description: "A consumer social app built on small trusted circles. I was COO and product lead, not an engineer on it.",
-    proof: "COO & product lead · Dec 2025 to May 2026",
     overview: `From December 2025 to May 2026 I was COO and product lead at The Network, a consumer startup building a social app around small trusted circles and warm introductions rather than feeds.
 
 To be clear up front: I did not build the app. It was a Flutter app written by the engineering team. My work was scoping features, writing the product framework and user flows, and running the operation.`,

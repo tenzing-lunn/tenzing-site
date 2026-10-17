@@ -15,8 +15,9 @@ function recordOf(pathname: string): string | undefined {
 
 /**
  * The sidebar's "Errata (N)" link. On a record with corrections it counts
- * that record's and jumps to them (/errata#<id>); anywhere else it counts
- * the whole log. `id` overrides the record read from the route.
+ * that record's and jumps to them (/errata#<id>); on a record without any it
+ * says so and links the whole log; anywhere else it counts the whole log.
+ * `id` overrides the record read from the route.
  */
 export function ErrataLink({ id }: { id?: string } = {}) {
   const pathname = usePathname();
@@ -31,11 +32,12 @@ export function ErrataLink({ id }: { id?: string } = {}) {
             Corrections to this record. <Link href="/errata">All {errata.length}</Link>
           </p>
         </>
+      ) : record ? (
+        <p className="small">
+          None for this record. <Link href="/errata">All {errata.length} site-wide</Link>
+        </p>
       ) : (
-        <>
-          <Link href="/errata">Errata ({errata.length})</Link>
-          {record ? <p className="small">None for this record.</p> : null}
-        </>
+        <Link href="/errata">Errata ({errata.length})</Link>
       )}
     </SideBlock>
   );

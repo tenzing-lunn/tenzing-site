@@ -147,10 +147,10 @@ function Highlight({ line }: { line: string }) {
   );
 }
 
-/** The sidebar's "Source (TeX)": asks the overlay in the layout to open. */
-export function ViewSourceLink() {
+/** "Source (TeX)" and its key, for an Access list: asks the overlay in the layout to open. */
+export function ViewSourceButton() {
   return (
-    <SideBlock title="View source">
+    <>
       <button
         type="button"
         className="ft-view-source-link"
@@ -162,6 +162,15 @@ export function ViewSourceLink() {
       <span className="ft-view-source-key" aria-hidden="true">
         \
       </span>
+    </>
+  );
+}
+
+/** The same link as a sidebar block of its own, for pages without an Access block. */
+export function ViewSourceLink() {
+  return (
+    <SideBlock title="View source">
+      <ViewSourceButton />
     </SideBlock>
   );
 }
